@@ -11,9 +11,9 @@ public class MainPageController {
 
     private static final String MAIN_PAGE = "mainpage";
 
-    /*@RequestMapping("")
+    @RequestMapping("")
     public String helloWorld() {
         LOGGER.info("HelloWorld method invoked.");
         return MAIN_PAGE;
-    }*/
+    }
 }
