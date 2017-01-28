@@ -2,55 +2,52 @@ package main.dao;
 
 import main.entities.User;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
+    private static final String GET_ALL_QUERY = "getAll";
 
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    @Qualifier(value = "entityManager")
+    private EntityManager em;
 
-    public void setSessionFactory(SessionFactory sf) {
-        this.sessionFactory = sf;
-    }
 
     public void createUser(User u) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.persist(u);
+        em.persist(u);
         LOGGER.info("User saved successfully");
     }
 
     public User getUserById(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        User u = (User) session.load(User.class, id);
-        LOGGER.info("User got successfully");
+        User u = em.find(User.class, id);
+        LOGGER.info("User read successfully");
         return u;
     }
 
-    public void updateUser(User u) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.update(u);
-        LOGGER.info("User updated successfully");
+    public User updateUser(User u) {
+        LOGGER.info("User updating");
+        return em.merge(u);
     }
 
     public void removeUser(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        User u = (User) session.load(User.class, id);
+        User u = em.find(User.class, id);
 
         if(null != u) {
-            session.delete(u);
+            em.remove(u);
         }
         LOGGER.info("User deleted successfully");
     }
 
     public List<User> listUsers() {
-        Session session = this.sessionFactory.getCurrentSession();
-        List userList = session.createQuery("from User").list();
-        return userList;
+        Query query = em.createNamedQuery(GET_ALL_QUERY);
+        return query.getResultList();
     }
 }
