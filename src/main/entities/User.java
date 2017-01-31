@@ -35,6 +35,9 @@ public class User implements Serializable {
     @Column(name = "pzbs_id")
     private int pzbsId;
 
+    @Column(name = "wzbs")
+    private String wzbs;
+
     public int getId() {
         return id;
     }
@@ -75,6 +78,14 @@ public class User implements Serializable {
         this.pzbsId = pzbsId;
     }
 
+    public String getWzbs() {
+        return wzbs;
+    }
+
+    public void setWzbs(String wzbs) {
+        this.wzbs = wzbs;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -83,6 +94,7 @@ public class User implements Serializable {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", pzbsId=" + pzbsId +
+                ", wzbs='" + wzbs + '\'' +
                 '}';
     }
 }

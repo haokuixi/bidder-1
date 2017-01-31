@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.entities.User;
 import main.modules.UserModuleApi;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/users")
-public class UserListController {
+public class UserController {
 
-    private static Logger LOGGER = Logger.getLogger(UserListController.class);
+    private static Logger LOGGER = Logger.getLogger(UserController.class);
 
     private static final String USER_LIST = "userlist";
+    private static final String REGISTER_PAGE = "registerpage";
 
     @Autowired
     private UserModuleApi userModule;
@@ -27,4 +29,12 @@ public class UserListController {
         return model;
     }
 
+
+    @RequestMapping(value = "registerPage", method = RequestMethod.GET)
+    public ModelAndView registerPage() {
+        ModelAndView model = new ModelAndView();
+        model.addObject("user", new User());
+        model.setViewName(REGISTER_PAGE);
+        return model;
+    }
 }
