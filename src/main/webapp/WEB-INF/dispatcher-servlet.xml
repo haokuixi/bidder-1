@@ -1,14 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -25,8 +24,12 @@
         </property>
     </bean>
 
+    <bean id="userService" class="main.services.UserServiceImpl"></bean>
     <bean id="userModule" class="main.modules.UserModuleImpl"></bean>
     <bean id="userDAO" class="main.dao.UserDAOImpl"></bean>
+    <bean id="wzbsService" class="main.services.WzbsServiceImpl"></bean>
+    <bean id="wzbsModule" class="main.modules.WzbsModuleImpl"></bean>
+    <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"></bean>
 
 
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -69,6 +72,7 @@
         </property>
     </bean>
 
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <context:component-scan base-package="main.controller"/>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>

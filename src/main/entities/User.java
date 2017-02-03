@@ -1,26 +1,30 @@
 package main.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-
 @NamedQueries(
-        @NamedQuery(name = "getAll", query="FROM User")
+        @NamedQuery(name = "getAllUsers", query="FROM User")
 )
 public class User implements Serializable {
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    @SequenceGenerator(name="user_seq", sequenceName="user_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private int id;
 
     @Column(name = "login")
@@ -35,8 +39,9 @@ public class User implements Serializable {
     @Column(name = "pzbs_id")
     private int pzbsId;
 
-    @Column(name = "wzbs")
-    private String wzbs;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "wzbs")
+    private Wzbs wzbs;
 
     public int getId() {
         return id;
@@ -78,11 +83,11 @@ public class User implements Serializable {
         this.pzbsId = pzbsId;
     }
 
-    public String getWzbs() {
+    public Wzbs getWzbs() {
         return wzbs;
     }
 
-    public void setWzbs(String wzbs) {
+    public void setWzbs(Wzbs wzbs) {
         this.wzbs = wzbs;
     }
 

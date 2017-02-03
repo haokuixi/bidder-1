@@ -12,6 +12,11 @@ public class UserModuleImpl implements UserModuleApi {
     UserDAO userDAO;
 
     public List<User> getUserList() {
-        return userDAO.listUsers();
+        return userDAO.listAll();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userDAO.create(user);
     }
 }

@@ -7,46 +7,51 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Repository
-public class UserDAOImpl implements UserDAO {
+@Repository("userRepository")
+public class UserDAOImpl implements UserDAO{
 
+    private static final String GET_ALL_QUERY = "getAllUsers";
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
-    private static final String GET_ALL_QUERY = "getAll";
 
-    @PersistenceContext
+    @PersistenceContext(type= PersistenceContextType.EXTENDED)
     @Qualifier(value = "entityManager")
     private EntityManager em;
 
-
-    public void createUser(User u) {
-        em.persist(u);
+    @Transactional
+    public void create(User e) {
+        em.persist(e);
         LOGGER.info("User saved successfully");
     }
 
-    public User getUserById(int id) {
+    @Transactional
+    public User getById(int id) {
         User u = em.find(User.class, id);
         LOGGER.info("User read successfully");
         return u;
     }
 
-    public User updateUser(User u) {
+    @Transactional
+    public User update(User u) {
         LOGGER.info("User updating");
         return em.merge(u);
     }
 
-    public void removeUser(int id) {
+    @Transactional
+    public void remove(int id) {
         User u = em.find(User.class, id);
 
-        if(null != u) {
+        if (null != u) {
             em.remove(u);
         }
         LOGGER.info("User deleted successfully");
     }
 
-    public List<User> listUsers() {
+    public List<User> listAll() {
         Query query = em.createNamedQuery(GET_ALL_QUERY);
         return query.getResultList();
     }

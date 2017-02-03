@@ -19,6 +19,15 @@
         <tr>
             <td>
                 <label>
+                    <spring:message code="label.user.login"></spring:message>
+                </label>
+            </td>
+            <td><form:input path="login" value=""/></td>
+            <form:errors path="login" element="div"/>
+        </tr>
+        <tr>
+            <td>
+                <label>
                     <spring:message code="label.user.firstName"></spring:message>
                 </label>
             </td>
@@ -40,7 +49,7 @@
                     <spring:message code="label.user.pzbs.wzbs"></spring:message>
                 </label>
             </td>
-            <td><form:input path="wzbs" value=""/></td>
+            <td><form:select path="wzbs.shortName" items="${wzbsList}" /></td>
             <form:errors path="wzbs" element="div"/>
         </tr>
         <tr>

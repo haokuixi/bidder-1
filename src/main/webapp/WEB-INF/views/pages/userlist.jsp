@@ -8,6 +8,7 @@
             <th>Imie</th>
             <th>Nazwisko</th>
             <th>PZBS ID</th>
+            <th>WZBS</th>
         </tr>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
                 <td>${user.pzbsId}</td>
+                <td>${user.wzbs.shortName}</td>
             </tr>
         </c:forEach>
         </tbody>

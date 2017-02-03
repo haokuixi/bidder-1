@@ -1,7 +1,9 @@
 package main.services;
 
-import main.dao.UserDAO;
 import main.entities.User;
+import main.entities.Wzbs;
+import main.modules.UserModuleApi;
+import main.modules.WzbsModuleApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,34 +14,19 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDAO userDAO;
-
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
+    private UserModuleApi userModule;
+    @Autowired
+    private WzbsModuleApi wzbsModule;
 
     @Transactional
     public void addUser(User u) {
-        this.userDAO.createUser(u);
-    }
-
-    @Transactional
-    public void updateUser(User u) {
-        this.userDAO.updateUser(u);
+        u.setWzbs(wzbsModule.getWzbsByShortName(u.getWzbs().getShortName()));
+        this.userModule.saveUser(u);
     }
 
     @Transactional
     public List<User> listUsers() {
-        return this.userDAO.listUsers();
+        return this.userModule.getUserList();
     }
 
-    @Transactional
-    public User getUserById(int id) {
-        return this.userDAO.getUserById(id);
-    }
-
-    @Transactional
-    public void removeUser(int id) {
-        this.userDAO.removeUser(id);
-    }
 }
