@@ -1,7 +1,7 @@
 package main.services;
 
 import main.entities.Wzbs;
-import main.modules.WzbsModuleApi;
+import main.modules.WzbsModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class WzbsServiceImpl implements WzbsService{
 
     @Autowired
-    private WzbsModuleApi wzbsModule;
+    private WzbsModule wzbsModule;
 
     @Override
     public List<Wzbs> getAll() {

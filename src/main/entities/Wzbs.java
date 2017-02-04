@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "wzbs")
@@ -13,7 +14,7 @@ import javax.persistence.Table;
         @NamedQuery(name = "getAllWzbs", query="FROM Wzbs"),
         @NamedQuery(name = "getByShortName", query = "SELECT w FROM Wzbs w WHERE w.shortName=:short")
 })
-public class Wzbs {
+public class Wzbs implements Serializable {
 
     @Id
     @Column(name = "wzbs_id")

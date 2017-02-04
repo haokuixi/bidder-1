@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class WzbsModuleImpl implements WzbsModuleApi {
+public class WzbsModuleImpl implements WzbsModule {
 
     @Autowired
     WzbsDAO wzbsDAO;

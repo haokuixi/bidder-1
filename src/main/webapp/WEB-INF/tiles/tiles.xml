@@ -27,4 +27,12 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/register.jsp"/>
     </definition>
 
+    <definition name="tournamentlist" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/tournaments/tourlist.jsp"/>
+    </definition>
+
+    <definition name="tournament" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/tournaments/tournament.jsp"/>
+    </definition>
+
 </tiles-definitions>

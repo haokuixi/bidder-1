@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class UserModuleImpl implements UserModuleApi {
+public class UserModuleImpl implements UserModule {
 
     @Autowired
     UserDAO userDAO;
 
+    @Override
     public List<User> getUserList() {
         return userDAO.listAll();
     }

@@ -1,9 +1,8 @@
 package main.services;
 
 import main.entities.User;
-import main.entities.Wzbs;
-import main.modules.UserModuleApi;
-import main.modules.WzbsModuleApi;
+import main.modules.UserModule;
+import main.modules.WzbsModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +13,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserModuleApi userModule;
+    private UserModule userModule;
     @Autowired
-    private WzbsModuleApi wzbsModule;
+    private WzbsModule wzbsModule;
 
     @Transactional
     public void addUser(User u) {

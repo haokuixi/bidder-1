@@ -17,7 +17,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="${pageContext.request.contextPath}/users/userlist">Lista uzytkownikow</a></li>
+                <li><a href="${pageContext.request.contextPath}/users/userlist">Uzytkownicy</a></li>
+                <li><a href="${pageContext.request.contextPath}/tournaments/tourlist">Turnieje</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/registerPage">Zarejesruj</a></li>
             </ul>
 
