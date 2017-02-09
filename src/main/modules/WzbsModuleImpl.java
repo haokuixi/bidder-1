@@ -8,7 +8,6 @@ import java.util.List;
 
 public class WzbsModuleImpl implements WzbsModule {
 
-    @Autowired
     WzbsDAO wzbsDAO;
 
     @Override
@@ -24,5 +23,13 @@ public class WzbsModuleImpl implements WzbsModule {
     @Override
     public Wzbs getWzbsByShortName(String shortName) {
         return wzbsDAO.getByShortName(shortName);
+    }
+
+    public WzbsDAO getWzbsDAO() {
+        return wzbsDAO;
+    }
+
+    public void setWzbsDAO(WzbsDAO wzbsDAO) {
+        this.wzbsDAO = wzbsDAO;
     }
 }

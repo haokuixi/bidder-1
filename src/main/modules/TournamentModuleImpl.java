@@ -8,7 +8,6 @@ import java.util.List;
 
 public class TournamentModuleImpl implements TournamentModule {
 
-    @Autowired
     TournamentDAO tournamentDAO;
 
     @Override
@@ -24,5 +23,13 @@ public class TournamentModuleImpl implements TournamentModule {
     @Override
     public Tournament getById(int id) {
         return tournamentDAO.getById(id);
+    }
+
+    public TournamentDAO getTournamentDAO() {
+        return tournamentDAO;
+    }
+
+    public void setTournamentDAO(TournamentDAO tournamentDAO) {
+        this.tournamentDAO = tournamentDAO;
     }
 }

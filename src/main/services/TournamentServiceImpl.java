@@ -3,13 +3,13 @@ package main.services;
 import main.entities.Tournament;
 import main.modules.TournamentModule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 public class TournamentServiceImpl implements TournamentService {
 
-    @Autowired
     TournamentModule tournamentModule;
 
     @Transactional
@@ -25,5 +25,13 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament getById(int id) {
         return tournamentModule.getById(id);
+    }
+
+    public TournamentModule getTournamentModule() {
+        return tournamentModule;
+    }
+
+    public void setTournamentModule(TournamentModule tournamentModule) {
+        this.tournamentModule = tournamentModule;
     }
 }

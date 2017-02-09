@@ -24,6 +24,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Transactional
     public void create(User e) {
+        System.out.println(e);
         em.persist(e);
         LOGGER.info("User saved successfully");
     }

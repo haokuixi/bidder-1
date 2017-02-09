@@ -1,25 +1,18 @@
 package main.services;
 
+import main.dto.UserDto;
 import main.entities.User;
 import main.modules.UserModule;
-import main.modules.WzbsModule;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserModule userModule;
-    @Autowired
-    private WzbsModule wzbsModule;
 
     @Transactional
-    public void addUser(User u) {
-        u.setWzbs(wzbsModule.getWzbsByShortName(u.getWzbs().getShortName()));
+    public void registerUser(UserDto u) {
         this.userModule.saveUser(u);
     }
 
@@ -28,4 +21,11 @@ public class UserServiceImpl implements UserService {
         return this.userModule.getUserList();
     }
 
+    public UserModule getUserModule() {
+        return userModule;
+    }
+
+    public void setUserModule(UserModule userModule) {
+        this.userModule = userModule;
+    }
 }

@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class WzbsServiceImpl implements WzbsService{
 
-    @Autowired
     private WzbsModule wzbsModule;
 
     @Override
@@ -26,5 +24,13 @@ public class WzbsServiceImpl implements WzbsService{
     @Override
     public Wzbs getById(int id) {
         return this.wzbsModule.getWzbsById(id);
+    }
+
+    public WzbsModule getWzbsModule() {
+        return wzbsModule;
+    }
+
+    public void setWzbsModule(WzbsModule wzbsModule) {
+        this.wzbsModule = wzbsModule;
     }
 }

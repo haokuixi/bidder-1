@@ -9,6 +9,12 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
@@ -24,15 +30,38 @@
         </property>
     </bean>
 
-    <bean id="userService" class="main.services.UserServiceImpl"/>
-    <bean id="userModule" class="main.modules.UserModuleImpl"/>
-    <bean id="userDAO" class="main.dao.UserDAOImpl"/>
-    <bean id="wzbsService" class="main.services.WzbsServiceImpl"/>
-    <bean id="wzbsModule" class="main.modules.WzbsModuleImpl"/>
-    <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
-    <bean id="tournamentService" class="main.services.TournamentServiceImpl"/>
-    <bean id="tournamentModule" class="main.modules.TournamentModuleImpl"/>
+    <bean id="tournamentService" class="main.services.TournamentServiceImpl">
+        <property name="tournamentModule" ref="tournamentModule"/>
+    </bean>
+    <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
+        <property name="tournamentDAO" ref="tournamentDAO"/>
+    </bean>
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
+
+    <bean id="wzbsService" class="main.services.WzbsServiceImpl">
+        <property name="wzbsModule" ref="wzbsModule"/>
+    </bean>
+    <bean id="wzbsModule" class="main.modules.WzbsModuleImpl">
+        <property name="wzbsDAO" ref="wzbsDAO"/>
+    </bean>
+    <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
+
+
+
+    <bean id="userService" class="main.services.UserServiceImpl">
+        <property name="userModule" ref="userModule"/>
+    </bean>
+    <bean id="userModule" class="main.modules.UserModuleImpl">
+        <property name="wzbsModule" ref="wzbsModule"/>
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+    <bean id="userDAO" class="main.dao.UserDAOImpl"/>
+
+
+    <bean id="userDto" class="main.dto.UserDto">
+        <property name="wzbsModule" ref="wzbsModule"/>
+    </bean>
+    <bean id="wzbsDto" class="main.dto.WzbsDto"/>
 
 
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -65,14 +94,6 @@
         JTA (usually through JtaTransactionManager) is necessary for accessing multiple transactional resources within the same transaction. -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactoryBean"/>
-    </bean>
-
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>messages</value>
-            </list>
-        </property>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>

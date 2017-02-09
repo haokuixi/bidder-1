@@ -1,6 +1,6 @@
 package main.controller;
 
-import main.entities.User;
+import main.dto.UserDto;
 import main.services.UserService;
 import main.services.WzbsService;
 import org.apache.log4j.Logger;
@@ -36,16 +36,16 @@ public class UserController {
     @RequestMapping(value = "registerPage", method = RequestMethod.GET)
     public ModelAndView registerPage() {
         ModelAndView model = new ModelAndView();
-        model.addObject("user", new User());
+        model.addObject("user", new UserDto());
         model.addObject("wzbsList", wzbsService.getAll());
         model.setViewName(REGISTER_PAGE);
         return model;
     }
 
     @RequestMapping(value = "registerPage", method = RequestMethod.POST)
-    public ModelAndView registerPage(User user) {
+    public ModelAndView registerPage(UserDto user) {
         ModelAndView model = new ModelAndView();
-        userService.addUser(user);
+        userService.registerUser(user);
         model.setViewName(USER_LIST);
         return model;
     }

@@ -28,11 +28,20 @@
         <tr>
             <td>
                 <label>
+                    <spring:message code="label.user.password"></spring:message>
+                </label>
+            </td>
+            <td><form:password path="password" value=""/></td>
+            <form:errors path="password" element="div"/>
+        </tr>
+        <tr>
+            <td>
+                <label>
                     <spring:message code="label.user.firstName"></spring:message>
                 </label>
             </td>
-            <td><form:input path="name" value=""/></td>
-            <form:errors path="name" element="div"/>
+            <td><form:input path="firstName" value=""/></td>
+            <form:errors path="firstName" element="div"/>
         </tr>
         <tr>
             <td>
@@ -40,8 +49,8 @@
                     <spring:message code="label.user.lastName"></spring:message>
                 </label>
             </td>
-            <td><form:input path="surname" value=""/></td>
-            <form:errors path="surname" element="div"/>
+            <td><form:input path="lastName" value=""/></td>
+            <form:errors path="lastName" element="div"/>
         </tr>
         <tr>
             <td>
