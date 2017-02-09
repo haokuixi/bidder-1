@@ -22,8 +22,7 @@
                     <spring:message code="label.user.login"></spring:message>
                 </label>
             </td>
-            <td><form:input path="login" value=""/></td>
-            <form:errors path="login" element="div"/>
+            <td><form:input path="login" value=""/> <form:errors path="login" element="div"/></td>
         </tr>
         <tr>
             <td>
@@ -31,8 +30,7 @@
                     <spring:message code="label.user.password"></spring:message>
                 </label>
             </td>
-            <td><form:password path="password" value=""/></td>
-            <form:errors path="password" element="div"/>
+            <td><form:password path="password" value=""/> <form:errors path="password" element="div"/></td>
         </tr>
         <tr>
             <td>
@@ -40,8 +38,8 @@
                     <spring:message code="label.user.firstName"></spring:message>
                 </label>
             </td>
-            <td><form:input path="firstName" value=""/></td>
-            <form:errors path="firstName" element="div"/>
+            <td><form:input path="firstName" value=""/> <form:errors path="firstName" element="div"/></td>
+
         </tr>
         <tr>
             <td>
@@ -49,8 +47,7 @@
                     <spring:message code="label.user.lastName"></spring:message>
                 </label>
             </td>
-            <td><form:input path="lastName" value=""/></td>
-            <form:errors path="lastName" element="div"/>
+            <td><form:input path="lastName" value=""/> <form:errors path="lastName" element="div"/></td>
         </tr>
         <tr>
             <td>
@@ -58,8 +55,7 @@
                     <spring:message code="label.user.pzbs.wzbs"></spring:message>
                 </label>
             </td>
-            <td><form:select path="wzbs.shortName" items="${wzbsList}" /></td>
-            <form:errors path="wzbs" element="div"/>
+            <td><form:select path="wzbs.shortName" items="${wzbsList}"/> <form:errors path="wzbs" element="div"/></td>
         </tr>
         <tr>
             <td>
@@ -67,8 +63,7 @@
                     <spring:message code="label.user.pzbs.pzbs_id"></spring:message>
                 </label>
             </td>
-            <td><form:input path="pzbsId" value=""/></td>
-            <form:errors path="pzbsId" element="div"/>
+            <td><form:input path="pzbsId" value=""/> <form:errors path="pzbsId" element="div"/></td>
         </tr>
     </table>
     <button type="submit">

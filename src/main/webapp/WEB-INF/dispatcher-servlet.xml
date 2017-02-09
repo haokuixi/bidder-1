@@ -23,11 +23,7 @@
 
     <bean id="tilesConfigurer"
           class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-        <property name="definitions">
-            <list>
-                <value>/WEB-INF/tiles/tiles.xml</value>
-            </list>
-        </property>
+        <property name="definitions" value="WEB-INF/tiles/tiles.xml"/>
     </bean>
 
     <bean id="tournamentService" class="main.services.TournamentServiceImpl">
@@ -62,6 +58,8 @@
         <property name="wzbsModule" ref="wzbsModule"/>
     </bean>
     <bean id="wzbsDto" class="main.dto.WzbsDto"/>
+
+    <bean id="userValidator" class="main.validators.UserValidator"/>
 
 
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
