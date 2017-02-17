@@ -7,17 +7,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@NamedQueries(
-        @NamedQuery(name = "getAllUsers", query="FROM User")
+@NamedQueries({
+        @NamedQuery(name = "getAllUsers", query = "FROM User"),
+        @NamedQuery(name = "getByLogin", query = "FROM User where login = ?")
+}
 )
 public class User implements Serializable {
 
@@ -46,8 +52,8 @@ public class User implements Serializable {
     @JoinColumn(name = "wzbs")
     private Wzbs wzbs;
 
-    @Column(name = "judge")
-    private boolean judge;
+    @Column(name = "role")
+    private String role;
 
     public int getId() {
         return id;
@@ -105,12 +111,12 @@ public class User implements Serializable {
         this.wzbs = wzbs;
     }
 
-    public boolean isJudge() {
-        return judge;
+    public String getRole() {
+        return role;
     }
 
-    public void setJudge(boolean judge) {
-        this.judge = judge;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -118,11 +124,12 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", pzbsId=" + pzbsId +
                 ", wzbs=" + wzbs +
-                ", judge=" + judge +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

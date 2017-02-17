@@ -3,9 +3,11 @@ package main.dao;
 import main.entities.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -16,13 +18,13 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO{
 
     private static final String GET_ALL_QUERY = "getAllUsers";
+    private static final String GET_BY_LOGIN = "getByLogin";
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @PersistenceContext(type= PersistenceContextType.TRANSACTION)
     @Qualifier(value = "entityManager")
     private EntityManager em;
 
-    @Transactional
     public void create(User e) {
         em.persist(e);
         LOGGER.info("User saved successfully");
@@ -54,5 +56,23 @@ public class UserDAOImpl implements UserDAO{
     public List<User> listAll() {
         Query query = em.createNamedQuery(GET_ALL_QUERY);
         return query.getResultList();
+    }
+
+    @Transactional
+    public User getUserByLogin(String login) {
+        Query query = em.createNamedQuery(GET_BY_LOGIN);
+        query.setParameter(1, login);
+        return (User) query.getSingleResult();
+    }
+
+    @Transactional
+    public boolean isValidUser(String login, String password) {
+        Query query = em.createNamedQuery(GET_BY_LOGIN);
+        query.setParameter(1, login);
+        try {
+            return new BCryptPasswordEncoder().matches(password, ((User)query.getSingleResult()).getPassword());
+        } catch (NoResultException nre) {
+            return false;
+        }
     }
 }

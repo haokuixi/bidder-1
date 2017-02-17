@@ -11,4 +11,6 @@ public interface UserDAO{
     User update(User u);
     void remove(int id);
     List<User> listAll();
+    boolean isValidUser(String login, String password);
+    User getUserByLogin(String login);
 }

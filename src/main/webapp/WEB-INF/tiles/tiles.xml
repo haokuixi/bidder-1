@@ -19,7 +19,7 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/userlist.jsp" />
     </definition>
 
-    <definition name="login" extends="base.definition">
+    <definition name="loginPage" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
     </definition>
 

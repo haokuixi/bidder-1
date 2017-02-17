@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -22,9 +23,20 @@
                 <li><a href="${pageContext.request.contextPath}/users/registerPage">Zarejesruj</a></li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="${pageContext.request.contextPath}/loginPage">Zaloguj</a></li>
-            </ul>
+            <c:choose>
+                <c:when test="${sessionScope.get('loggedUser').getLogin() == null}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${pageContext.request.contextPath}/loginPage">Zaloguj</a></li>
+                    </ul>
+                </c:when>
+                <c:otherwise>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
+
+
         </div>
     </div>
 </nav>

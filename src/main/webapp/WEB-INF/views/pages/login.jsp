@@ -1,35 +1,19 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="login-box" style="text-align: center;">
 
     <h2>Zaloguj</h2>
 
-    <c:if test="${not empty error}">
-        <div class="error">${error}</div>
-    </c:if>
-    <c:if test="${not empty msg}">
-        <div class="msg">${msg}</div>
-    </c:if>
+    <form:form id="loginForm" action="/loginPage" method="post" commandName="user">
+        <form:label path="login"><spring:message code="label.form.login"/></form:label>
+        <form:input id="login" name="login" path="login"/> <br>
 
-    <form name='loginForm' action="<c:url value='/' />" method='GET'>
+        <form:label path="password"><spring:message code="label.user.password"/></form:label>
+        <form:password id="password" name="password" path="password"/> <br>
 
-        <table>
-            <tr>
-                <td>Login:</td>
-                <td><input type='text' name='username' value=''></td>
-            </tr>
-            <tr>
-                <td>Haslo:</td>
-                <td><input type='password' name='password'/></td>
-            </tr>
-            <tr>
-                <td><br/></td>
-            </tr>
-            <tr>
-                <td colspan='2' align="center"><input name="submit" type="submit" value="Zaloguj"/></td>
-            </tr>
-        </table>
-
-        <input type="hidden" name="${_csrf.parameterName}"
-               value="${_csrf.token}"/>
-
-    </form>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="submit" value="Submit"/>
+    </form:form>
 </div>

@@ -1,8 +1,6 @@
 package main.dto;
 
 import main.modules.WzbsModule;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserDto {
 
@@ -12,6 +10,7 @@ public class UserDto {
     private String password;
     private WzbsDto wzbs;
     private int pzbsId;
+    private String role;
 
     private WzbsModule wzbsModule;
 
@@ -19,13 +18,15 @@ public class UserDto {
 
     }
 
-    public UserDto(String login, String firstName, String lastName, String password, WzbsDto wzbs, int pzbsId) {
+    public UserDto(String login, String firstName, String lastName, String password, WzbsDto wzbs, int pzbsId, String role, WzbsModule wzbsModule) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.wzbs = wzbs;
         this.pzbsId = pzbsId;
+        this.role = role;
+        this.wzbsModule = wzbsModule;
     }
 
     public String getLogin() {
@@ -82,5 +83,27 @@ public class UserDto {
 
     public void setWzbsModule(WzbsModule wzbsModule) {
         this.wzbsModule = wzbsModule;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", wzbs=" + wzbs +
+                ", pzbsId=" + pzbsId +
+                ", role='" + role + '\'' +
+                ", wzbsModule=" + wzbsModule +
+                '}';
     }
 }
