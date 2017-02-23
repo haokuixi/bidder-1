@@ -1,5 +1,6 @@
 package main.services;
 
+import main.dto.TournamentDto;
 import main.entities.Tournament;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -11,5 +12,5 @@ public interface TournamentService {
 
     void addTournament(Tournament t);
     List<Tournament> listTournament();
-    Tournament getById(int id);
+    TournamentDto getById(int id);
 }

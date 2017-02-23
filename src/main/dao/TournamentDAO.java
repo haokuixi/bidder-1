@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface TournamentDAO {
 
-    void create(Tournament u);
+    void create(Tournament t);
     Tournament getById(int id);
-    Tournament update(Tournament u);
+    Tournament update(Tournament t);
     void remove(int id);
     List<Tournament> listAll();
 }

@@ -31,6 +31,7 @@
     </bean>
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
         <property name="tournamentDAO" ref="tournamentDAO"/>
+        <property name="pairDAO" ref="pairDAO"/>
     </bean>
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
 
@@ -52,6 +53,7 @@
         <property name="userDAO" ref="userDAO"/>
     </bean>
     <bean id="userDAO" class="main.dao.UserDAOImpl"/>
+    <bean id="pairDAO" class="main.dao.PairDAOImpl"/>
 
 
     <bean id="userDto" class="main.dto.UserDto">

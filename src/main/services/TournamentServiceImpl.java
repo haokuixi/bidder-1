@@ -1,5 +1,6 @@
 package main.services;
 
+import main.dto.TournamentDto;
 import main.entities.Tournament;
 import main.modules.TournamentModule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Tournament getById(int id) {
+    public TournamentDto getById(int id) {
         return tournamentModule.getById(id);
     }
 

@@ -23,8 +23,8 @@ public class TournamentDAOImpl implements TournamentDAO {
     private EntityManager em;
 
     @Transactional
-    public void create(Tournament e) {
-        em.persist(e);
+    public void create(Tournament t) {
+        em.persist(t);
         LOGGER.info("Tournament saved successfully");
     }
 
