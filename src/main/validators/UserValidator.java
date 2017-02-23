@@ -33,5 +33,32 @@ public class UserValidator implements Validator {
             errors.rejectValue("pzbsId", "validation.user.pzbsid.null");
         }
 
+        // password
+        String firstPassword = ((UserDto) o).getPassword();
+        String secondPassword = ((UserDto) o).getRepeatedPassword();
+
+        if(!firstPassword.equals(secondPassword)) {
+            errors.rejectValue("repeatedPassword", "validation.user.password.notequal");
+        }
+
+/*        if(!firstPassword.isEmpty()) {
+            errors.rejectValue("password", "validation.user.password.null");
+        }
+
+        if(!secondPassword.isEmpty()) {
+            errors.rejectValue("repeatedPassword", "validation.user.password.null");
+        }*/
+
+        String firstName = ((UserDto)o).getFirstName();
+        String lastName = ((UserDto)o).getLastName();
+
+        if(firstName.isEmpty()) {
+            errors.rejectValue("firstName", "validation.user.firstname.null");
+        }
+
+        if(lastName.isEmpty()) {
+            errors.rejectValue("lastName", "validation.user.lastname.null");
+        }
+
     }
 }

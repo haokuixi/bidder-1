@@ -8,9 +8,11 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String password;
+    private String repeatedPassword;
     private WzbsDto wzbs;
     private int pzbsId;
     private String role;
+    private boolean judge;
 
     private WzbsModule wzbsModule;
 
@@ -61,6 +63,14 @@ public class UserDto {
         this.password = password;
     }
 
+    public String getRepeatedPassword() {
+        return repeatedPassword;
+    }
+
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
+    }
+
     public WzbsDto getWzbs() {
         return wzbs;
     }
@@ -91,6 +101,14 @@ public class UserDto {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isJudge() {
+        return judge;
+    }
+
+    public void setJudge(boolean judge) {
+        this.judge = judge;
     }
 
     @Override

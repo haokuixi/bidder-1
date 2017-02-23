@@ -35,6 +35,14 @@
         <tr>
             <td>
                 <label>
+                    <spring:message code="label.user.repeatpassword"/>
+                </label>
+            </td>
+            <td><form:password path="repeatedPassword" value=""/> <form:errors path="repeatedPassword" element="div"/></td>
+        </tr>
+        <tr>
+            <td>
+                <label>
                     <spring:message code="label.user.firstName"/>
                 </label>
             </td>
@@ -64,6 +72,14 @@
                 </label>
             </td>
             <td><form:input path="pzbsId" value=""/> <form:errors path="pzbsId" element="div"/></td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <spring:message code="label.user.judge"/>
+                </label>
+            </td>
+            <td><form:checkbox path="judge" value="${user.judge}"/></td>
         </tr>
     </table>
     <button type="submit">

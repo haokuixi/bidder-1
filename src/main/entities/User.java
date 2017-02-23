@@ -52,6 +52,9 @@ public class User implements Serializable {
     @JoinColumn(name = "wzbs")
     private Wzbs wzbs;
 
+    @Column(name = "judge")
+    private boolean judge;
+
     @Column(name = "role")
     private String role;
 
@@ -111,6 +114,14 @@ public class User implements Serializable {
         this.wzbs = wzbs;
     }
 
+    public boolean isJudge() {
+        return judge;
+    }
+
+    public void setJudge(boolean judge) {
+        this.judge = judge;
+    }
+
     public String getRole() {
         return role;
     }
@@ -129,6 +140,7 @@ public class User implements Serializable {
                 ", surname='" + surname + '\'' +
                 ", pzbsId=" + pzbsId +
                 ", wzbs=" + wzbs +
+                ", judge=" + judge +
                 ", role='" + role + '\'' +
                 '}';
     }

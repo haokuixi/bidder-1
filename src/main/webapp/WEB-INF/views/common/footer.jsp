@@ -19,7 +19,7 @@
             <h2> heloł ${sessionScope.get("loggedUser").getLogin()}</h2>
 
             <c:choose>
-                <c:when test="${user.role.equals('ROLE_JUDGE')}">
+                <c:when test="${user.judge==true}">
                     <h3> jesteś sędziom </h3>
                 </c:when>
                 <c:otherwise>

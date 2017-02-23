@@ -18,14 +18,14 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="${pageContext.request.contextPath}/users/userlist">Uzytkownicy</a></li>
+                <li><a href="${pageContext.request.contextPath}/users/userlist">Użytkownicy</a></li>
                 <li><a href="${pageContext.request.contextPath}/tournaments/tourlist">Turnieje</a></li>
-                <li><a href="${pageContext.request.contextPath}/users/registerPage">Zarejesruj</a></li>
             </ul>
 
             <c:choose>
                 <c:when test="${sessionScope.get('loggedUser').getLogin() == null}">
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${pageContext.request.contextPath}/users/registerPage">Zarejestruj</a></li>
                         <li><a href="${pageContext.request.contextPath}/loginPage">Zaloguj</a></li>
                     </ul>
                 </c:when>

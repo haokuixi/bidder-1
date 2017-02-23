@@ -54,6 +54,8 @@ public class UserModuleImpl implements UserModule {
 
     public User transformUser(UserDto userDto, boolean isValid) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        System.out.println("userdto");
+        System.out.println(userDto);
 
         User u;
 
@@ -66,6 +68,7 @@ public class UserModuleImpl implements UserModule {
             u.setSurname(userDto.getLastName());
             u.setPassword(passwordEncoder.encode(userDto.getPassword()));
             u.setWzbs(wzbsModule.getWzbsByShortName(userDto.getWzbs().getShortName()));
+            u.setJudge(userDto.isJudge());
             u.setRole(ROLE_USER);
 
             if(!WZBS_NZ.equals(u.getWzbs().getShortName())) {
