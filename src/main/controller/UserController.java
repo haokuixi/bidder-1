@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.dto.UserDto;
+import main.entities.User;
 import main.services.UserService;
 import main.services.WzbsService;
 import main.validators.UserValidator;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -21,6 +24,7 @@ public class UserController {
 
     private static final String USER_LIST = "userlist";
     private static final String REGISTER_PAGE = "registerpage";
+    private static final String EDIT_PROFILE = "editprofile";
 
     @Autowired
     UserValidator validator;
@@ -59,6 +63,25 @@ public class UserController {
 
         userService.registerUser(user);
         model.setViewName(USER_LIST);
+        return model;
+    }
+
+    @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
+    public ModelAndView editProfilePage(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView();
+        User user = userService.getUserByLogin(((User)request.getSession().getAttribute("loggedUser")).getLogin());
+        model.addObject("user", userService.transformUser(user));
+        model.addObject("wzbsList", wzbsService.getAll());
+        model.setViewName(EDIT_PROFILE);
+        return model;
+    }
+
+    @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
+    public ModelAndView editProfilePage(@ModelAttribute("user") UserDto user, BindingResult bindingResult,
+                                        ModelAndView model, HttpServletRequest request) {
+        userService.updateUser((User) request.getSession().getAttribute("loggedUser"), user);
+        model.addObject("wzbsList", wzbsService.getAll());
+        model.setViewName(EDIT_PROFILE);
         return model;
     }
 }

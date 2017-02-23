@@ -35,4 +35,8 @@
         <put-attribute name="body" value="/WEB-INF/views/tournaments/tournament.jsp"/>
     </definition>
 
+    <definition name="editprofile" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/users/editprofile.jsp"/>
+    </definition>
+
 </tiles-definitions>

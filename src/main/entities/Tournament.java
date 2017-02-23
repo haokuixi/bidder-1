@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tournament")
+@Table(name = "tournaments")
 @NamedQueries(
         @NamedQuery(name = "getAllTournaments", query="FROM Tournament")
 )

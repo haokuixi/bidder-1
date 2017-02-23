@@ -2,6 +2,7 @@ package main.modules;
 
 import main.dao.UserDAO;
 import main.dto.UserDto;
+import main.dto.WzbsDto;
 import main.entities.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -22,6 +23,17 @@ public class UserModuleImpl implements UserModule {
     @Override
     public void saveUser(UserDto user) {
         userDAO.create(transformUser(user, false));
+    }
+
+    @Override
+    public void updateUser(User loggedUser, UserDto user) {
+        if(!loggedUser.getName().equals(user.getFirstName())) {
+            loggedUser.setName(user.getFirstName());
+        }
+        if(!loggedUser.getSurname().equals(user.getLastName())) {
+            loggedUser.setSurname(user.getLastName());
+        }
+        userDAO.update(loggedUser);
     }
 
     public UserDAO getUserDAO() {
@@ -60,6 +72,18 @@ public class UserModuleImpl implements UserModule {
                 u.setPzbsId(userDto.getPzbsId());
             }
         }
+        return u;
+    }
+
+    public UserDto transformUser(User user) {
+        UserDto u = new UserDto();
+        u.setLogin(user.getLogin());
+        u.setPassword(user.getPassword());
+        u.setFirstName(user.getName());
+        u.setLastName(user.getSurname());
+        u.setRole(user.getRole());
+        u.setWzbs(new WzbsDto(user.getWzbs().getShortName()));
+        u.setPzbsId(user.getPzbsId());
         return u;
     }
 

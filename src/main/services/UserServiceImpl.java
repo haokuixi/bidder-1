@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    public void updateUser(User loggedUser, UserDto u) {
+        this.userModule.updateUser(loggedUser, u);
+    }
+
+    @Transactional
     public List<User> listUsers() {
         return this.userModule.getUserList();
     }
@@ -53,6 +58,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User transformUser(UserDto userDto, boolean isValid) {
         return userModule.transformUser(userDto, isValid);
+    }
+
+    @Override
+    public UserDto transformUser(User user) {
+        return userModule.transformUser(user);
     }
 
 }

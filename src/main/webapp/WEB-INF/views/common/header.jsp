@@ -31,6 +31,7 @@
                 </c:when>
                 <c:otherwise>
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${pageContext.request.contextPath}/users/editprofile">Edycja profilu</a></li>
                         <li><a href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
                     </ul>
                 </c:otherwise>
