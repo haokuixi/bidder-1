@@ -1,9 +1,11 @@
 package main.dao;
 
+import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TournamentDAO {
 
@@ -19,5 +21,5 @@ public interface TournamentDAO {
 
     List<Tournament> getToursByJudge(User user);
 
-    List<Tournament> getToursByPlayer(User user);
+    Map<Tournament, Pair> getToursByPlayer(User user);
 }

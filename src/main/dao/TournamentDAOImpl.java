@@ -1,5 +1,6 @@
 package main.dao;
 
+import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
 import org.apache.log4j.Logger;
@@ -12,7 +13,9 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository("tournamentRepository")
 public class TournamentDAOImpl implements TournamentDAO {
@@ -67,15 +70,15 @@ public class TournamentDAOImpl implements TournamentDAO {
     }
 
     @Override
-    public List<Tournament> getToursByPlayer(User user) {
+    public Map<Tournament, Pair> getToursByPlayer(User user) {
         Query query = em.createNamedQuery(GET_WHERE_PLAYER);
         query.setParameter("player", user);
         List resultList = query.getResultList();
-        List<Tournament> tournaments = new ArrayList<>();
+        Map<Tournament, Pair> map = new HashMap<>();
         for (Object result : resultList) {
             Object[] values = (Object[]) result;
-            tournaments.add((Tournament) values[0]);
+            map.put((Tournament)values[0], (Pair)values[1]);
         }
-        return tournaments;
+        return map;
     }
 }

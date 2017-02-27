@@ -1,9 +1,11 @@
 package main.modules;
 
 import main.dto.TournamentDto;
+import main.entities.Pair;
 import main.entities.Tournament;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TournamentModule {
     List<Tournament> getTournamentList();
@@ -12,7 +14,7 @@ public interface TournamentModule {
 
     TournamentDto getById(int id);
 
-    List<Tournament> getByJudge(int id);
+    Map<Tournament, Pair> getByJudge(int id);
 
-    List<Tournament> getByPlayer(int id);
+    Map<Tournament, Pair> getByPlayer(int id);
 }

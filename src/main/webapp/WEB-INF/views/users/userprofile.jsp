@@ -76,14 +76,36 @@
                 <thead>
                 <tr class="header-panel">
                     <th width="5%"> </th>
-                    <th width="95%"><spring:message code="label.tournament.title"/></th>
+                    <th><spring:message code="label.tournament.title"/></th>
+                    <c:choose>
+                        <c:when test="${user.judge==false}">
+                            <th><spring:message code="label.tournament.partner"/></th>
+                            <th><spring:message code="label.tournament.result"/></th>
+                        </c:when>
+                    </c:choose>
                 </tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${tours}" var="tour">
                         <tr>
                             <td align="center"><span class="ionicons ion-trophy"></span></td>
-                            <td><a href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}">${tour.title}</a></td>
+                            <td width="60%"><a href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.id}">${tour.key.title}</a></td>
+                            <c:choose>
+                                <c:when test="${user.id==tour.value.playerOne.id}">
+                                    <td><a href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.id}">${tour.value.playerTwo.surname}</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><a href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.id}">${tour.value.playerOne.surname}</a></td>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${tour.value.maxResult!=null}">
+                                    <td>${tour.value.maxResult} %</td>
+                                </c:when>
+                                <c:when test="${tour.value.impResult!=null}">
+                                    <td>${tour.value.impResult} IMP</td>
+                                </c:when>
+                            </c:choose>
                         </tr>
                     </c:forEach>
                 </tbody>

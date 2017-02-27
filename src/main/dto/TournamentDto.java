@@ -10,6 +10,7 @@ public class TournamentDto {
     private String title;
     private User judge;
     private List<Pair> pairs;
+    private Pair currentPair;
 
     public String getTitle() {
         return title;
@@ -33,6 +34,14 @@ public class TournamentDto {
 
     public void setPairs(List<Pair> pairs) {
         this.pairs = pairs;
+    }
+
+    public Pair getCurrentPair() {
+        return currentPair;
+    }
+
+    public void setCurrentPair(Pair currentPair) {
+        this.currentPair = currentPair;
     }
 
     @Override

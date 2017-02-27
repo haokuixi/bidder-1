@@ -1,10 +1,13 @@
 package main.services;
 
 import main.dto.TournamentDto;
+import main.entities.Pair;
 import main.entities.Tournament;
 import main.modules.TournamentModule;
+import org.springframework.security.access.method.P;
 
 import java.util.List;
+import java.util.Map;
 
 public class TournamentServiceImpl implements TournamentService {
 
@@ -26,12 +29,12 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Tournament> getByJudge(int id) {
+    public Map<Tournament, Pair> getByJudge(int id) {
         return tournamentModule.getByJudge(id);
     }
 
     @Override
-    public List<Tournament> getByPlayer(int id) {
+    public Map<Tournament, Pair> getByPlayer(int id) {
         return tournamentModule.getByPlayer(id);
     }
 

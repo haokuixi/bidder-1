@@ -4,11 +4,14 @@ import main.dao.PairDAO;
 import main.dao.TournamentDAO;
 import main.dao.UserDAO;
 import main.dto.TournamentDto;
+import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TournamentModuleImpl implements TournamentModule {
 
@@ -34,21 +37,30 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public List<Tournament> getByJudge(int id) {
+    public Map<Tournament, Pair> getByJudge(int id) {
         User user = userDAO.getById(id);
+        Map<Tournament, Pair> map = null;
         if (user != null) {
-            return tournamentDAO.getToursByJudge(user);
+            List<Tournament> tours = tournamentDAO.getToursByJudge(user);
+
+            map = new HashMap<>();
+            for(Tournament t:tours) {
+                map.put(t, new Pair());
+            }
         }
-        return new ArrayList<>();
+        return map;
     }
 
     @Override
-    public List<Tournament> getByPlayer(int id) {
+    public Map<Tournament, Pair> getByPlayer(int id) {
         User user = userDAO.getById(id);
+        Map<Tournament, Pair> toursByPlayer = new HashMap<>();
         if (user != null) {
-            return tournamentDAO.getToursByPlayer(user);
+            toursByPlayer = tournamentDAO.getToursByPlayer(user);
         }
-        return new ArrayList<>();
+
+
+        return toursByPlayer;
     }
 
     public TournamentDAO getTournamentDAO() {

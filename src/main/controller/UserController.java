@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.dto.UserDto;
+import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
 import main.services.TournamentService;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/users")
@@ -103,7 +106,6 @@ public class UserController {
         if (user.isJudge()) {
             model.addObject("tours", tournamentService.getByJudge(userId));
         } else {
-            List<Tournament> byPlayer = tournamentService.getByPlayer(userId);
             model.addObject("tours", tournamentService.getByPlayer(userId));
         }
 
