@@ -3,20 +3,8 @@ package main.services;
 import main.dto.UserDto;
 import main.entities.User;
 import main.modules.UserModule;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -40,6 +28,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User getUserByLogin(String login) {
         return this.userModule.getUserByLogin(login);
+    }
+
+    @Transactional
+    public User getUserById(int id) {
+        return this.userModule.getById(id);
     }
 
     public UserModule getUserModule() {

@@ -7,29 +7,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @NamedQueries({
         @NamedQuery(name = "getAllUsers", query = "FROM User"),
-        @NamedQuery(name = "getByLogin", query = "FROM User where login = ?")
+        @NamedQuery(name = "getByLogin", query = "FROM User where login = ?"),
+        @NamedQuery(name = "getTourPartner", query = "FROM User u, Pair p, Tournament t where t.id=? and t.id=p.tournament.id and (p.playerTwo.id=? or p.playerTwo.id=?)")
 }
 )
 public class User implements Serializable {
 
     @Id
     @Column(name = "user_id")
-    @SequenceGenerator(name="user_seq", sequenceName="user_id_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private int id;
 

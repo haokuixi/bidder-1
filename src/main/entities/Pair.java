@@ -17,7 +17,8 @@ import javax.persistence.Table;
 @Table(name = "pairs")
 @NamedQueries({
         @NamedQuery(name = "getAllPairs", query = "FROM Pair"),
-        @NamedQuery(name = "getByTourId", query = "FROM Pair where tournament.id=?")
+        @NamedQuery(name = "getByTourId", query = "FROM Pair where tournament.id=?"),
+        @NamedQuery(name = "getByPlayer", query = "FROM Pair where playerOne=:player or playerTwo=:player")
 }
 )
 public class Pair {

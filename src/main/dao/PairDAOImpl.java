@@ -1,6 +1,7 @@
 package main.dao;
 
 import main.entities.Pair;
+import main.entities.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class PairDAOImpl implements PairDAO {
 
     private static final String GET_ALL_QUERY = "getAllPairs";
+    private static final String GET_BY_PLAYER = "getByPlayer";
     private static final String GET_ALL_BY_TOUR_QUERY = "getByTourId";
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
@@ -56,6 +58,13 @@ public class PairDAOImpl implements PairDAO {
     public List<Pair> listByTourId(int id) {
         Query query = em.createNamedQuery(GET_ALL_BY_TOUR_QUERY);
         query.setParameter(1, id);
+        return query.getResultList();
+    }
+
+    @Transactional
+    public List<Pair> getByPlayer(User player) {
+        Query query = em.createNamedQuery(GET_BY_PLAYER);
+        query.setParameter("player", player);
         return query.getResultList();
     }
 }

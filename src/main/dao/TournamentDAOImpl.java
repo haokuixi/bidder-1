@@ -11,14 +11,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("tournamentRepository")
 public class TournamentDAOImpl implements TournamentDAO {
     private static final String GET_ALL_QUERY = "getAllTournaments";
+    private static final String GET_WHERE_JUDGE = "getWhereJudge";
+    private static final String GET_WHERE_PLAYER = "getWherePlayer";
     private static Logger LOGGER = Logger.getLogger(TournamentDAOImpl.class);
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     @Qualifier(value = "entityManager")
     private EntityManager em;
 
@@ -54,5 +57,25 @@ public class TournamentDAOImpl implements TournamentDAO {
     public List<Tournament> listAll() {
         Query query = em.createNamedQuery(GET_ALL_QUERY);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Tournament> getToursByJudge(User user) {
+        Query query = em.createNamedQuery(GET_WHERE_JUDGE);
+        query.setParameter(1, user);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Tournament> getToursByPlayer(User user) {
+        Query query = em.createNamedQuery(GET_WHERE_PLAYER);
+        query.setParameter("player", user);
+        List resultList = query.getResultList();
+        List<Tournament> tournaments = new ArrayList<>();
+        for (Object result : resultList) {
+            Object[] values = (Object[]) result;
+            tournaments.add((Tournament) values[0]);
+        }
+        return tournaments;
     }
 }

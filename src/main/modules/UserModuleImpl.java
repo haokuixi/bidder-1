@@ -27,13 +27,18 @@ public class UserModuleImpl implements UserModule {
 
     @Override
     public void updateUser(User loggedUser, UserDto user) {
-        if(!loggedUser.getName().equals(user.getFirstName())) {
+        if (!loggedUser.getName().equals(user.getFirstName())) {
             loggedUser.setName(user.getFirstName());
         }
-        if(!loggedUser.getSurname().equals(user.getLastName())) {
+        if (!loggedUser.getSurname().equals(user.getLastName())) {
             loggedUser.setSurname(user.getLastName());
         }
         userDAO.update(loggedUser);
+    }
+
+    @Override
+    public User getById(int id) {
+        return userDAO.getById(id);
     }
 
     public UserDAO getUserDAO() {
@@ -59,7 +64,7 @@ public class UserModuleImpl implements UserModule {
 
         User u;
 
-        if(isValid) {
+        if (isValid) {
             u = getUserByLogin(userDto.getLogin());
         } else {
             u = new User();
@@ -71,7 +76,7 @@ public class UserModuleImpl implements UserModule {
             u.setJudge(userDto.isJudge());
             u.setRole(ROLE_USER);
 
-            if(!WZBS_NZ.equals(u.getWzbs().getShortName())) {
+            if (!WZBS_NZ.equals(u.getWzbs().getShortName())) {
                 u.setPzbsId(userDto.getPzbsId());
             }
         }

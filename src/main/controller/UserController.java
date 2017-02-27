@@ -1,7 +1,9 @@
 package main.controller;
 
 import main.dto.UserDto;
+import main.entities.Tournament;
 import main.entities.User;
+import main.services.TournamentService;
 import main.services.UserService;
 import main.services.WzbsService;
 import main.validators.UserValidator;
@@ -12,9 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -25,6 +29,7 @@ public class UserController {
     private static final String USER_LIST = "userlist";
     private static final String REGISTER_PAGE = "registerpage";
     private static final String EDIT_PROFILE = "editprofile";
+    private static final String USER_PROFILE = "userprofile";
 
     @Autowired
     UserValidator validator;
@@ -32,6 +37,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private WzbsService wzbsService;
+    @Autowired
+    private TournamentService tournamentService;
+
 
     @RequestMapping(value = "/userlist", method = RequestMethod.GET)
     public ModelAndView userList() {
@@ -55,13 +63,14 @@ public class UserController {
     public ModelAndView registerPage(@ModelAttribute("user") UserDto user, BindingResult bindingResult, ModelAndView model) {
         validator.validate(user, bindingResult);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.addObject("wzbsList", wzbsService.getAll());
             model.setViewName(REGISTER_PAGE);
             return model;
         }
 
         userService.registerUser(user);
+        model.addObject("users", userService.listUsers());
         model.setViewName(USER_LIST);
         return model;
     }
@@ -69,7 +78,7 @@ public class UserController {
     @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
     public ModelAndView editProfilePage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
-        User user = userService.getUserByLogin(((User)request.getSession().getAttribute("loggedUser")).getLogin());
+        User user = userService.getUserByLogin(((User) request.getSession().getAttribute("loggedUser")).getLogin());
         model.addObject("user", userService.transformUser(user));
         model.addObject("wzbsList", wzbsService.getAll());
         model.setViewName(EDIT_PROFILE);
@@ -82,6 +91,23 @@ public class UserController {
         userService.updateUser((User) request.getSession().getAttribute("loggedUser"), user);
         model.addObject("wzbsList", wzbsService.getAll());
         model.setViewName(EDIT_PROFILE);
+        return model;
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ModelAndView getUserProfile(@RequestParam int userId) {
+        ModelAndView model = new ModelAndView();
+        User user = userService.getUserById(userId);
+        model.addObject("user", user);
+
+        if (user.isJudge()) {
+            model.addObject("tours", tournamentService.getByJudge(userId));
+        } else {
+            List<Tournament> byPlayer = tournamentService.getByPlayer(userId);
+            model.addObject("tours", tournamentService.getByPlayer(userId));
+        }
+
+        model.setViewName(USER_PROFILE);
         return model;
     }
 }

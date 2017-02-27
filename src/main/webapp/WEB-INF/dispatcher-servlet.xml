@@ -32,6 +32,7 @@
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
         <property name="tournamentDAO" ref="tournamentDAO"/>
         <property name="pairDAO" ref="pairDAO"/>
+        <property name="userDAO" ref="userDAO"/>
     </bean>
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
 
@@ -43,7 +44,9 @@
     </bean>
     <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
 
-
+    <bean id="pairService" class="main.services.PairServiceImpl">
+        <property name="pairModule" ref="pairModule"/>
+    </bean>
 
     <bean id="userService" class="main.services.UserServiceImpl">
         <property name="userModule" ref="userModule"/>
@@ -60,6 +63,11 @@
         <property name="wzbsModule" ref="wzbsModule"/>
     </bean>
     <bean id="wzbsDto" class="main.dto.WzbsDto"/>
+
+    <bean id="pairModule" class="main.modules.PairModuleImpl">
+        <property name="pairDAO" ref="pairDAO"/>
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
 
     <bean id="userValidator" class="main.validators.UserValidator"/>
 

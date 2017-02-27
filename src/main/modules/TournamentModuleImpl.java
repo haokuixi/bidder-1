@@ -2,15 +2,18 @@ package main.modules;
 
 import main.dao.PairDAO;
 import main.dao.TournamentDAO;
+import main.dao.UserDAO;
 import main.dto.TournamentDto;
 import main.entities.Tournament;
-import org.springframework.beans.factory.annotation.Autowired;
+import main.entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TournamentModuleImpl implements TournamentModule {
 
     TournamentDAO tournamentDAO;
+    UserDAO userDAO;
     PairDAO pairDAO;
 
     @Override
@@ -30,6 +33,24 @@ public class TournamentModuleImpl implements TournamentModule {
         return tournamentDto;
     }
 
+    @Override
+    public List<Tournament> getByJudge(int id) {
+        User user = userDAO.getById(id);
+        if (user != null) {
+            return tournamentDAO.getToursByJudge(user);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Tournament> getByPlayer(int id) {
+        User user = userDAO.getById(id);
+        if (user != null) {
+            return tournamentDAO.getToursByPlayer(user);
+        }
+        return new ArrayList<>();
+    }
+
     public TournamentDAO getTournamentDAO() {
         return tournamentDAO;
     }
@@ -46,7 +67,15 @@ public class TournamentModuleImpl implements TournamentModule {
         this.pairDAO = pairDAO;
     }
 
-    private TournamentDto transformTournament(Tournament tournament){
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    private TournamentDto transformTournament(Tournament tournament) {
         TournamentDto tournamentDto = new TournamentDto();
         tournamentDto.setTitle(tournament.getTitle());
         tournamentDto.setJudge(tournament.getJudge());

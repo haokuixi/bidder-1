@@ -2,15 +2,18 @@ package main.services;
 
 import main.dto.TournamentDto;
 import main.entities.Tournament;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface TournamentService {
 
     void addTournament(Tournament t);
+
     List<Tournament> listTournament();
+
     TournamentDto getById(int id);
+
+    List<Tournament> getByJudge(int id);
+
+    List<Tournament> getByPlayer(int id);
 }

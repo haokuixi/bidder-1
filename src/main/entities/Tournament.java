@@ -16,14 +16,16 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "tournaments")
-@NamedQueries(
-        @NamedQuery(name = "getAllTournaments", query="FROM Tournament")
-)
+@NamedQueries({
+        @NamedQuery(name = "getAllTournaments", query = "FROM Tournament"),
+        @NamedQuery(name = "getWhereJudge", query = "FROM Tournament where judge=?"),
+        @NamedQuery(name = "getWherePlayer", query = "FROM Tournament t, Pair p where p.tournament=t and (p.playerOne=:player or p.playerTwo=:player)")
+})
 public class Tournament implements Serializable {
 
     @Id
     @Column(name = "tour_id")
-    @SequenceGenerator(name="tour_seq", sequenceName="tour_id_seq")
+    @SequenceGenerator(name = "tour_seq", sequenceName = "tour_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tour_seq")
     private int id;
 

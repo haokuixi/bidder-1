@@ -5,22 +5,22 @@
 <tiles-definitions>
     <definition name="base.definition"
                 template="/WEB-INF/views/common/layout.jsp">
-        <put-attribute name="title" value="" />
-        <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-        <put-attribute name="body" value="" />
-        <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
     </definition>
 
     <definition name="mainpage" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/pages/mainpage.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/mainpage.jsp"/>
     </definition>
 
     <definition name="userlist" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/pages/userlist.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/userlist.jsp"/>
     </definition>
 
     <definition name="loginPage" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/login.jsp"/>
     </definition>
 
     <definition name="registerpage" extends="base.definition">
@@ -37,6 +37,10 @@
 
     <definition name="editprofile" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/users/editprofile.jsp"/>
+    </definition>
+
+    <definition name="userprofile" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/users/userprofile.jsp"/>
     </definition>
 
 </tiles-definitions>
