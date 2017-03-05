@@ -70,6 +70,7 @@
     </bean>
 
     <bean id="userValidator" class="main.validators.UserValidator"/>
+    <bean id="loginValidator" class="main.validators.LoginValidator"/>
 
 
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

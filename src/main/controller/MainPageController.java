@@ -2,15 +2,19 @@ package main.controller;
 
 import main.dto.UserDto;
 import main.services.UserService;
+import main.validators.LoginValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +37,8 @@ public class MainPageController {
     private UserService userService;
     @Autowired
     AuthenticationManager authenticationManager;
+    @Autowired
+    LoginValidator validator;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView helloWorld(HttpServletRequest request) {
@@ -51,18 +57,22 @@ public class MainPageController {
     }
 
     @RequestMapping(value = "loginPage", method = RequestMethod.POST)
-    public ModelAndView executeLogin(@ModelAttribute("user") UserDto user, HttpServletRequest request) {
+    public ModelAndView executeLogin(@ModelAttribute("user") UserDto user, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
+        validator.validate(user, bindingResult);
 
-        if(userService.isValidUser(user.getLogin(), user.getPassword())) {
+        if(bindingResult.hasErrors()) {
+            model.setViewName(LOGIN_PAGE);
+        } else {
             try {
                 request.login(user.getLogin(), user.getPassword());
                 request.getSession().setAttribute("loggedUser", userService.transformUser(user, true));
+                model.setViewName(MAIN_PAGE);
             } catch (ServletException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
-        model.setViewName(MAIN_PAGE);
+
         return model;
     }
 
