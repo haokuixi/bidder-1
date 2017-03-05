@@ -39,7 +39,7 @@
                                 <i class="fa fa-user fa" aria-hidden="true"></i>
                             </span>
                             <form:input path="login" value="" class="form-control"/>
-                            <form:errors path="login" element="div"/>
+                            <form:errors path="login" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                                 <i class="fa-pencil-square-o fa" aria-hidden="true"></i>
                             </span>
                             <form:input path="firstName" value="" class="form-control"/>
-                            <form:errors path="firstName" element="div"/>
+                            <form:errors path="firstName" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                                 <i class=" fa-pencil-square-o fa" aria-hidden="true"></i>
                             </span>
                             <form:input path="lastName" value="" class="form-control"/>
-                            <form:errors path="lastName" element="div"/>
+                            <form:errors path="lastName" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                                     <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
                                 </span>
                             <form:password path="password" value="" class="form-control"/>
-                            <form:errors path="password" element="div"/>
+                            <form:errors path="password" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                                     <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
                                 </span>
                             <form:password path="repeatedPassword" value="" class="form-control"/>
-                            <form:errors path="repeatedPassword" element="div"/>
+                            <form:errors path="repeatedPassword" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                                     <i class="fa fa-users fa-lg" aria-hidden="true"></i>
                                 </span>
                             <form:select path="wzbs.shortName" items="${wzbsList}" class="form-control"/>
-                            <form:errors path="wzbs" element="div"/>
+                            <form:errors path="wzbs" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                                     <i class="fa fa-users fa-lg" aria-hidden="true"></i>
                                 </span>
                             <form:input path="pzbsId" value="" class="form-control"/>
-                            <form:errors path="pzbsId" element="div"/>
+                            <form:errors path="pzbsId" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                                     <i class="fa fa-flag-o fa-lg" aria-hidden="true"></i>
                                 </span>
                             <form:checkbox path="judge" value="" class="form-control"/>
-                            <form:errors path="judge" element="div"/>
+                            <form:errors path="judge" element="div" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -155,6 +155,12 @@
             </div>
         </div>
     </form:form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 </div>
 </body>
 </html>

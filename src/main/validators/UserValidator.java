@@ -17,7 +17,6 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         //login
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "validation.user.login.null");
         String login = ((UserDto)o).getLogin();
 
         if(login.length() < 3) {
@@ -37,17 +36,9 @@ public class UserValidator implements Validator {
         String firstPassword = ((UserDto) o).getPassword();
         String secondPassword = ((UserDto) o).getRepeatedPassword();
 
-        if(!firstPassword.equals(secondPassword)) {
+        if(!firstPassword.equals(secondPassword) || firstPassword.isEmpty() || secondPassword.isEmpty()) {
             errors.rejectValue("repeatedPassword", "validation.user.password.notequal");
         }
-
-/*        if(!firstPassword.isEmpty()) {
-            errors.rejectValue("password", "validation.user.password.null");
-        }
-
-        if(!secondPassword.isEmpty()) {
-            errors.rejectValue("repeatedPassword", "validation.user.password.null");
-        }*/
 
         String firstName = ((UserDto)o).getFirstName();
         String lastName = ((UserDto)o).getLastName();
