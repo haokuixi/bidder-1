@@ -3,14 +3,26 @@ package main.dto;
 import main.entities.Pair;
 import main.entities.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TournamentDto {
 
+    private int id;
     private String title;
     private User judge;
     private List<Pair> pairs;
     private Pair currentPair;
+    private String startDate;
+    private String endDate;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -44,12 +56,32 @@ public class TournamentDto {
         this.currentPair = currentPair;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
         return "TournamentDto{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", judge=" + judge +
                 ", pairs=" + pairs +
+                ", currentPair=" + currentPair +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
                 '}';
     }
 }

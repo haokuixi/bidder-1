@@ -59,9 +59,6 @@ public class UserModuleImpl implements UserModule {
 
     public User transformUser(UserDto userDto, boolean isValid) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println("userdto");
-        System.out.println(userDto);
-
         User u;
 
         if (isValid) {

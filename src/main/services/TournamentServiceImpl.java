@@ -29,12 +29,12 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Map<Tournament, Pair> getByJudge(int id) {
+    public Map<TournamentDto, Pair> getByJudge(int id) {
         return tournamentModule.getByJudge(id);
     }
 
     @Override
-    public Map<Tournament, Pair> getByPlayer(int id) {
+    public Map<TournamentDto, Pair> getByPlayer(int id) {
         return tournamentModule.getByPlayer(id);
     }
 

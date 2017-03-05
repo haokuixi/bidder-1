@@ -18,6 +18,7 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -102,12 +103,17 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.5.Final</version>
+            <version>5.0.9.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.5.Final</version>
+            <version>5.0.9.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.0.9.Final</version>
         </dependency>
         <dependency>
             <groupId>commons-dbcp</groupId>

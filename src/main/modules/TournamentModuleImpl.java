@@ -7,8 +7,8 @@ import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
+import main.utils.DateTimeUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,10 @@ public class TournamentModuleImpl implements TournamentModule {
     TournamentDAO tournamentDAO;
     UserDAO userDAO;
     PairDAO pairDAO;
+
+    DateTimeUtils dateTimeUtils;
+
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
     @Override
     public List<Tournament> getTournamentList() {
@@ -37,30 +41,33 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public Map<Tournament, Pair> getByJudge(int id) {
+    public Map<TournamentDto, Pair> getByJudge(int id) {
         User user = userDAO.getById(id);
-        Map<Tournament, Pair> map = null;
+        Map<TournamentDto, Pair> map = null;
         if (user != null) {
             List<Tournament> tours = tournamentDAO.getToursByJudge(user);
 
             map = new HashMap<>();
             for(Tournament t:tours) {
-                map.put(t, new Pair());
+                map.put(transformTournament(t), new Pair());
             }
         }
         return map;
     }
 
     @Override
-    public Map<Tournament, Pair> getByPlayer(int id) {
+    public Map<TournamentDto, Pair> getByPlayer(int id) {
         User user = userDAO.getById(id);
         Map<Tournament, Pair> toursByPlayer = new HashMap<>();
+        Map<TournamentDto, Pair> resultMap = new HashMap<>();
         if (user != null) {
             toursByPlayer = tournamentDAO.getToursByPlayer(user);
         }
 
-
-        return toursByPlayer;
+        for(Tournament t:toursByPlayer.keySet()) {
+            resultMap.put(transformTournament(t), toursByPlayer.get(t));
+        }
+        return resultMap;
     }
 
     public TournamentDAO getTournamentDAO() {
@@ -88,9 +95,13 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     private TournamentDto transformTournament(Tournament tournament) {
+        dateTimeUtils = new DateTimeUtils();
         TournamentDto tournamentDto = new TournamentDto();
+        tournamentDto.setId(tournament.getId());
         tournamentDto.setTitle(tournament.getTitle());
         tournamentDto.setJudge(tournament.getJudge());
+        tournamentDto.setStartDate(dateTimeUtils.parseDate(tournament.getStartTime(), DATE_TIME_FORMAT));
+        tournamentDto.setEndDate(dateTimeUtils.parseDate(tournament.getEndTime(), DATE_TIME_FORMAT));
         return tournamentDto;
     }
 }

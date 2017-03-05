@@ -14,7 +14,7 @@ public interface TournamentModule {
 
     TournamentDto getById(int id);
 
-    Map<Tournament, Pair> getByJudge(int id);
+    Map<TournamentDto, Pair> getByJudge(int id);
 
-    Map<Tournament, Pair> getByPlayer(int id);
+    Map<TournamentDto, Pair> getByPlayer(int id);
 }

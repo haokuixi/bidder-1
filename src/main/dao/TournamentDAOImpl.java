@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +65,9 @@ public class TournamentDAOImpl implements TournamentDAO {
     public List<Tournament> getToursByJudge(User user) {
         Query query = em.createNamedQuery(GET_WHERE_JUDGE);
         query.setParameter(1, user);
-        return query.getResultList();
+        List resultList = query.getResultList();
+        System.out.println(resultList);
+        return resultList;
     }
 
     @Override
