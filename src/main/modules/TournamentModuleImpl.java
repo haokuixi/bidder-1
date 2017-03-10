@@ -4,18 +4,16 @@ import main.dao.PairDAO;
 import main.dao.TournamentDAO;
 import main.dao.UserDAO;
 import main.dto.TournamentDto;
+import main.dto.TournamentMode;
 import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
 import main.utils.DateTimeUtils;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class TournamentModuleImpl implements TournamentModule {
@@ -35,7 +33,7 @@ public class TournamentModuleImpl implements TournamentModule {
         List<Tournament> allTours = tournamentDAO.listAll();
 
         if (!allTours.isEmpty()) {
-            Collections.sort(allTours, (o1, o2) -> (-1)*o1.getEndTime().compareTo(o2.getEndTime()));
+            Collections.sort(allTours, (o1, o2) -> (-1) * o1.getEndTime().compareTo(o2.getEndTime()));
         }
 
         if (TOURS_PER_PAGE * page <= allTours.size()) {
@@ -142,6 +140,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournamentDto.setJudge(tournament.getJudge());
         tournamentDto.setStartDate(dateTimeUtils.parseDate(tournament.getStartTime(), DATE_TIME_FORMAT));
         tournamentDto.setEndDate(dateTimeUtils.parseDate(tournament.getEndTime(), DATE_TIME_FORMAT));
+        tournamentDto.setTournamentMode(TournamentMode.valueOf(tournament.getTournamentMode().toUpperCase()));
         return tournamentDto;
     }
 }

@@ -43,6 +43,9 @@ public class Tournament implements Serializable {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
+    @Column(name = "mode")
+    private String tournamentMode;
+
     public int getId() {
         return id;
     }
@@ -81,6 +84,14 @@ public class Tournament implements Serializable {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getTournamentMode() {
+        return tournamentMode;
+    }
+
+    public void setTournamentMode(String tournamentMode) {
+        this.tournamentMode = tournamentMode;
     }
 
     @Override

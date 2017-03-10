@@ -3,7 +3,6 @@ package main.dto;
 import main.entities.Pair;
 import main.entities.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class TournamentDto {
@@ -15,6 +14,7 @@ public class TournamentDto {
     private Pair currentPair;
     private String startDate;
     private String endDate;
+    private TournamentMode tournamentMode;
 
     public int getId() {
         return id;
@@ -70,6 +70,14 @@ public class TournamentDto {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public TournamentMode getTournamentMode() {
+        return tournamentMode;
+    }
+
+    public void setTournamentMode(TournamentMode tournamentMode) {
+        this.tournamentMode = tournamentMode;
     }
 
     @Override

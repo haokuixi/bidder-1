@@ -1,6 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<style>
+    a.link {
+        color: rgba(34, 85, 99, 0.86);
+        font-weight: bold;
+    }
+
+    td.link {
+        color: rgba(34, 85, 99, 0.86);
+        font-weight: bold;
+    }
+
+    td.text {
+        color: rgba(99, 98, 92, 0.86);
+    }
+</style>
+
 <div class="container">
     <div class="well">
         <div class="panel-heading" align="center">
