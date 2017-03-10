@@ -1,12 +1,20 @@
 package main.validators;
 
+import main.dao.UserDAO;
 import main.dto.UserDto;
+import main.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 public class UserValidator implements Validator {
 
     private static final String WZBS_NZ = "NZ";
+
+    @Autowired
+    @Qualifier("userDAO")
+    UserDAO userDAO;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -17,6 +25,11 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         //login
         String login = ((UserDto)o).getLogin();
+
+        User userByLogin = userDAO.getUserByLogin(login);
+        if(userByLogin != null) {
+            errors.rejectValue("login", "validation.user.login.nonunique");
+        }
 
         if(login.length() < 3) {
             errors.rejectValue("login", "validation.user.login.length");
