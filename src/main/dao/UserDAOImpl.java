@@ -11,17 +11,19 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository("userRepository")
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
     private static final String GET_ALL_QUERY = "getAllUsers";
     private static final String GET_BY_LOGIN = "getByLogin";
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
-    @PersistenceContext(type= PersistenceContextType.TRANSACTION)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     @Qualifier(value = "entityManager")
     private EntityManager em;
 
@@ -70,9 +72,17 @@ public class UserDAOImpl implements UserDAO{
         Query query = em.createNamedQuery(GET_BY_LOGIN);
         query.setParameter(1, login);
         try {
-            return new BCryptPasswordEncoder().matches(password, ((User)query.getSingleResult()).getPassword());
+            return new BCryptPasswordEncoder().matches(password, ((User) query.getSingleResult()).getPassword());
         } catch (NoResultException nre) {
             return false;
         }
+    }
+
+    @Transactional
+    public Long countUsers() {
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        cq.select(qb.count(cq.from(User.class)));
+        return em.createQuery(cq).getSingleResult();
     }
 }

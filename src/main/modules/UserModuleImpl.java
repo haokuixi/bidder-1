@@ -6,18 +6,39 @@ import main.dto.WzbsDto;
 import main.entities.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class UserModuleImpl implements UserModule {
 
     private static final String WZBS_NZ = "NZ";
     private static final String ROLE_USER = "ROLE_USER";
+    private static final int USER_PER_PAGE = 10;
     UserDAO userDAO;
     WzbsModule wzbsModule;
 
     @Override
-    public List<User> getUserList() {
-        return userDAO.listAll();
+    public List<User> getUserList(int page) {
+        List<User> allUsers = userDAO.listAll();
+        Collator collator = Collator.getInstance(Locale.ENGLISH);
+        if (!allUsers.isEmpty()) {
+            Collections.sort(allUsers, (u1, u2) -> collator.compare(u1.getLogin(), u2.getLogin()));
+        }
+
+        if (USER_PER_PAGE * page <= allUsers.size()) {
+            int from = USER_PER_PAGE * (page - 1) + 1;
+            int to = USER_PER_PAGE * page;
+            return allUsers.subList(from, to);
+        } else if (USER_PER_PAGE * (page - 1) < allUsers.size()) {
+            int from = USER_PER_PAGE * (page - 1) + 1;
+            int to = allUsers.size() - 1;
+            return allUsers.subList(from, to);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
@@ -34,6 +55,11 @@ public class UserModuleImpl implements UserModule {
             loggedUser.setSurname(user.getLastName());
         }
         userDAO.update(loggedUser);
+    }
+
+    @Override
+    public Long countUsers() {
+        return userDAO.countUsers();
     }
 
     @Override
@@ -101,4 +127,6 @@ public class UserModuleImpl implements UserModule {
     public boolean isValidUser(String login, String password) {
         return userDAO.isValidUser(login, password);
     }
+
+
 }

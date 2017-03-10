@@ -12,7 +12,7 @@ public interface UserService {
 
     void updateUser(User loggedUser, UserDto u);
 
-    List<User> listUsers();
+    List<User> listUsers(int page);
 
     boolean isValidUser(String login, String password);
 
@@ -23,4 +23,6 @@ public interface UserService {
     User transformUser(UserDto userDto, boolean isValid);
 
     UserDto transformUser(User user);
+
+    Long countUsers();
 }

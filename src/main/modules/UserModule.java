@@ -6,7 +6,7 @@ import main.entities.User;
 import java.util.List;
 
 public interface UserModule {
-    List<User> getUserList();
+    List<User> getUserList(int page);
 
     void saveUser(UserDto user);
 
@@ -21,4 +21,6 @@ public interface UserModule {
     User getById(int id);
 
     UserDto transformUser(User user);
+
+    Long countUsers();
 }

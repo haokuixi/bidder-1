@@ -66,7 +66,6 @@ public class TournamentDAOImpl implements TournamentDAO {
         Query query = em.createNamedQuery(GET_WHERE_JUDGE);
         query.setParameter(1, user);
         List resultList = query.getResultList();
-        System.out.println(resultList);
         return resultList;
     }
 

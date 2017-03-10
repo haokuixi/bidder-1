@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public List<User> listUsers() {
-        return this.userModule.getUserList();
+    public List<User> listUsers(int page) {
+        return this.userModule.getUserList(page);
     }
 
     @Transactional
@@ -58,4 +58,8 @@ public class UserServiceImpl implements UserService {
         return userModule.transformUser(user);
     }
 
+    @Override
+    public Long countUsers() {
+        return userModule.countUsers();
+    }
 }

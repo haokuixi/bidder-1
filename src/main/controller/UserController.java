@@ -1,8 +1,6 @@
 package main.controller;
 
 import main.dto.UserDto;
-import main.entities.Pair;
-import main.entities.Tournament;
 import main.entities.User;
 import main.services.TournamentService;
 import main.services.UserService;
@@ -30,6 +28,8 @@ public class UserController {
     private static final String REGISTER_PAGE = "registerpage";
     private static final String EDIT_PROFILE = "editprofile";
     private static final String USER_PROFILE = "userprofile";
+    private static final int FIRST_PAGE = 1;
+    private static final int USER_PER_PAGE = 10;
 
     @Autowired
     UserValidator validator;
@@ -42,9 +42,11 @@ public class UserController {
 
 
     @RequestMapping(value = "/userlist", method = RequestMethod.GET)
-    public ModelAndView userList() {
+    public ModelAndView userList(@RequestParam int page) {
         ModelAndView model = new ModelAndView();
-        model.addObject("users", userService.listUsers());
+        model.addObject("users", userService.listUsers(page));
+        model.addObject("pages", (int) Math.ceil((double) userService.countUsers() / (double) USER_PER_PAGE));
+        model.addObject("page", page);
         model.setViewName(USER_LIST);
         return model;
     }
@@ -70,7 +72,7 @@ public class UserController {
         }
 
         userService.registerUser(user);
-        model.addObject("users", userService.listUsers());
+        model.addObject("users", userService.listUsers(FIRST_PAGE));
         model.setViewName(USER_LIST);
         return model;
     }
