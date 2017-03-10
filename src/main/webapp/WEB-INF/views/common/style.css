@@ -1,0 +1,8 @@
+h2.list {
+    color: rgba(99, 88, 85, 0.86);
+}
+
+thead.header {
+    color: rgba(99, 88, 85, 0.86);
+    background-color: rgba(58, 47, 45, 0.14);
+}

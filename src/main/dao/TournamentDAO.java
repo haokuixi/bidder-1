@@ -22,4 +22,6 @@ public interface TournamentDAO {
     List<Tournament> getToursByJudge(User user);
 
     Map<Tournament, Pair> getToursByPlayer(User user);
+
+    Long countTours();
 }

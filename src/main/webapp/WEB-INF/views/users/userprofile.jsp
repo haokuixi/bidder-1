@@ -1,26 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<style>
-    h2.list {
-        color: rgba(99, 88, 85, 0.86);
-    }
-
-    thead.header {
-        color: rgba(99, 88, 85, 0.86);
-        background-color: rgba(58, 47, 45, 0.14);
-    }
-
-    a.link {
-        color: rgba(34, 85, 99, 0.86);
-        font-weight: bold;
-    }
-
-    td.text {
-        color: rgba(99, 98, 92, 0.86);
-    }
-</style>
-
 <div class="container">
     <div class="well">
         <div class="panel-heading" align="center">
@@ -101,17 +81,20 @@
                 <tr>
                     <td align="center"><span class="ionicons ion-trophy"></span></td>
                     <td>
-                        <a class="link" href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.id}">${tour.key.title}</a>
+                        <a class="link"
+                           href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.id}">${tour.key.title}</a>
                     </td>
                     <c:choose>
                         <c:when test="${user.id==tour.value.playerOne.id}">
                             <td>
-                                <a class="link" href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.id}">${tour.value.playerTwo.surname}</a>
+                                <a class="link"
+                                   href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.id}">${tour.value.playerTwo.surname}</a>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td>
-                                <a class="link" href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.id}">${tour.value.playerOne.surname}</a>
+                                <a class="link"
+                                   href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.id}">${tour.value.playerOne.surname}</a>
                             </td>
                         </c:otherwise>
                     </c:choose>

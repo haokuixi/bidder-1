@@ -3,17 +3,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <style>
-    h2.list {
-        color: rgba(99, 88, 85, 0.86);
-    }
-    thead.header {
-        color: rgba(99, 88, 85, 0.86);
-        background-color: rgba(58, 47, 45, 0.14);
-    }
-    a.login {
+    a.link {
         color: rgba(34, 85, 99, 0.86);
         font-weight: bold;
     }
+
+    td.link {
+        color: rgba(34, 85, 99, 0.86);
+        font-weight: bold;
+    }
+
     td.text {
         color: rgba(99, 98, 92, 0.86);
     }
@@ -35,7 +34,8 @@
         <tbody>
         <c:forEach var="user" items="${users}">
             <tr>
-                <td><a class="login" href="${pageContext.request.contextPath}/users/user?userId=${user.id}">${user.login}</a></td>
+                <td><a class="link"
+                       href="${pageContext.request.contextPath}/users/user?userId=${user.id}">${user.login}</a></td>
                 <td class="text">${user.name}</td>
                 <td class="text">${user.surname}</td>
                 <td class="text">${user.pzbsId}</td>

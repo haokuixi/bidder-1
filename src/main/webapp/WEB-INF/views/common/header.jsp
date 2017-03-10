@@ -5,7 +5,7 @@
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 </head>
 <body>
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                 <li><a href="${pageContext.request.contextPath}/users/userlist?page=1">Użytkownicy</a></li>
-                <li><a href="${pageContext.request.contextPath}/tournaments/tourlist">Turnieje</a></li>
+                <li><a href="${pageContext.request.contextPath}/tournaments/tourlist?page=1">Turnieje</a></li>
             </ul>
 
             <c:choose>

@@ -29,7 +29,7 @@ public class UserController {
     private static final String EDIT_PROFILE = "editprofile";
     private static final String USER_PROFILE = "userprofile";
     private static final int FIRST_PAGE = 1;
-    private static final int USER_PER_PAGE = 10;
+    private static final double USER_PER_PAGE = 10;
 
     @Autowired
     UserValidator validator;
@@ -45,7 +45,7 @@ public class UserController {
     public ModelAndView userList(@RequestParam int page) {
         ModelAndView model = new ModelAndView();
         model.addObject("users", userService.listUsers(page));
-        model.addObject("pages", (int) Math.ceil((double) userService.countUsers() / (double) USER_PER_PAGE));
+        model.addObject("pages", (int) Math.ceil((double) userService.countUsers() / USER_PER_PAGE));
         model.addObject("page", page);
         model.setViewName(USER_LIST);
         return model;

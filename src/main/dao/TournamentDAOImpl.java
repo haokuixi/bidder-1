@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -77,8 +79,16 @@ public class TournamentDAOImpl implements TournamentDAO {
         Map<Tournament, Pair> map = new HashMap<>();
         for (Object result : resultList) {
             Object[] values = (Object[]) result;
-            map.put((Tournament)values[0], (Pair)values[1]);
+            map.put((Tournament) values[0], (Pair) values[1]);
         }
         return map;
+    }
+
+    @Override
+    public Long countTours() {
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        cq.select(qb.count(cq.from(Tournament.class)));
+        return em.createQuery(cq).getSingleResult();
     }
 }
