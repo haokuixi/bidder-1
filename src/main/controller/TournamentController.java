@@ -14,14 +14,17 @@ public class TournamentController {
 
     public static final String TOURNAMENT_LIST = "tournamentlist";
     public static final String TOURNAMENT = "tournament";
+    public static final double TOURS_PER_PAGE = 10;
 
     @Autowired
     TournamentService tournamentService;
 
     @RequestMapping(value = "/tourlist", method = RequestMethod.GET)
-    public ModelAndView getTournamentList() {
+    public ModelAndView getTournamentList(@RequestParam int page) {
         ModelAndView model = new ModelAndView();
-        model.addObject("tourlist", tournamentService.listTournament());
+        model.addObject("tourlist", tournamentService.listTournament(page));
+        model.addObject("pages", (int) Math.ceil((double) tournamentService.countTours() / TOURS_PER_PAGE));
+        model.addObject("page", page);
         model.setViewName(TOURNAMENT_LIST);
         return model;
     }

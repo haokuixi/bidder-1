@@ -33,8 +33,11 @@ public class UserModuleImpl implements UserModule {
             int to = USER_PER_PAGE * page;
             return allUsers.subList(from, to);
         } else if (USER_PER_PAGE * (page - 1) < allUsers.size()) {
-            int from = USER_PER_PAGE * (page - 1) + 1;
-            int to = allUsers.size() - 1;
+            int from = 0;
+            if (page > 1) {
+                from = USER_PER_PAGE * (page - 1) + 1;
+            }
+            int to = allUsers.size();
             return allUsers.subList(from, to);
         } else {
             return new ArrayList<>();
