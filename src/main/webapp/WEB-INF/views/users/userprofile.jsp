@@ -1,9 +1,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<style>
+    h2.list {
+        color: rgba(99, 88, 85, 0.86);
+    }
+
+    thead.header {
+        color: rgba(99, 88, 85, 0.86);
+        background-color: rgba(58, 47, 45, 0.14);
+    }
+
+    a.link {
+        color: rgba(34, 85, 99, 0.86);
+        font-weight: bold;
+    }
+
+    td.text {
+        color: rgba(99, 98, 92, 0.86);
+    }
+</style>
+
 <div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+    <div class="well">
+        <div class="panel-heading" align="center">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">${user.name} ${user.surname}</h3>
@@ -33,23 +53,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-
-                            <a href="#" class="btn btn-primary">My Sales Performance</a>
-                            <a href="#" class="btn btn-primary">Team Sales Performance</a>
                         </div>
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
-                       class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-                    <span class="pull-right">
-                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button"
-                               class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
-                               class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                        </span>
-                </div>
-
             </div>
         </div>
     </div>
@@ -57,76 +63,78 @@
 
 <div class="container">
 
-    <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
+    <div class="well">
+        <div class="panel-heading" align="center">
+            <c:choose>
+                <c:when test="${user.judge==true}">
+                    <h2 class="list"><spring:message code="label.user.judgetours"/></h2>
+                </c:when>
+                <c:otherwise>
+                    <h2 class="list"><spring:message code="label.user.playedtours"/></h2>
+                </c:otherwise>
+            </c:choose>
 
-
+        </div>
+        <table class="table">
+            <thead class="header">
+            <tr class="header-panel">
+                <th width="5%"></th>
+                <th><spring:message code="label.tournament.title"/></th>
                 <c:choose>
-                    <c:when test="${user.judge==true}">
-                        <h3 class="panel-title"><spring:message code="label.user.judgetours"/></h3>
+                    <c:when test="${user.judge==false}">
+                        <th><spring:message code="label.tournament.partner"/></th>
+                        <th><spring:message code="label.tournament.result"/></th>
+                        <th><spring:message code="label.tournament.startdate"/></th>
+                        <th><spring:message code="label.tournament.enddate"/></th>
                     </c:when>
                     <c:otherwise>
-                        <h3 class="panel-title"><spring:message code="label.user.playedtours"/></h3>
+                        <th/>
+                        <th/>
+                        <th><spring:message code="label.tournament.startdate"/></th>
+                        <th><spring:message code="label.tournament.enddate"/></th>
                     </c:otherwise>
                 </c:choose>
-
-            </div>
-            <table class="table">
-                <thead>
-                <tr class="header-panel">
-                    <th width="5%"></th>
-                    <th><spring:message code="label.tournament.title"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${tours}" var="tour">
+                <tr>
+                    <td align="center"><span class="ionicons ion-trophy"></span></td>
+                    <td>
+                        <a class="link" href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.id}">${tour.key.title}</a>
+                    </td>
                     <c:choose>
-                        <c:when test="${user.judge==false}">
-                            <th><spring:message code="label.tournament.partner"/></th>
-                            <th><spring:message code="label.tournament.result"/></th>
-                            <th><spring:message code="label.tournament.startdate"/></th>
-                            <th><spring:message code="label.tournament.enddate"/></th>
+                        <c:when test="${user.id==tour.value.playerOne.id}">
+                            <td>
+                                <a class="link" href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.id}">${tour.value.playerTwo.surname}</a>
+                            </td>
                         </c:when>
+                        <c:otherwise>
+                            <td>
+                                <a class="link" href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.id}">${tour.value.playerOne.surname}</a>
+                            </td>
+                        </c:otherwise>
                     </c:choose>
+                    <c:choose>
+                        <c:when test="${tour.value.maxResult==null}">
+                            <c:choose>
+                                <c:when test="${tour.value.impResult==null}">
+                                    <td/>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="text">${tour.value.impResult} IMP</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <td class="text">${tour.value.maxResult} %</td>
+                        </c:otherwise>
+                    </c:choose>
+                    <td class="text">${tour.key.startDate}</td>
+                    <td class="text">${tour.key.endDate}</td>
                 </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${tours}" var="tour">
-                    <tr>
-                        <td align="center"><span class="ionicons ion-trophy"></span></td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.id}">${tour.key.title}</a>
-                        </td>
-                        <c:choose>
-                            <c:when test="${user.id==tour.value.playerOne.id}">
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.id}">${tour.value.playerTwo.surname}</a>
-                                </td>
-                            </c:when>
-                            <c:otherwise>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.id}">${tour.value.playerOne.surname}</a>
-                                </td>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${tour.value.maxResult==null}">
-                                <c:choose>
-                                    <c:when test="${tour.value.impResult==null}">
-                                        <td/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td>${tour.value.impResult} IMP</td>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:when>
-                            <c:otherwise>
-                                <td>${tour.value.maxResult} %</td>
-                            </c:otherwise>
-                        </c:choose>
-                        <td>${tour.key.startDate}</td>
-                        <td>${tour.key.endDate}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
 </div>
