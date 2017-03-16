@@ -70,6 +70,7 @@
     </bean>
 
     <bean id="userValidator" class="main.validators.UserValidator"/>
+    <bean id="editUserValidator" class="main.validators.EditUserValidator"/>
     <bean id="loginValidator" class="main.validators.LoginValidator"/>
 
 

@@ -51,11 +51,17 @@ public class UserModuleImpl implements UserModule {
 
     @Override
     public void updateUser(User loggedUser, UserDto user) {
-        if (!loggedUser.getName().equals(user.getFirstName())) {
+        if (user.getFirstName() != null && !loggedUser.getName().equals(user.getFirstName())) {
             loggedUser.setName(user.getFirstName());
         }
-        if (!loggedUser.getSurname().equals(user.getLastName())) {
+        if (user.getLastName() != null && !loggedUser.getSurname().equals(user.getLastName())) {
             loggedUser.setSurname(user.getLastName());
+        }
+        if (user.getWzbs() != null && !loggedUser.getWzbs().getShortName().equals(user.getWzbs().getShortName())) {
+            loggedUser.setWzbs(wzbsModule.getWzbsByShortName(user.getWzbs().getShortName()));
+        }
+        if (user.getPzbsId() != null && loggedUser.getPzbsId() != user.getPzbsId()) {
+            loggedUser.setPzbsId(user.getPzbsId());
         }
         userDAO.update(loggedUser);
     }

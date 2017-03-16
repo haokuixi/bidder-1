@@ -123,16 +123,3 @@
         </table>
     </div>
 </div>
-
-
-<c:forEach var="pair" items="${tour.pairs}">
-
-    <tr>
-        <td>
-            <a href="${pageContext.request.contextPath}/users/user?userId=${pair.playerOne.id}">${pair.playerOne.surname}</a>
-        </td>
-        <td>
-            <a href="${pageContext.request.contextPath}/users/user?userId=${pair.playerTwo.id}">${pair.playerTwo.surname}</a>
-        </td>
-    </tr>
-</c:forEach>

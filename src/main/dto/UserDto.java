@@ -10,7 +10,7 @@ public class UserDto {
     private String password;
     private String repeatedPassword;
     private WzbsDto wzbs;
-    private int pzbsId;
+    private Integer pzbsId;
     private String role;
     private boolean judge;
 
@@ -20,7 +20,7 @@ public class UserDto {
 
     }
 
-    public UserDto(String login, String firstName, String lastName, String password, WzbsDto wzbs, int pzbsId, String role, WzbsModule wzbsModule) {
+    public UserDto(String login, String firstName, String lastName, String password, WzbsDto wzbs, Integer pzbsId, String role, WzbsModule wzbsModule) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -79,11 +79,11 @@ public class UserDto {
         this.wzbs = wzbs;
     }
 
-    public int getPzbsId() {
+    public Integer getPzbsId() {
         return pzbsId;
     }
 
-    public void setPzbsId(int pzbsId) {
+    public void setPzbsId(Integer pzbsId) {
         this.pzbsId = pzbsId;
     }
 

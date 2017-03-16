@@ -5,6 +5,7 @@ import main.entities.User;
 import main.services.TournamentService;
 import main.services.UserService;
 import main.services.WzbsService;
+import main.validators.EditUserValidator;
 import main.validators.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ public class UserController {
     private static final double USER_PER_PAGE = 10;
 
     @Autowired
-    UserValidator validator;
+    UserValidator userValidator;
+    @Autowired
+    EditUserValidator editUserValidator;
     @Autowired
     private UserService userService;
     @Autowired
@@ -63,7 +66,7 @@ public class UserController {
 
     @RequestMapping(value = "registerPage", method = RequestMethod.POST)
     public ModelAndView registerPage(@ModelAttribute("user") UserDto user, BindingResult bindingResult, ModelAndView model) {
-        validator.validate(user, bindingResult);
+        this.userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             model.addObject("wzbsList", wzbsService.getAll());
@@ -90,7 +93,18 @@ public class UserController {
     @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
     public ModelAndView editProfilePage(@ModelAttribute("user") UserDto user, BindingResult bindingResult,
                                         ModelAndView model, HttpServletRequest request) {
-        userService.updateUser((User) request.getSession().getAttribute("loggedUser"), user);
+
+        this.editUserValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addObject("wzbsList", wzbsService.getAll());
+            model.setViewName(EDIT_PROFILE);
+            return model;
+        }
+
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        userService.updateUser(loggedUser, user);
+        model.addObject("user", userService.transformUser(userService.getUserByLogin(loggedUser.getLogin())));
         model.addObject("wzbsList", wzbsService.getAll());
         model.setViewName(EDIT_PROFILE);
         return model;
