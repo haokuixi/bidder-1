@@ -10,7 +10,7 @@ import java.util.Map;
 public interface TournamentModule {
     List<Tournament> getTournamentList(int page);
 
-    void saveTournament(Tournament tournament);
+    void saveTournament(TournamentDto tournament);
 
     TournamentDto getById(int id);
 

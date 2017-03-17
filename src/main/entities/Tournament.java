@@ -33,6 +33,9 @@ public class Tournament implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "judge")
     private User judge;
@@ -60,6 +63,14 @@ public class Tournament implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public User getJudge() {
@@ -99,7 +110,11 @@ public class Tournament implements Serializable {
         return "Tournament{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", judge=" + judge +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", tournamentMode='" + tournamentMode + '\'' +
                 '}';
     }
 }

@@ -33,7 +33,7 @@ public class TournamentModuleImpl implements TournamentModule {
         List<Tournament> allTours = tournamentDAO.listAll();
 
         if (!allTours.isEmpty()) {
-            Collections.sort(allTours, (o1, o2) -> (-1) * o1.getEndTime().compareTo(o2.getEndTime()));
+            Collections.sort(allTours, (o1, o2) -> (-1) * o1.getStartTime().compareTo(o2.getStartTime()));
         }
 
         if (TOURS_PER_PAGE * page <= allTours.size()) {
@@ -53,8 +53,8 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public void saveTournament(Tournament tournament) {
-        tournamentDAO.create(tournament);
+    public void saveTournament(TournamentDto tournament) {
+        tournamentDAO.create(transformTournament(tournament));
     }
 
     @Override
@@ -137,10 +137,26 @@ public class TournamentModuleImpl implements TournamentModule {
         TournamentDto tournamentDto = new TournamentDto();
         tournamentDto.setId(tournament.getId());
         tournamentDto.setTitle(tournament.getTitle());
+        tournamentDto.setDescription(tournament.getDescription());
         tournamentDto.setJudge(tournament.getJudge());
-        tournamentDto.setStartDate(dateTimeUtils.parseDate(tournament.getStartTime(), DATE_TIME_FORMAT));
-        tournamentDto.setEndDate(dateTimeUtils.parseDate(tournament.getEndTime(), DATE_TIME_FORMAT));
+        if (tournament.getStartTime() != null) {
+            tournamentDto.setStartDate(dateTimeUtils.parseDate(tournament.getStartTime(), DATE_TIME_FORMAT));
+        }
+        if (tournament.getEndTime() != null) {
+            tournamentDto.setEndDate(dateTimeUtils.parseDate(tournament.getEndTime(), DATE_TIME_FORMAT));
+        }
         tournamentDto.setTournamentMode(TournamentMode.valueOf(tournament.getTournamentMode().toUpperCase()));
         return tournamentDto;
+    }
+
+    private Tournament transformTournament(TournamentDto tournamentDto) {
+        dateTimeUtils = new DateTimeUtils();
+        Tournament tournament = new Tournament();
+        tournament.setTitle(tournamentDto.getTitle());
+        tournament.setJudge(tournamentDto.getJudge());
+        tournament.setStartTime(dateTimeUtils.parseDate(tournamentDto.getStartDate(), DATE_TIME_FORMAT));
+        tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
+        tournament.setDescription(tournamentDto.getDescription());
+        return tournament;
     }
 }

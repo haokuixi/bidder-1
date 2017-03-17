@@ -4,6 +4,7 @@ import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.Tournament;
 import main.modules.TournamentModule;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,8 @@ public class TournamentServiceImpl implements TournamentService {
 
     TournamentModule tournamentModule;
 
-    @Override
-    public void addTournament(Tournament t) {
+    @Transactional
+    public void addTournament(TournamentDto t) {
         tournamentModule.saveTournament(t);
     }
 

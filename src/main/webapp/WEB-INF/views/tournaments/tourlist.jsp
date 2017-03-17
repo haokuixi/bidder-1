@@ -15,10 +15,24 @@
     td.text {
         color: rgba(99, 98, 92, 0.86);
     }
+
+    a.button {
+        width: 200px;
+    }
 </style>
 
 <div class="well">
     <h2 align="center" class="list"><spring:message code="label.tournament.tournaments"/></h2>
+
+    <c:choose>
+        <c:when test="${sessionScope.get('loggedUser').judge}">
+            <a class="btn btn-primary btn-block login-button button"
+               href="${pageContext.request.contextPath}/tournaments/create">
+                <spring:message code="label.form.createtour"/>
+            </a>
+        </c:when>
+    </c:choose>
+
     <table class="table">
         <thead class="header">
         <tr>
@@ -31,7 +45,8 @@
         <tbody>
         <c:forEach var="tour" items="${tourlist}">
             <tr>
-                <td class="link"><a class="link" href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}">${tour.title}</a>
+                <td class="link"><a class="link"
+                                    href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}">${tour.title}</a>
                 </td>
                 <td class="text">${tour.judge.surname}</td>
                 <td class="text">${tour.startDate}</td>

@@ -9,10 +9,12 @@ public class TournamentDto {
 
     private int id;
     private String title;
+    private String description;
     private User judge;
     private List<Pair> pairs;
     private Pair currentPair;
     private String startDate;
+    private String startTime;
     private String endDate;
     private TournamentMode tournamentMode;
 
@@ -30,6 +32,14 @@ public class TournamentDto {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public User getJudge() {
@@ -64,6 +74,14 @@ public class TournamentDto {
         this.startDate = startDate;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
     public String getEndDate() {
         return endDate;
     }
@@ -85,11 +103,14 @@ public class TournamentDto {
         return "TournamentDto{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", judge=" + judge +
                 ", pairs=" + pairs +
                 ", currentPair=" + currentPair +
                 ", startDate='" + startDate + '\'' +
+                ", startTime='" + startTime + '\'' +
                 ", endDate='" + endDate + '\'' +
+                ", tournamentMode=" + tournamentMode +
                 '}';
     }
 }

@@ -25,11 +25,10 @@ public class TournamentDAOImpl implements TournamentDAO {
     private static final String GET_WHERE_PLAYER = "getWherePlayer";
     private static Logger LOGGER = Logger.getLogger(TournamentDAOImpl.class);
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     @Qualifier(value = "entityManager")
     private EntityManager em;
 
-    @Transactional
     public void create(Tournament t) {
         em.persist(t);
         LOGGER.info("Tournament saved successfully");

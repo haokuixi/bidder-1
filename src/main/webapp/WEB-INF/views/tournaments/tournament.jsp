@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style>
     a.link {
@@ -58,6 +59,14 @@
                                                 <spring:message code="label.tournament.mode.percent"/>
                                             </c:otherwise>
                                         </c:choose>
+                                    </td>
+                                </tr>
+                                <tr align="center">
+                                    <td class="text">
+                                        <spring:message code="label.tournament.description"/>
+                                    </td>
+                                    <td class="text">
+                                        ${tour.description}
                                     </td>
                                 </tr>
                                 </tbody>

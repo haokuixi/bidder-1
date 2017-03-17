@@ -72,6 +72,7 @@
     <bean id="userValidator" class="main.validators.UserValidator"/>
     <bean id="editUserValidator" class="main.validators.EditUserValidator"/>
     <bean id="loginValidator" class="main.validators.LoginValidator"/>
+    <bean id="tournamentValidator" class="main.validators.TournamentValidator"/>
 
 
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
