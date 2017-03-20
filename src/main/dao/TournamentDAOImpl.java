@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 @Repository("tournamentRepository")
 public class TournamentDAOImpl implements TournamentDAO {
     private static final String GET_ALL_QUERY = "getAllTournaments";
@@ -25,8 +25,8 @@ public class TournamentDAOImpl implements TournamentDAO {
     private static final String GET_WHERE_PLAYER = "getWherePlayer";
     private static Logger LOGGER = Logger.getLogger(TournamentDAOImpl.class);
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
-    @Qualifier(value = "entityManager")
+    @PersistenceContext
+    @Qualifier(value = "transactionManager")
     private EntityManager em;
 
     public void create(Tournament t) {
@@ -34,20 +34,20 @@ public class TournamentDAOImpl implements TournamentDAO {
         LOGGER.info("Tournament saved successfully");
     }
 
-    @Transactional
+    @Override
     public Tournament getById(int id) {
         Tournament t = em.find(Tournament.class, id);
         LOGGER.info("Tournament read successfully");
         return t;
     }
 
-    @Transactional
-    public Tournament update(Tournament t) {
+    @Override
+    public void update(Tournament t) {
         LOGGER.info("Tournament updating");
-        return em.merge(t);
+        em.persist(t);
     }
 
-    @Transactional
+    @Override
     public void remove(int id) {
         Tournament t = em.find(Tournament.class, id);
 

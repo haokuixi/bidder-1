@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Controller
@@ -42,7 +43,31 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tour", method = RequestMethod.GET)
-    public ModelAndView getTournament(@RequestParam int tourId) {
+    public ModelAndView getTournament(@RequestParam(value = "tourId") int tourId) {
+        ModelAndView model = new ModelAndView();
+        model.addObject("tour", tournamentService.getById(tourId));
+        model.setViewName(TOURNAMENT);
+        return model;
+    }
+
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate"})
+    public ModelAndView setStartDate(HttpServletRequest request) {
+        int tourId = Integer.parseInt(request.getParameter("tourId"));
+
+        tournamentService.setTournamentStartDate(tourId, LocalDateTime.now());
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("tour", tournamentService.getById(tourId));
+        model.setViewName(TOURNAMENT);
+        return model;
+    }
+
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"endDate", "!startDate"})
+    public ModelAndView setEndDate(HttpServletRequest request) {
+        int tourId = Integer.parseInt(request.getParameter("tourId"));
+
+        tournamentService.setTournamentEndDate(tourId, LocalDateTime.now());
+
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getById(tourId));
         model.setViewName(TOURNAMENT);

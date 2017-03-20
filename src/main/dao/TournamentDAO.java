@@ -13,7 +13,7 @@ public interface TournamentDAO {
 
     Tournament getById(int id);
 
-    Tournament update(Tournament t);
+    void update(Tournament t);
 
     void remove(int id);
 

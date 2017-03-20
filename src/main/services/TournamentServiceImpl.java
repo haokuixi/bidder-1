@@ -6,6 +6,7 @@ import main.entities.Tournament;
 import main.modules.TournamentModule;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,16 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Long countTours() {
         return tournamentModule.countTours();
+    }
+
+    @Override
+    public void setTournamentStartDate(int tourId, LocalDateTime startDate) {
+        tournamentModule.setTournamentStartDate(tourId, startDate);
+    }
+
+    @Override
+    public void setTournamentEndDate(int tourId, LocalDateTime endDate) {
+        tournamentModule.setTournamentEndDate(tourId, endDate);
     }
 
     public TournamentModule getTournamentModule() {

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class WzbsDAOImpl implements WzbsDAO {
     private static final String GET_BY_SHORT_NAME = "getByShortName";
     private static Logger LOGGER = Logger.getLogger(WzbsDAOImpl.class);
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @PersistenceContext
     @Qualifier(value = "entityManager")
     private EntityManager em;
 

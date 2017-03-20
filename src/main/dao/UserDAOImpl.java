@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Repository("userRepository")
 public class UserDAOImpl implements UserDAO {
 
@@ -23,8 +23,8 @@ public class UserDAOImpl implements UserDAO {
     private static final String GET_BY_LOGIN = "getByLogin";
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
-    @Qualifier(value = "entityManager")
+    @PersistenceContext
+    @Qualifier(value = "transactionManager")
     private EntityManager em;
 
     public void create(User e) {
@@ -32,20 +32,20 @@ public class UserDAOImpl implements UserDAO {
         LOGGER.info("User saved successfully");
     }
 
-    @Transactional
+    @Override
     public User getById(int id) {
         User u = em.find(User.class, id);
         LOGGER.info("User read successfully");
         return u;
     }
 
-    @Transactional
+    @Override
     public User update(User u) {
         LOGGER.info("User updating");
         return em.merge(u);
     }
 
-    @Transactional
+    @Override
     public void remove(int id) {
         User u = em.find(User.class, id);
 
@@ -60,14 +60,14 @@ public class UserDAOImpl implements UserDAO {
         return query.getResultList();
     }
 
-    @Transactional
+    @Override
     public User getUserByLogin(String login) {
         Query query = em.createNamedQuery(GET_BY_LOGIN);
         query.setParameter(1, login);
         return (User) query.getSingleResult();
     }
 
-    @Transactional
+    @Override
     public boolean isValidUser(String login, String password) {
         Query query = em.createNamedQuery(GET_BY_LOGIN);
         query.setParameter(1, login);
@@ -78,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    @Transactional
+    @Override
     public Long countUsers() {
         CriteriaBuilder qb = em.getCriteriaBuilder();
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);

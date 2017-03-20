@@ -2,10 +2,13 @@ package main.services;
 
 import main.dto.TournamentDto;
 import main.entities.Pair;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 public interface TournamentService {
 
     void addTournament(TournamentDto t);
@@ -19,4 +22,8 @@ public interface TournamentService {
     Map<TournamentDto, Pair> getByPlayer(int id);
 
     Long countTours();
+
+    void setTournamentStartDate(int tourId, LocalDateTime startDate);
+
+    void setTournamentEndDate(int tourId, LocalDateTime endDate);
 }

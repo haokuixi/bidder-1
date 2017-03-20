@@ -69,8 +69,60 @@
                                         ${tour.description}
                                     </td>
                                 </tr>
+                                <tr align="center">
+                                    <td class="text">
+                                        <spring:message code="label.tournament.startdate"/>
+                                    </td>
+                                    <td class="text">
+                                        <c:choose>
+                                            <c:when test="${tour.startDate!=null}">
+                                                ${tour.startDate}
+                                            </c:when>
+                                        </c:choose>
+                                    </td>
+                                </tr>
+                                <tr align="center">
+                                    <td class="text">
+                                        <spring:message code="label.tournament.enddate"/>
+                                    </td>
+                                    <td class="text">
+                                        <c:choose>
+                                            <c:when test="${tour.endDate!=null}">
+                                                ${tour.endDate}
+                                            </c:when>
+                                        </c:choose>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
+
+                            <form:form action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}"
+                                       methodParam="tourId" method="post">
+                                <c:choose>
+                                    <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)}">
+                                        <c:choose>
+                                            <c:when test="${tour.startDate==null or tour.startDate.length()==0}">
+                                                <button type="submit"
+                                                        class="btn btn-primary btn-lg btn-block login-button"
+                                                        name="startDate" value="startDate">
+                                                    Rozpocznij turniej
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${tour.endDate==null or tour.endDate.length()==0}">
+                                                        <button type="submit"
+                                                                class="btn btn-primary btn-lg btn-block login-button"
+                                                                name="endDate" value="endDate">
+                                                            Zakończ turniej
+                                                        </button>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                </c:choose>
+                            </form:form>
                         </div>
                     </div>
                 </div>

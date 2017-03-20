@@ -7,30 +7,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class UserServiceImpl implements UserService {
     private UserModule userModule;
 
-    @Transactional
+    @Override
     public void registerUser(UserDto u) {
         this.userModule.saveUser(u);
     }
 
-    @Transactional
+    @Override
     public void updateUser(User loggedUser, UserDto u) {
         this.userModule.updateUser(loggedUser, u);
     }
 
-    @Transactional
+    @Override
     public List<User> listUsers(int page) {
         return this.userModule.getUserList(page);
     }
 
-    @Transactional
+    @Override
     public User getUserByLogin(String login) {
         return this.userModule.getUserByLogin(login);
     }
 
-    @Transactional
+    @Override
     public User getUserById(int id) {
         return this.userModule.getById(id);
     }

@@ -10,6 +10,7 @@ import main.entities.Tournament;
 import main.entities.User;
 import main.utils.DateTimeUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,6 +56,24 @@ public class TournamentModuleImpl implements TournamentModule {
     @Override
     public void saveTournament(TournamentDto tournament) {
         tournamentDAO.create(transformTournament(tournament));
+    }
+
+    @Override
+    public void updateTournament(int tourId, TournamentDto tournament) {
+        dateTimeUtils = new DateTimeUtils();
+        Tournament t = tournamentDAO.getById(tourId);
+
+        String startDate = tournament.getStartDate();
+        String endDate = tournament.getEndDate();
+        LocalDateTime currentStartDate = t.getStartTime();
+        LocalDateTime currentEndDate = t.getEndTime();
+
+        if (currentStartDate == null && !startDate.isEmpty()) {
+            t.setStartTime(dateTimeUtils.parseDate(startDate, DATE_TIME_FORMAT));
+        } else if (currentEndDate == null && !endDate.isEmpty()) {
+            t.setEndTime(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
+        }
+        tournamentDAO.update(t);
     }
 
     @Override
@@ -106,6 +125,32 @@ public class TournamentModuleImpl implements TournamentModule {
             result.add(transformTournament(t));
         }
         return result;
+    }
+
+    @Override
+    public void setTournamentStartDate(int tourId, LocalDateTime startDate) {
+        dateTimeUtils = new DateTimeUtils();
+        TournamentDto t = getById(tourId);
+
+        if (startDate == null) {
+            startDate = LocalDateTime.now();
+        }
+
+        t.setStartDate(dateTimeUtils.parseDate(startDate, DATE_TIME_FORMAT));
+        updateTournament(tourId, t);
+    }
+
+    @Override
+    public void setTournamentEndDate(int tourId, LocalDateTime endDate) {
+        dateTimeUtils = new DateTimeUtils();
+        TournamentDto t = getById(tourId);
+
+        if (endDate == null) {
+            endDate = LocalDateTime.now();
+        }
+
+        t.setEndDate(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
+        updateTournament(tourId, t);
     }
 
     public TournamentDAO getTournamentDAO() {
