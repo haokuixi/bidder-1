@@ -14,9 +14,11 @@ import main.utils.DateTimeUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class TournamentModuleImpl implements TournamentModule {
 
@@ -34,9 +36,18 @@ public class TournamentModuleImpl implements TournamentModule {
     public List<Tournament> getTournamentList(int page) {
         List<Tournament> allTours = tournamentDAO.listAll();
 
-        if (!allTours.isEmpty()) {
-            Collections.sort(allTours, (o1, o2) -> (-1) * o1.getStartTime().compareTo(o2.getStartTime()));
-        }
+        Collections.sort(allTours, (o1, o2) -> {
+            if (o1.getStartTime() == null && o2.getStartTime() == null) {
+                return 0;
+            }
+            if (o1.getStartTime() == null) {
+                return -1;
+            }
+            if (o2.getStartTime() == null) {
+                return 1;
+            }
+            return o1.getStartTime().compareTo(o2.getStartTime());
+        });
 
         if (TOURS_PER_PAGE * page <= allTours.size()) {
             int from = TOURS_PER_PAGE * (page - 1) + 1;
@@ -56,6 +67,7 @@ public class TournamentModuleImpl implements TournamentModule {
 
     @Override
     public void saveTournament(TournamentDto tournament) {
+        tournament.setStatus(TournamentStatus.CREATED);
         tournamentDAO.create(transformTournament(tournament));
     }
 
@@ -73,6 +85,10 @@ public class TournamentModuleImpl implements TournamentModule {
             t.setStartTime(dateTimeUtils.parseDate(startDate, DATE_TIME_FORMAT));
         } else if (currentEndDate == null && !endDate.isEmpty()) {
             t.setEndTime(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
+        }
+
+        if(!tournament.getStatus().getName().equals(t.getStatus())) {
+            t.setStatus(tournament.getStatus().getName());
         }
         tournamentDAO.update(t);
     }
@@ -138,6 +154,7 @@ public class TournamentModuleImpl implements TournamentModule {
         }
 
         t.setStartDate(dateTimeUtils.parseDate(startDate, DATE_TIME_FORMAT));
+        t.setStatus(TournamentStatus.INPROGRESS);
         updateTournament(tourId, t);
     }
 
@@ -151,6 +168,7 @@ public class TournamentModuleImpl implements TournamentModule {
         }
 
         t.setEndDate(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
+        t.setStatus(TournamentStatus.COMPLETED);
         updateTournament(tourId, t);
     }
 

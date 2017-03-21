@@ -3,8 +3,8 @@ package main.dto;
 public enum TournamentStatus {
     CREATED("CREATED"),
     INPROGRESS("INPROGRESS"),
-    SUSPENDED("SUSPENDED"),
-    COMPLETED("COMPLETED");
+    COMPLETED("COMPLETED"),
+    SUSPENDED("SUSPENDED");
 
     private String name;
 

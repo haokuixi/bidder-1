@@ -122,20 +122,20 @@
                                 <c:choose>
                                     <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)}">
                                         <c:choose>
-                                            <c:when test="${tour.startDate==null or tour.startDate.length()==0}">
+                                            <c:when test="${tour.status.name=='CREATED'}">
                                                 <button type="submit"
                                                         class="btn btn-primary btn-lg btn-block login-button"
                                                         name="startDate" value="startDate">
-                                                    Rozpocznij turniej
+                                                    <spring:message code="label.tournament.starttournament"/>
                                                 </button>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:choose>
-                                                    <c:when test="${tour.endDate==null or tour.endDate.length()==0}">
+                                                    <c:when test="${tour.status.name=='INPROGRESS'}">
                                                         <button type="submit"
                                                                 class="btn btn-primary btn-lg btn-block login-button"
                                                                 name="endDate" value="endDate">
-                                                            Zakończ turniej
+                                                            <spring:message code="label.tournament.completetournament"/>
                                                         </button>
                                                     </c:when>
                                                 </c:choose>
