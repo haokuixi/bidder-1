@@ -17,6 +17,7 @@ public class TournamentDto {
     private String startTime;
     private String endDate;
     private TournamentMode tournamentMode;
+    private TournamentStatus status;
 
     public int getId() {
         return id;
@@ -98,6 +99,14 @@ public class TournamentDto {
         this.tournamentMode = tournamentMode;
     }
 
+    public TournamentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TournamentStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "TournamentDto{" +
@@ -111,6 +120,7 @@ public class TournamentDto {
                 ", startTime='" + startTime + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", tournamentMode=" + tournamentMode +
+                ", status=" + status +
                 '}';
     }
 }

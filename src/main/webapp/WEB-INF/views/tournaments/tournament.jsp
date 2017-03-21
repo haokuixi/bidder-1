@@ -71,6 +71,27 @@
                                 </tr>
                                 <tr align="center">
                                     <td class="text">
+                                        <spring:message code="label.tournament.status"/>
+                                    </td>
+                                    <td class="text">
+                                        <c:choose>
+                                            <c:when test="${tour.status.name=='CREATED'}">
+                                                <spring:message code="label.tournament.created"/>
+                                            </c:when>
+                                            <c:when test="${tour.status.name=='INPROGRESS'}">
+                                                <spring:message code="label.tournament.inprogress"/>
+                                            </c:when>
+                                            <c:when test="${tour.status.name=='COMPLETED'}">
+                                                <spring:message code="label.tournament.completed"/>
+                                            </c:when>
+                                            <c:when test="${tour.status.name=='SUSPENDED'}">
+                                                <spring:message code="label.tournament.suspended"/>
+                                            </c:when>
+                                        </c:choose>
+                                    </td>
+                                </tr>
+                                <tr align="center">
+                                    <td class="text">
                                         <spring:message code="label.tournament.startdate"/>
                                     </td>
                                     <td class="text">

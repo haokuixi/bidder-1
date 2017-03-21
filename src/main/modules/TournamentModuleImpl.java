@@ -5,6 +5,7 @@ import main.dao.TournamentDAO;
 import main.dao.UserDAO;
 import main.dto.TournamentDto;
 import main.dto.TournamentMode;
+import main.dto.TournamentStatus;
 import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
@@ -191,6 +192,7 @@ public class TournamentModuleImpl implements TournamentModule {
             tournamentDto.setEndDate(dateTimeUtils.parseDate(tournament.getEndTime(), DATE_TIME_FORMAT));
         }
         tournamentDto.setTournamentMode(TournamentMode.valueOf(tournament.getTournamentMode().toUpperCase()));
+        tournamentDto.setStatus(TournamentStatus.valueOf(tournament.getStatus()));
         return tournamentDto;
     }
 
@@ -201,6 +203,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setJudge(tournamentDto.getJudge());
         tournament.setStartTime(dateTimeUtils.parseDate(tournamentDto.getStartDate(), DATE_TIME_FORMAT));
         tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
+        tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
         return tournament;
     }
