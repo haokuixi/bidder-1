@@ -46,6 +46,11 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public void editTournament(int tourId, TournamentDto tournamentDto) {
+        tournamentModule.updateTournament(tourId, tournamentDto);
+    }
+
+    @Override
     public void setTournamentStartDate(int tourId, LocalDateTime startDate) {
         tournamentModule.setTournamentStartDate(tourId, startDate);
     }

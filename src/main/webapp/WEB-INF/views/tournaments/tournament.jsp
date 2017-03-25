@@ -28,6 +28,11 @@
     <div class="well">
         <div class="panel-heading" align="center">
             <div class="panel panel-info">
+                <a href="${pageContext.request.contextPath}/tournaments/tour/edit?tourId=${tour.id}">
+                    <button class="btn btn-primary btn-lg btn-block login-button">
+                        <spring:message code="label.tournament.edit"/>
+                    </button>
+                </a>
                 <div class="panel-heading">
                     <h3 class="panel-title"><spring:message code="label.tournament.details"/></h3>
                     <h3 class="title">${tour.title}</h3>
@@ -129,17 +134,13 @@
                                                     <spring:message code="label.tournament.starttournament"/>
                                                 </button>
                                             </c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${tour.status.name=='INPROGRESS'}">
-                                                        <button type="submit"
-                                                                class="btn btn-primary btn-lg btn-block login-button"
-                                                                name="endDate" value="endDate">
-                                                            <spring:message code="label.tournament.completetournament"/>
-                                                        </button>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:otherwise>
+                                            <c:when test="${tour.status.name=='INPROGRESS'}">
+                                                <button type="submit"
+                                                        class="btn btn-primary btn-lg btn-block login-button"
+                                                        name="endDate" value="endDate">
+                                                    <spring:message code="label.tournament.completetournament"/>
+                                                </button>
+                                            </c:when>
                                         </c:choose>
                                     </c:when>
                                 </c:choose>

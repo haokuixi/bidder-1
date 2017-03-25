@@ -23,6 +23,8 @@ public interface TournamentService {
 
     Long countTours();
 
+    void editTournament(int tourId, TournamentDto tournamentDto);
+
     void setTournamentStartDate(int tourId, LocalDateTime startDate);
 
     void setTournamentEndDate(int tourId, LocalDateTime endDate);

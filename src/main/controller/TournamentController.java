@@ -25,6 +25,7 @@ public class TournamentController {
     public static final String TOURNAMENT_LIST = "tournamentlist";
     public static final String TOURNAMENT = "tournament";
     public static final String CREATE_TOURNAMENT = "createtournament";
+    public static final String EDIT_TOURNAMENT = "edittournament";
     public static final double TOURS_PER_PAGE = 10;
 
     @Autowired
@@ -59,6 +60,7 @@ public class TournamentController {
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getById(tourId));
         model.setViewName(TOURNAMENT);
+        System.out.println("start kontr");
         return model;
     }
 
@@ -71,6 +73,7 @@ public class TournamentController {
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getById(tourId));
         model.setViewName(TOURNAMENT);
+        System.out.println("end kontr");
         return model;
     }
 
@@ -103,5 +106,21 @@ public class TournamentController {
         return model;
     }
 
+    @RequestMapping(value = "/tour/edit", method = RequestMethod.GET)
+    public ModelAndView editTournamentPage(@RequestParam(value = "tourId") int tourId) {
+        ModelAndView model = new ModelAndView();
+        model.addObject("tour", tournamentService.getById(tourId));
+        model.setViewName(EDIT_TOURNAMENT);
+        return model;
+    }
+
+    @RequestMapping(value = "/tour/edit", method = RequestMethod.POST)
+    public ModelAndView editTournamentPage(@RequestParam int tourId, @ModelAttribute("tour") TournamentDto tour,
+                                           BindingResult bindingResult, ModelAndView model, HttpServletRequest request) {
+        model.addObject("tour", tournamentService.getById(tourId));
+        model.addObject("modes", Arrays.asList(TournamentMode.class.getEnumConstants()));
+        model.setViewName(EDIT_TOURNAMENT);
+        return model;
+    }
 
 }

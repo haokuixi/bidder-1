@@ -47,4 +47,8 @@
         <put-attribute name="body" value="/WEB-INF/views/tournaments/createtournament.jsp"/>
     </definition>
 
+    <definition name="edittournament" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/tournaments/edittournament.jsp"/>
+    </definition>
+
 </tiles-definitions>

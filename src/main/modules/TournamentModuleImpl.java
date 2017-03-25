@@ -14,11 +14,9 @@ import main.utils.DateTimeUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class TournamentModuleImpl implements TournamentModule {
 
@@ -87,8 +85,20 @@ public class TournamentModuleImpl implements TournamentModule {
             t.setEndTime(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
         }
 
-        if(!tournament.getStatus().getName().equals(t.getStatus())) {
+        if (!tournament.getStatus().getName().equals(t.getStatus())) {
             t.setStatus(tournament.getStatus().getName());
+        }
+
+        if (!tournament.getTitle().equals(t.getTitle())) {
+            t.setTitle(tournament.getTitle());
+        }
+
+        if (!tournament.getDescription().equals(t.getDescription())) {
+            t.setDescription(tournament.getDescription());
+        }
+
+        if (!tournament.getTournamentMode().getName().equals(t.getTournamentMode())) {
+            t.setTournamentMode(tournament.getTournamentMode().getName());
         }
         tournamentDAO.update(t);
     }
