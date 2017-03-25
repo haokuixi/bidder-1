@@ -4,6 +4,7 @@ import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.entities.User;
 import main.services.TournamentService;
+import main.validators.EditTournamentValidator;
 import main.validators.TournamentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,16 +23,18 @@ import java.util.Arrays;
 @RequestMapping("/tournaments")
 public class TournamentController {
 
-    public static final String TOURNAMENT_LIST = "tournamentlist";
-    public static final String TOURNAMENT = "tournament";
-    public static final String CREATE_TOURNAMENT = "createtournament";
-    public static final String EDIT_TOURNAMENT = "edittournament";
-    public static final double TOURS_PER_PAGE = 10;
+    private static final String TOURNAMENT_LIST = "tournamentlist";
+    private static final String TOURNAMENT = "tournament";
+    private static final String CREATE_TOURNAMENT = "createtournament";
+    private static final String EDIT_TOURNAMENT = "edittournament";
+    private static final double TOURS_PER_PAGE = 10;
 
     @Autowired
-    TournamentService tournamentService;
+    private TournamentService tournamentService;
     @Autowired
-    TournamentValidator tournamentValidator;
+    private TournamentValidator tournamentValidator;
+    @Autowired
+    private EditTournamentValidator editTournamentValidator;
 
     @RequestMapping(value = "/tourlist", method = RequestMethod.GET)
     public ModelAndView getTournamentList(@RequestParam int page) {
@@ -53,27 +56,25 @@ public class TournamentController {
 
     @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate"})
     public ModelAndView setStartDate(HttpServletRequest request) {
-        int tourId = Integer.parseInt(request.getParameter("tourId"));
+        String tourId = request.getParameter("tourId");
 
         tournamentService.setTournamentStartDate(tourId, LocalDateTime.now());
 
         ModelAndView model = new ModelAndView();
-        model.addObject("tour", tournamentService.getById(tourId));
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
         model.setViewName(TOURNAMENT);
-        System.out.println("start kontr");
         return model;
     }
 
     @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"endDate", "!startDate"})
     public ModelAndView setEndDate(HttpServletRequest request) {
-        int tourId = Integer.parseInt(request.getParameter("tourId"));
+        String tourId = request.getParameter("tourId");
 
         tournamentService.setTournamentEndDate(tourId, LocalDateTime.now());
 
         ModelAndView model = new ModelAndView();
-        model.addObject("tour", tournamentService.getById(tourId));
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
         model.setViewName(TOURNAMENT);
-        System.out.println("end kontr");
         return model;
     }
 
@@ -107,19 +108,30 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tour/edit", method = RequestMethod.GET)
-    public ModelAndView editTournamentPage(@RequestParam(value = "tourId") int tourId) {
+    public ModelAndView editTournamentPage(@RequestParam(value = "tourId") String tourId) {
         ModelAndView model = new ModelAndView();
-        model.addObject("tour", tournamentService.getById(tourId));
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.addObject("modes", Arrays.asList(TournamentMode.class.getEnumConstants()));
         model.setViewName(EDIT_TOURNAMENT);
         return model;
     }
 
     @RequestMapping(value = "/tour/edit", method = RequestMethod.POST)
-    public ModelAndView editTournamentPage(@RequestParam int tourId, @ModelAttribute("tour") TournamentDto tour,
-                                           BindingResult bindingResult, ModelAndView model, HttpServletRequest request) {
-        model.addObject("tour", tournamentService.getById(tourId));
-        model.addObject("modes", Arrays.asList(TournamentMode.class.getEnumConstants()));
-        model.setViewName(EDIT_TOURNAMENT);
+    public ModelAndView editTournamentPage(@RequestParam String tourId, @ModelAttribute("tour") TournamentDto tour,
+                                           BindingResult bindingResult, ModelAndView model) {
+
+        this.editTournamentValidator.validate(tour, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            tour.setStatus(tournamentService.getByHashedId(tourId).getStatus());
+            model.addObject("modes", Arrays.asList(TournamentMode.class.getEnumConstants()));
+            model.setViewName(EDIT_TOURNAMENT);
+            return model;
+        }
+
+        tournamentService.editTournament(tourId, tour);
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.setViewName(TOURNAMENT);
         return model;
     }
 

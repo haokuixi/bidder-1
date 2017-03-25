@@ -28,7 +28,7 @@
     <div class="well">
         <div class="panel-heading" align="center">
             <div class="panel panel-info">
-                <a href="${pageContext.request.contextPath}/tournaments/tour/edit?tourId=${tour.id}">
+                <a href="${pageContext.request.contextPath}/tournaments/tour/edit?tourId=${tour.hashedId}">
                     <button class="btn btn-primary btn-lg btn-block login-button">
                         <spring:message code="label.tournament.edit"/>
                     </button>
@@ -122,8 +122,9 @@
                                 </tbody>
                             </table>
 
-                            <form:form action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}"
-                                       methodParam="tourId" method="post">
+                            <form:form
+                                    action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
+                                    methodParam="tourId" method="post">
                                 <c:choose>
                                     <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)}">
                                         <c:choose>
