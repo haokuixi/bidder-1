@@ -35,7 +35,7 @@
         <c:forEach var="user" items="${users}">
             <tr>
                 <td><a class="link"
-                       href="${pageContext.request.contextPath}/users/user?userId=${user.id}">${user.login}</a></td>
+                       href="${pageContext.request.contextPath}/users/user?login=${user.login}">${user.login}</a></td>
                 <td class="text">${user.name}</td>
                 <td class="text">${user.surname}</td>
                 <td class="text">${user.pzbsId}</td>

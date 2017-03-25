@@ -44,9 +44,9 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tour", method = RequestMethod.GET)
-    public ModelAndView getTournament(@RequestParam(value = "tourId") int tourId) {
+    public ModelAndView getTournament(@RequestParam String tourId) {
         ModelAndView model = new ModelAndView();
-        model.addObject("tour", tournamentService.getById(tourId));
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
         model.setViewName(TOURNAMENT);
         return model;
     }

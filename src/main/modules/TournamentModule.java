@@ -17,6 +17,8 @@ public interface TournamentModule {
 
     TournamentDto getById(int id);
 
+    TournamentDto getByHashedId(String hashedId);
+
     Map<TournamentDto, Pair> getByJudge(int id);
 
     Map<TournamentDto, Pair> getByPlayer(int id);

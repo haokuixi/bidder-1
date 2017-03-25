@@ -31,6 +31,11 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public TournamentDto getByHashedId(String hash) {
+        return tournamentModule.getByHashedId(hash);
+    }
+
+    @Override
     public Map<TournamentDto, Pair> getByJudge(int id) {
         return tournamentModule.getByJudge(id);
     }

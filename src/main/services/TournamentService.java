@@ -17,6 +17,8 @@ public interface TournamentService {
 
     TournamentDto getById(int id);
 
+    TournamentDto getByHashedId(String hash);
+
     Map<TournamentDto, Pair> getByJudge(int id);
 
     Map<TournamentDto, Pair> getByPlayer(int id);

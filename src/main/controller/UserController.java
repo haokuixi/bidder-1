@@ -111,15 +111,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ModelAndView getUserProfile(@RequestParam int userId) {
+    public ModelAndView getUserProfile(@RequestParam String login) {
         ModelAndView model = new ModelAndView();
-        User user = userService.getUserById(userId);
+        User user = userService.getUserByLogin(login);
         model.addObject("user", user);
 
         if (user.isJudge()) {
-            model.addObject("tours", tournamentService.getByJudge(userId));
+            model.addObject("tours", tournamentService.getByJudge(user.getId()));
         } else {
-            model.addObject("tours", tournamentService.getByPlayer(userId));
+            model.addObject("tours", tournamentService.getByPlayer(user.getId()));
         }
 
         model.setViewName(USER_PROFILE);

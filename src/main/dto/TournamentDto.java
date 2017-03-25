@@ -8,6 +8,7 @@ import java.util.List;
 public class TournamentDto {
 
     private int id;
+    private String hashedId;
     private String title;
     private String description;
     private User judge;
@@ -25,6 +26,14 @@ public class TournamentDto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getHashedId() {
+        return hashedId;
+    }
+
+    public void setHashedId(String hashedId) {
+        this.hashedId = hashedId;
     }
 
     public String getTitle() {
@@ -111,6 +120,7 @@ public class TournamentDto {
     public String toString() {
         return "TournamentDto{" +
                 "id=" + id +
+                ", hashedId='" + hashedId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", judge=" + judge +

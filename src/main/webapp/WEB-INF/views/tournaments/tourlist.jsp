@@ -46,7 +46,7 @@
         <c:forEach var="tour" items="${tourlist}">
             <tr>
                 <td class="link"><a class="link"
-                                    href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}">${tour.title}</a>
+                                    href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}">${tour.title}</a>
                 </td>
                 <td class="text">${tour.judge.surname}</td>
                 <td class="text">${tour.startDate}</td>

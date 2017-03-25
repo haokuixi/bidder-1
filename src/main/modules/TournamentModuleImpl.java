@@ -9,6 +9,7 @@ import main.dto.TournamentStatus;
 import main.entities.Pair;
 import main.entities.Tournament;
 import main.entities.User;
+import main.utils.DataHash;
 import main.utils.DateTimeUtils;
 
 import java.time.LocalDateTime;
@@ -22,11 +23,11 @@ public class TournamentModuleImpl implements TournamentModule {
 
     private static final int TOURS_PER_PAGE = 10;
 
-    TournamentDAO tournamentDAO;
-    UserDAO userDAO;
-    PairDAO pairDAO;
+    private TournamentDAO tournamentDAO;
+    private UserDAO userDAO;
+    private PairDAO pairDAO;
 
-    DateTimeUtils dateTimeUtils;
+    private DateTimeUtils dateTimeUtils;
 
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
@@ -105,6 +106,14 @@ public class TournamentModuleImpl implements TournamentModule {
 
     @Override
     public TournamentDto getById(int id) {
+        TournamentDto tournamentDto = transformTournament(tournamentDAO.getById(id));
+        tournamentDto.setPairs(pairDAO.listByTourId(id));
+        return tournamentDto;
+    }
+
+    @Override
+    public TournamentDto getByHashedId(String hashedId) {
+        int id = new DataHash().decode(hashedId);
         TournamentDto tournamentDto = transformTournament(tournamentDAO.getById(id));
         tournamentDto.setPairs(pairDAO.listByTourId(id));
         return tournamentDto;
@@ -221,6 +230,7 @@ public class TournamentModuleImpl implements TournamentModule {
         }
         tournamentDto.setTournamentMode(TournamentMode.valueOf(tournament.getTournamentMode().toUpperCase()));
         tournamentDto.setStatus(TournamentStatus.valueOf(tournament.getStatus()));
+        tournamentDto.setHashedId(new DataHash().encode(tournament.getId()));
         return tournamentDto;
     }
 
