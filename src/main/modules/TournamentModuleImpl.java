@@ -71,7 +71,11 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public void updateTournament(int tourId, TournamentDto tournament) {
+    public void updateTournament(String hashedId, TournamentDto tournament) {
+        updateTournament(new DataHash().decode(hashedId), tournament);
+    }
+
+    private void updateTournament(int tourId, TournamentDto tournament) {
         dateTimeUtils = new DateTimeUtils();
         Tournament t = tournamentDAO.getById(tourId);
 
@@ -80,25 +84,26 @@ public class TournamentModuleImpl implements TournamentModule {
         LocalDateTime currentStartDate = t.getStartTime();
         LocalDateTime currentEndDate = t.getEndTime();
 
-        if (currentStartDate == null && !startDate.isEmpty()) {
+        if (currentStartDate == null && startDate != null && !startDate.isEmpty()) {
             t.setStartTime(dateTimeUtils.parseDate(startDate, DATE_TIME_FORMAT));
-        } else if (currentEndDate == null && !endDate.isEmpty()) {
+        } else if (currentEndDate == null && endDate != null && !endDate.isEmpty()) {
             t.setEndTime(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
         }
 
-        if (!tournament.getStatus().getName().equals(t.getStatus())) {
+        if (tournament.getStatus() != null && !tournament.getStatus().getName().equals(t.getStatus())) {
             t.setStatus(tournament.getStatus().getName());
         }
 
-        if (!tournament.getTitle().equals(t.getTitle())) {
+        if (tournament.getTitle() != null && !tournament.getTitle().equals(t.getTitle())) {
             t.setTitle(tournament.getTitle());
         }
 
-        if (!tournament.getDescription().equals(t.getDescription())) {
+        if (tournament.getDescription() != null && !tournament.getDescription().equals(t.getDescription())) {
             t.setDescription(tournament.getDescription());
         }
 
-        if (!tournament.getTournamentMode().getName().equals(t.getTournamentMode())) {
+        if (tournament.getTournamentMode() != null
+                && !tournament.getTournamentMode().getName().equals(t.getTournamentMode())) {
             t.setTournamentMode(tournament.getTournamentMode().getName());
         }
         tournamentDAO.update(t);
@@ -164,8 +169,9 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public void setTournamentStartDate(int tourId, LocalDateTime startDate) {
+    public void setTournamentStartDate(String hashedId, LocalDateTime startDate) {
         dateTimeUtils = new DateTimeUtils();
+        int tourId = new DataHash().decode(hashedId);
         TournamentDto t = getById(tourId);
 
         if (startDate == null) {
@@ -178,8 +184,9 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public void setTournamentEndDate(int tourId, LocalDateTime endDate) {
+    public void setTournamentEndDate(String hashedId, LocalDateTime endDate) {
         dateTimeUtils = new DateTimeUtils();
+        int tourId = new DataHash().decode(hashedId);
         TournamentDto t = getById(tourId);
 
         if (endDate == null) {

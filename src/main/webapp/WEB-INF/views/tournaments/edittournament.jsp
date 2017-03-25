@@ -72,7 +72,7 @@
                                 <i class="fa fa-user fa" aria-hidden="true"></i>
                             </span>
                             <form:textarea path="description" value="${tour.description}" rows="3"
-                                           class="form-control" disabled="${tour.status.name()!='CREATED'}"/>
+                                           class="form-control"/>
                             <form:errors path="description" element="div" class="form-control"/>
                         </div>
                     </div>
@@ -92,32 +92,6 @@
                             <form:errors path="tournamentMode" element="div" class="form-control"/>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <form:form action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.id}"
-                               methodParam="tourId" method="post">
-                        <c:choose>
-                            <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)}">
-                                <c:choose>
-                                    <c:when test="${tour.status.name()=='CREATED'}">
-                                        <button type="submit"
-                                                class="btn btn-primary btn-lg btn-block login-button"
-                                                name="startDate" value="startDate">
-                                            <spring:message code="label.tournament.starttournament"/>
-                                        </button>
-                                    </c:when>
-                                    <c:when test="${tour.status.name()=='INPROGRESS'}">
-                                        <button type="submit"
-                                                class="btn btn-primary btn-lg btn-block login-button"
-                                                name="endDate" value="endDate">
-                                            <spring:message code="label.tournament.completetournament"/>
-                                        </button>
-                                    </c:when>
-                                </c:choose>
-                            </c:when>
-                        </c:choose>
-                    </form:form>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-lg btn-block login-button">

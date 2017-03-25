@@ -13,7 +13,7 @@ public interface TournamentModule {
 
     void saveTournament(TournamentDto tournament);
 
-    void updateTournament(int tourId, TournamentDto tournament);
+    void updateTournament(String hashedId, TournamentDto tournament);
 
     TournamentDto getById(int id);
 
@@ -27,7 +27,7 @@ public interface TournamentModule {
 
     List<TournamentDto> transformList(List<Tournament> tournaments);
 
-    void setTournamentStartDate(int tourId, LocalDateTime startDate);
+    void setTournamentStartDate(String hashedId, LocalDateTime startDate);
 
-    void setTournamentEndDate(int tourId, LocalDateTime endDate);
+    void setTournamentEndDate(String hashedId, LocalDateTime endDate);
 }
