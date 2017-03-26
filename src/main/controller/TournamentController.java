@@ -4,6 +4,7 @@ import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.entities.User;
 import main.services.TournamentService;
+import main.services.UserService;
 import main.validators.EditTournamentValidator;
 import main.validators.TournamentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class TournamentController {
     @Autowired
     private TournamentService tournamentService;
     @Autowired
+    private UserService userService;
+    @Autowired
     private TournamentValidator tournamentValidator;
     @Autowired
     private EditTournamentValidator editTournamentValidator;
@@ -50,6 +53,7 @@ public class TournamentController {
     public ModelAndView getTournament(@RequestParam String tourId) {
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.addObject("awaiting", userService.getAwaitingByTournament(tourId));
         model.setViewName(TOURNAMENT);
         return model;
     }

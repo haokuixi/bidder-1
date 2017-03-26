@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService {
     public Long countUsers() {
         return userModule.countUsers();
     }
+
+    @Override
+    public List<User> getAwaitingByTournament(String tourId) {
+        return userModule.getAwaitingByTournament(tourId);
+    }
 }

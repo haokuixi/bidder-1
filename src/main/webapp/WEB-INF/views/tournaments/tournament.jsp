@@ -46,7 +46,7 @@
                                     <td class="text"><spring:message code="label.tournament.judge"/></td>
                                     <td>
                                         <a class="link"
-                                           href="${pageContext.request.contextPath}/users/user?userId=${tour.judge.id}">
+                                           href="${pageContext.request.contextPath}/users/user?userId=${tour.judge.login}">
                                             ${tour.judge.name} ${tour.judge.surname}
                                         </a>
                                     </td>
@@ -155,7 +155,35 @@
 </div>
 
 <div class="container">
+    <div class="well">
+        <div class="panel-heading" align="center">
+            <h2 class="list"><spring:message code="label.tournament.awaiting"/></h2>
+        </div>
+        <table class="table">
+            <thead class="header">
+            <tr class="header-panel">
+                <th/>
+                <th/>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="player" items="${awaiting}">
+                <tr>
+                    <td align="center"><span class="fa fa-play"></span></td>
+                    <td>
+                        <a class="link"
+                           href="${pageContext.request.contextPath}/users/user?userId=${player.login}">
+                                ${player.name} ${player.surname}
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 
+<div class="container">
     <div class="well">
         <div class="panel-heading" align="center">
             <h2 class="list"><spring:message code="label.tournament.players"/></h2>
@@ -175,13 +203,13 @@
                     <td align="center"><span class="fa fa-play"></span></td>
                     <td>
                         <a class="link"
-                           href="${pageContext.request.contextPath}/users/user?userId=${pair.playerOne.id}">
+                           href="${pageContext.request.contextPath}/users/user?userId=${pair.playerOne.login}">
                                 ${pair.playerOne.name} ${pair.playerOne.surname}
                         </a>
                     </td>
                     <td>
                         <a class="link"
-                           href="${pageContext.request.contextPath}/users/user?userId=${pair.playerOne.id}">
+                           href="${pageContext.request.contextPath}/users/user?userId=${pair.playerOne.login}">
                                 ${pair.playerTwo.name} ${pair.playerTwo.surname}
                         </a>
                     </td>

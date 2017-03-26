@@ -21,4 +21,6 @@ public interface UserDAO {
     User getUserByLogin(String login);
 
     Long countUsers();
+
+    List<User> getAwaitingByTournament(int tourId);
 }

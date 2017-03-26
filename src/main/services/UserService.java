@@ -25,4 +25,6 @@ public interface UserService {
     UserDto transformUser(User user);
 
     Long countUsers();
+
+    List<User> getAwaitingByTournament(String tourId);
 }

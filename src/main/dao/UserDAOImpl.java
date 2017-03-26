@@ -1,5 +1,6 @@
 package main.dao;
 
+import main.entities.AwaitingPlayer;
 import main.entities.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +14,9 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Repository("userRepository")
@@ -21,6 +24,7 @@ public class UserDAOImpl implements UserDAO {
 
     private static final String GET_ALL_QUERY = "getAllUsers";
     private static final String GET_BY_LOGIN = "getByLogin";
+    private static final String GET_AWAITING_PLAYERS_BY_TOUR = "getByTournament";
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
     @PersistenceContext
@@ -84,5 +88,13 @@ public class UserDAOImpl implements UserDAO {
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
         cq.select(qb.count(cq.from(User.class)));
         return em.createQuery(cq).getSingleResult();
+    }
+
+    @Override
+    public List<User> getAwaitingByTournament(int tourId) {
+        Query query = em.createNamedQuery(GET_AWAITING_PLAYERS_BY_TOUR);
+        query.setParameter(1, tourId);
+        List<AwaitingPlayer> resultList = query.getResultList();
+        return new ArrayList<>(resultList.stream().map(a -> a.getPlayer()).collect(Collectors.toList()));
     }
 }

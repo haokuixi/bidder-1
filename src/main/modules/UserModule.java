@@ -23,4 +23,6 @@ public interface UserModule {
     UserDto transformUser(User user);
 
     Long countUsers();
+
+    List<User> getAwaitingByTournament(String tourId);
 }

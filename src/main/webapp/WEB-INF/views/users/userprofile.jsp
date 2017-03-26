@@ -98,19 +98,23 @@
                     <td align="center"><span class="ionicons ion-trophy"></span></td>
                     <td>
                         <a class="link"
-                           href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.id}">${tour.key.title}</a>
+                           href="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.key.hashedId}">${tour.key.title}</a>
                     </td>
                     <c:choose>
                         <c:when test="${user.id==tour.value.playerOne.id}">
                             <td>
                                 <a class="link"
-                                   href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.id}">${tour.value.playerTwo.surname}</a>
+                                   href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerTwo.login}">
+                                   ${tour.value.playerTwo.surname}
+                                </a>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td>
                                 <a class="link"
-                                   href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.id}">${tour.value.playerOne.surname}</a>
+                                   href="${pageContext.request.contextPath}/users/user?userId=${tour.value.playerOne.login}">
+                                   ${tour.value.playerOne.surname}
+                                </a>
                             </td>
                         </c:otherwise>
                     </c:choose>

@@ -4,6 +4,7 @@ import main.dao.UserDAO;
 import main.dto.UserDto;
 import main.dto.WzbsDto;
 import main.entities.User;
+import main.utils.DataHash;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.Collator;
@@ -137,5 +138,8 @@ public class UserModuleImpl implements UserModule {
         return userDAO.isValidUser(login, password);
     }
 
-
+    @Override
+    public List<User> getAwaitingByTournament(String tourId) {
+        return userDAO.getAwaitingByTournament(new DataHash().decode(tourId));
+    }
 }
