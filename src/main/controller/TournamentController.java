@@ -58,7 +58,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit"})
     public ModelAndView setStartDate(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -78,6 +78,19 @@ public class TournamentController {
 
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.setViewName(TOURNAMENT);
+        return model;
+    }
+
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "quit"})
+    public ModelAndView quitFromTournament(HttpServletRequest request) {
+        String tourId = request.getParameter("tourId");
+
+        userService.quitFromTournament(((User) request.getSession().getAttribute("loggedUser")).getId(), tourId);
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.addObject("awaiting", userService.getAwaitingByTournament(tourId));
         model.setViewName(TOURNAMENT);
         return model;
     }

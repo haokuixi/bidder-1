@@ -142,4 +142,9 @@ public class UserModuleImpl implements UserModule {
     public List<User> getAwaitingByTournament(String tourId) {
         return userDAO.getAwaitingByTournament(new DataHash().decode(tourId));
     }
+
+    @Override
+    public void quitFromTournament(int userId, String tourId) {
+        userDAO.quitFromTournament(userId, new DataHash().decode(tourId));
+    }
 }

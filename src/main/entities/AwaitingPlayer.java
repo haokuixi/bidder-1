@@ -15,9 +15,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "awaiting_players")
-@NamedQueries(
-        @NamedQuery(name = "getByTournament", query = "FROM AwaitingPlayer WHERE tournament.id=?")
-)
+@NamedQueries({
+        @NamedQuery(name = "getByTournament", query = "FROM AwaitingPlayer WHERE tournament.id=?"),
+        @NamedQuery(name = "getByUserAndTournament", query = "FROM AwaitingPlayer WHERE player.id=? AND tournament.id=?")
+})
 public class AwaitingPlayer {
 
     @Id

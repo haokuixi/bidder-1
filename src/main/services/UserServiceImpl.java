@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getAwaitingByTournament(String tourId) {
         return userModule.getAwaitingByTournament(tourId);
     }
+
+    @Override
+    public void quitFromTournament(int userId, String tourId) {
+        userModule.quitFromTournament(userId, tourId);
+    }
 }

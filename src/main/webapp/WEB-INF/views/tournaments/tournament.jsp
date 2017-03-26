@@ -176,6 +176,20 @@
                                 ${player.name} ${player.surname}
                         </a>
                     </td>
+                    <td>
+                        <form:form action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
+                                   methodParam="tourId" method="post">
+                            <c:choose>
+                                <c:when test="${pageContext.request.userPrincipal.name.equals(player.login)}">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-block login-button"
+                                            name="quit" value="quit">
+                                        <spring:message code="label.tournament.quit"/>
+                                    </button>
+                                </c:when>
+                            </c:choose>
+                        </form:form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

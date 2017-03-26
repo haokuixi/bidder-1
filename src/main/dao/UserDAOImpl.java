@@ -25,6 +25,7 @@ public class UserDAOImpl implements UserDAO {
     private static final String GET_ALL_QUERY = "getAllUsers";
     private static final String GET_BY_LOGIN = "getByLogin";
     private static final String GET_AWAITING_PLAYERS_BY_TOUR = "getByTournament";
+    private static final String GET_AWAITING_PLAYERS_BY_USER_AND_TOUR = "getByUserAndTournament";
     private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
     @PersistenceContext
@@ -96,5 +97,23 @@ public class UserDAOImpl implements UserDAO {
         query.setParameter(1, tourId);
         List<AwaitingPlayer> resultList = query.getResultList();
         return new ArrayList<>(resultList.stream().map(a -> a.getPlayer()).collect(Collectors.toList()));
+    }
+
+    @Override
+    public AwaitingPlayer getByUserAndTournament(int userId, int tourId) {
+        Query query = em.createNamedQuery(GET_AWAITING_PLAYERS_BY_USER_AND_TOUR);
+        query.setParameter(1, userId);
+        query.setParameter(2, tourId);
+        return (AwaitingPlayer) query.getSingleResult();
+    }
+
+    @Override
+    public void quitFromTournament(int userId, int tourId) {
+        AwaitingPlayer player = getByUserAndTournament(userId, tourId);
+        AwaitingPlayer awaitingPlayer = em.find(AwaitingPlayer.class, player.getPlayerId());
+
+        if (awaitingPlayer != null) {
+            em.remove(player);
+        }
     }
 }

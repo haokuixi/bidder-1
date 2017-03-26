@@ -1,5 +1,6 @@
 package main.dao;
 
+import main.entities.AwaitingPlayer;
 import main.entities.User;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface UserDAO {
     Long countUsers();
 
     List<User> getAwaitingByTournament(int tourId);
+
+    AwaitingPlayer getByUserAndTournament(int userId, int tourId);
+
+    void quitFromTournament(int userId, int tourId);
 }

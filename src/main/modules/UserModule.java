@@ -25,4 +25,6 @@ public interface UserModule {
     Long countUsers();
 
     List<User> getAwaitingByTournament(String tourId);
+
+    void quitFromTournament(int userId, String tourId);
 }
