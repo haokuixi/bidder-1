@@ -3,6 +3,7 @@ package main.modules;
 import main.dao.UserDAO;
 import main.dto.UserDto;
 import main.dto.WzbsDto;
+import main.entities.AwaitingPlayer;
 import main.entities.User;
 import main.utils.DataHash;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,7 @@ public class UserModuleImpl implements UserModule {
     private static final int USER_PER_PAGE = 10;
     UserDAO userDAO;
     WzbsModule wzbsModule;
+    TournamentModule tournamentModule;
 
     @Override
     public List<User> getUserList(int page) {
@@ -93,6 +95,14 @@ public class UserModuleImpl implements UserModule {
         this.wzbsModule = wzbsModule;
     }
 
+    public TournamentModule getTournamentModule() {
+        return tournamentModule;
+    }
+
+    public void setTournamentModule(TournamentModule tournamentModule) {
+        this.tournamentModule = tournamentModule;
+    }
+
     public User transformUser(UserDto userDto, boolean isValid) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User u;
@@ -146,5 +156,14 @@ public class UserModuleImpl implements UserModule {
     @Override
     public void quitFromTournament(int userId, String tourId) {
         userDAO.quitFromTournament(userId, new DataHash().decode(tourId));
+    }
+
+    @Override
+    public void enterIntoTournament(int userId, String tourId) {
+        AwaitingPlayer awaitingPlayer = new AwaitingPlayer();
+        awaitingPlayer.setPlayer(userDAO.getById(userId));
+        awaitingPlayer.setTournament(tournamentModule.transformTournament(tournamentModule.getByHashedId(tourId)));
+
+        userDAO.enterIntoTournament(awaitingPlayer);
     }
 }

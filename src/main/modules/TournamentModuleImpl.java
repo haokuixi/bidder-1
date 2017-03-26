@@ -2,7 +2,6 @@ package main.modules;
 
 import main.dao.PairDAO;
 import main.dao.TournamentDAO;
-import main.dao.UserDAO;
 import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.dto.TournamentStatus;
@@ -18,13 +17,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TournamentModuleImpl implements TournamentModule {
 
     private static final int TOURS_PER_PAGE = 10;
 
+    private UserModule userModule;
     private TournamentDAO tournamentDAO;
-    private UserDAO userDAO;
     private PairDAO pairDAO;
 
     private DateTimeUtils dateTimeUtils;
@@ -126,7 +126,7 @@ public class TournamentModuleImpl implements TournamentModule {
 
     @Override
     public Map<TournamentDto, Pair> getByJudge(int id) {
-        User user = userDAO.getById(id);
+        User user = userModule.getById(id);
         Map<TournamentDto, Pair> map = null;
         if (user != null) {
             List<Tournament> tours = tournamentDAO.getToursByJudge(user);
@@ -141,7 +141,7 @@ public class TournamentModuleImpl implements TournamentModule {
 
     @Override
     public Map<TournamentDto, Pair> getByPlayer(int id) {
-        User user = userDAO.getById(id);
+        User user = userModule.getById(id);
         Map<Tournament, Pair> toursByPlayer = new HashMap<>();
         Map<TournamentDto, Pair> resultMap = new HashMap<>();
         if (user != null) {
@@ -214,15 +214,16 @@ public class TournamentModuleImpl implements TournamentModule {
         this.pairDAO = pairDAO;
     }
 
-    public UserDAO getUserDAO() {
-        return userDAO;
+    public UserModule getUserModule() {
+        return userModule;
     }
 
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public void setUserModule(UserModule userModule) {
+        this.userModule = userModule;
     }
 
-    private TournamentDto transformTournament(Tournament tournament) {
+    @Override
+    public TournamentDto transformTournament(Tournament tournament) {
         dateTimeUtils = new DateTimeUtils();
         TournamentDto tournamentDto = new TournamentDto();
         tournamentDto.setId(tournament.getId());
@@ -241,15 +242,45 @@ public class TournamentModuleImpl implements TournamentModule {
         return tournamentDto;
     }
 
-    private Tournament transformTournament(TournamentDto tournamentDto) {
+    @Override
+    public Tournament transformTournament(TournamentDto tournamentDto) {
         dateTimeUtils = new DateTimeUtils();
         Tournament tournament = new Tournament();
+        tournament.setId(tournamentDto.getId());
         tournament.setTitle(tournamentDto.getTitle());
         tournament.setJudge(tournamentDto.getJudge());
-        tournament.setStartTime(dateTimeUtils.parseDate(tournamentDto.getStartDate(), DATE_TIME_FORMAT));
+
+        if (tournamentDto.getStartTime() != null) {
+            tournament.setStartTime(dateTimeUtils.parseDate(tournamentDto.getStartDate(), DATE_TIME_FORMAT));
+        }
+
         tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
         return tournament;
+    }
+
+    @Override
+    public boolean canUserJoinTournament(String tourId, int userId) {
+        User user = userModule.getById(userId);
+
+        if (user.isJudge()) {
+            return false;
+        }
+
+        List<Pair> pairs = pairDAO.listByTourId(new DataHash().decode(tourId));
+        ArrayList players = new ArrayList<>(pairs.stream().map(p -> p.getPlayerOne()).collect(Collectors.toList()));
+        players.addAll(pairs.stream().map(p -> p.getPlayerTwo()).collect(Collectors.toList()));
+
+        if (pairs.contains(user)) {
+            return false;
+        }
+
+        List<User> awaitingByTournament = userModule.getAwaitingByTournament(tourId);
+        if (awaitingByTournament.contains(user)) {
+            return false;
+        }
+
+        return true;
     }
 }

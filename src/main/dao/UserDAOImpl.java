@@ -116,4 +116,9 @@ public class UserDAOImpl implements UserDAO {
             em.remove(player);
         }
     }
+
+    @Override
+    public void enterIntoTournament(AwaitingPlayer awaitingPlayer) {
+        em.persist(awaitingPlayer);
+    }
 }

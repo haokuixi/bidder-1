@@ -65,6 +65,11 @@ public class TournamentServiceImpl implements TournamentService {
         tournamentModule.setTournamentEndDate(hashedId, endDate);
     }
 
+    @Override
+    public boolean canUserJoinTournament(String tourId, int userId) {
+        return tournamentModule.canUserJoinTournament(tourId, userId);
+    }
+
     public TournamentModule getTournamentModule() {
         return tournamentModule;
     }

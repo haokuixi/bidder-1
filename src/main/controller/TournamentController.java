@@ -50,15 +50,17 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tour", method = RequestMethod.GET)
-    public ModelAndView getTournament(@RequestParam String tourId) {
+    public ModelAndView getTournament(@RequestParam String tourId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
+        model.addObject("canJoin", tournamentService.canUserJoinTournament(tourId,
+                ((User) request.getSession().getAttribute("loggedUser")).getId()));
         model.addObject("tour", tournamentService.getByHashedId(tourId));
         model.addObject("awaiting", userService.getAwaitingByTournament(tourId));
         model.setViewName(TOURNAMENT);
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit", "!enter"})
     public ModelAndView setStartDate(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -70,7 +72,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"endDate", "!startDate"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"endDate", "!startDate", "!enter"})
     public ModelAndView setEndDate(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -82,11 +84,26 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "quit"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "quit", "!enter"})
     public ModelAndView quitFromTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
         userService.quitFromTournament(((User) request.getSession().getAttribute("loggedUser")).getId(), tourId);
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("canJoin", tournamentService.canUserJoinTournament(tourId,
+                ((User) request.getSession().getAttribute("loggedUser")).getId()));
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.addObject("awaiting", userService.getAwaitingByTournament(tourId));
+        model.setViewName(TOURNAMENT);
+        return model;
+    }
+
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "enter"})
+    public ModelAndView enterIntoTournament(HttpServletRequest request) {
+        String tourId = request.getParameter("tourId");
+
+        userService.enterIntoTournament(((User) request.getSession().getAttribute("loggedUser")).getId(), tourId);
 
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getByHashedId(tourId));

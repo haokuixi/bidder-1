@@ -30,4 +30,6 @@ public interface TournamentService {
     void setTournamentStartDate(String hashedId, LocalDateTime startDate);
 
     void setTournamentEndDate(String hashedId, LocalDateTime endDate);
+
+    boolean canUserJoinTournament(String tourId, int userId);
 }

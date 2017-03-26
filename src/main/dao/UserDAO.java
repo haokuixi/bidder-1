@@ -28,4 +28,6 @@ public interface UserDAO {
     AwaitingPlayer getByUserAndTournament(int userId, int tourId);
 
     void quitFromTournament(int userId, int tourId);
+
+    void enterIntoTournament(AwaitingPlayer awaitingPlayer);
 }

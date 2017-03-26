@@ -28,11 +28,15 @@
     <div class="well">
         <div class="panel-heading" align="center">
             <div class="panel panel-info">
-                <a href="${pageContext.request.contextPath}/tournaments/tour/edit?tourId=${tour.hashedId}">
-                    <button class="btn btn-primary btn-lg btn-block login-button">
-                        <spring:message code="label.tournament.edit"/>
-                    </button>
-                </a>
+                <c:choose>
+                    <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)}">
+                        <a href="${pageContext.request.contextPath}/tournaments/tour/edit?tourId=${tour.hashedId}">
+                            <button class="btn btn-primary btn-lg btn-block login-button">
+                                <spring:message code="label.tournament.edit"/>
+                            </button>
+                        </a>
+                    </c:when>
+                </c:choose>
                 <div class="panel-heading">
                     <h3 class="panel-title"><spring:message code="label.tournament.details"/></h3>
                     <h3 class="title">${tour.title}</h3>
@@ -119,6 +123,21 @@
                                         </c:choose>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
+                                            methodParam="tourId" method="post">
+                                        <c:choose>
+                                            <c:when test="${canJoin}">
+                                                <button type="submit"
+                                                        class="btn btn-primary btn-block login-button"
+                                                        name="enter" value="enter">
+                                                    <spring:message code="label.tournament.enter"/>
+                                                </button>
+                                            </c:when>
+                                        </c:choose>
+                                    </form:form>
+                                </tr>
                                 </tbody>
                             </table>
 
@@ -154,48 +173,53 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="well">
-        <div class="panel-heading" align="center">
-            <h2 class="list"><spring:message code="label.tournament.awaiting"/></h2>
+<c:choose>
+    <c:when test="${tour.status.name().equals('CREATED')}">
+        <div class="container">
+            <div class="well">
+                <div class="panel-heading" align="center">
+                    <h2 class="list"><spring:message code="label.tournament.awaiting"/></h2>
+                </div>
+                <table class="table">
+                    <thead class="header">
+                    <tr class="header-panel">
+                        <th/>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="player" items="${awaiting}">
+                        <tr>
+                            <td align="center"><span class="fa fa-play"></span></td>
+                            <td>
+                                <a class="link"
+                                   href="${pageContext.request.contextPath}/users/user?userId=${player.login}">
+                                        ${player.name} ${player.surname}
+                                </a>
+                            </td>
+                            <td>
+                                <form:form
+                                        action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
+                                        methodParam="tourId" method="post">
+                                    <c:choose>
+                                        <c:when test="${pageContext.request.userPrincipal.name.equals(player.login)}">
+                                            <button type="submit"
+                                                    class="btn btn-primary btn-block login-button"
+                                                    name="quit" value="quit">
+                                                <spring:message code="label.tournament.quit"/>
+                                            </button>
+                                        </c:when>
+                                    </c:choose>
+                                </form:form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <table class="table">
-            <thead class="header">
-            <tr class="header-panel">
-                <th/>
-                <th/>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="player" items="${awaiting}">
-                <tr>
-                    <td align="center"><span class="fa fa-play"></span></td>
-                    <td>
-                        <a class="link"
-                           href="${pageContext.request.contextPath}/users/user?userId=${player.login}">
-                                ${player.name} ${player.surname}
-                        </a>
-                    </td>
-                    <td>
-                        <form:form action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
-                                   methodParam="tourId" method="post">
-                            <c:choose>
-                                <c:when test="${pageContext.request.userPrincipal.name.equals(player.login)}">
-                                    <button type="submit"
-                                            class="btn btn-primary btn-block login-button"
-                                            name="quit" value="quit">
-                                        <spring:message code="label.tournament.quit"/>
-                                    </button>
-                                </c:when>
-                            </c:choose>
-                        </form:form>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-</div>
+    </c:when>
+</c:choose>
 
 <div class="container">
     <div class="well">

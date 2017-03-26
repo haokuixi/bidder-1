@@ -30,4 +30,10 @@ public interface TournamentModule {
     void setTournamentStartDate(String hashedId, LocalDateTime startDate);
 
     void setTournamentEndDate(String hashedId, LocalDateTime endDate);
+
+    boolean canUserJoinTournament(String tourId, int userId);
+
+    TournamentDto transformTournament(Tournament tournament);
+
+    Tournament transformTournament(TournamentDto tournamentDto);
 }
