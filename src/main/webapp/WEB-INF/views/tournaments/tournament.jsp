@@ -252,19 +252,42 @@
                         </a>
                     </td>
 
+
                     <c:choose>
-                        <c:when test="${pair.maxResult==null}">
-                            <c:choose>
-                                <c:when test="${pair.impResult==null}">
-                                    <td/>
-                                </c:when>
-                                <c:otherwise>
-                                    <td class="text">${pair.impResult} IMP</td>
-                                </c:otherwise>
-                            </c:choose>
+                        <c:when test="${tour.status.name().equals('CREATED')}">
+                            <form:form
+                                    action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
+                                    methodParam="tourId" method="post">
+                                <c:choose>
+                                    <c:when test="${(pageContext.request.userPrincipal.name.equals(pair.playerOne.login)
+                            or pageContext.request.userPrincipal.name.equals(pair.playerTwo.login)) }">
+                                        <td>
+                                            <button type="submit"
+                                                    class="btn btn-primary btn-block login-button"
+                                                    name="quitPair" value="quitPair">
+                                                <spring:message code="label.tournament.quitpair"/>
+                                            </button>
+                                        </td>
+                                    </c:when>
+                                </c:choose>
+                            </form:form>
                         </c:when>
                         <c:otherwise>
-                            <td class="text">${pair.maxResult} %</td>
+                            <c:choose>
+                                <c:when test="${pair.maxResult==null}">
+                                    <c:choose>
+                                        <c:when test="${pair.impResult==null}">
+                                            <td/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td class="text">${pair.impResult} IMP</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="text">${pair.maxResult} %</td>
+                                </c:otherwise>
+                            </c:choose>
                         </c:otherwise>
                     </c:choose>
                 </tr>

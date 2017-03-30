@@ -18,6 +18,7 @@ public class PairDAOImpl implements PairDAO {
     private static final String GET_ALL_QUERY = "getAllPairs";
     private static final String GET_BY_PLAYER = "getByPlayer";
     private static final String GET_ALL_BY_TOUR_QUERY = "getByTourId";
+    private static final String GET_BY_PLAYER_AND_TOUR = "getByPlayerAndTour";
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     @Qualifier(value = "entityManager")
@@ -49,6 +50,11 @@ public class PairDAOImpl implements PairDAO {
     }
 
     @Transactional
+    public void remove(Pair pair) {
+        em.remove(pair);
+    }
+
+    @Transactional
     public List<Pair> listAll() {
         Query query = em.createNamedQuery(GET_ALL_QUERY);
         return query.getResultList();
@@ -66,5 +72,14 @@ public class PairDAOImpl implements PairDAO {
         Query query = em.createNamedQuery(GET_BY_PLAYER);
         query.setParameter("player", player);
         return query.getResultList();
+    }
+
+    @Transactional
+    public Pair getByPlayerAndTour(int playerId, int tourId) {
+        Query query = em.createNamedQuery(GET_BY_PLAYER_AND_TOUR);
+        query.setParameter("player", playerId);
+        query.setParameter("tour", tourId);
+
+        return (Pair) query.getSingleResult();
     }
 }

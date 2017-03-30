@@ -15,9 +15,13 @@ public interface PairDAO {
 
     void remove(int id);
 
+    void remove(Pair pair);
+
     List<Pair> listAll();
 
     List<Pair> listByTourId(int id);
 
     List<Pair> getByPlayer(User player);
+
+    Pair getByPlayerAndTour(int playerId, int tourId);
 }

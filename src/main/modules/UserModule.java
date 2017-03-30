@@ -29,4 +29,6 @@ public interface UserModule {
     void quitFromTournament(int userId, String tourId);
 
     void enterIntoTournament(int userId, String tourId);
+
+    void quitWithPair(int userId, String tourId);
 }

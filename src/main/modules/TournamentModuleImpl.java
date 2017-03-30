@@ -272,15 +272,24 @@ public class TournamentModuleImpl implements TournamentModule {
         ArrayList players = new ArrayList<>(pairs.stream().map(p -> p.getPlayerOne()).collect(Collectors.toList()));
         players.addAll(pairs.stream().map(p -> p.getPlayerTwo()).collect(Collectors.toList()));
 
-        if (pairs.contains(user)) {
+        if (containsUser(players, user)) {
             return false;
         }
 
         List<User> awaitingByTournament = userModule.getAwaitingByTournament(tourId);
-        if (awaitingByTournament.contains(user)) {
+        if (containsUser(awaitingByTournament, user)) {
             return false;
         }
 
         return true;
+    }
+
+    private boolean containsUser(List<User> users, User user) {
+        for (User u : users) {
+            if (u.getLogin().equals(user.getLogin())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

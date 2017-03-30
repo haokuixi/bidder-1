@@ -54,6 +54,7 @@
     <bean id="userModule" class="main.modules.UserModuleImpl">
         <property name="wzbsModule" ref="wzbsModule"/>
         <property name="tournamentModule" ref="tournamentModule"/>
+        <property name="pairModule" ref="pairModule"/>
         <property name="userDAO" ref="userDAO"/>
     </bean>
     <bean id="userDAO" class="main.dao.UserDAOImpl"/>

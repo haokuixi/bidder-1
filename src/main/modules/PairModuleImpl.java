@@ -16,6 +16,22 @@ public class PairModuleImpl implements PairModule {
         return pairDAO.getByPlayer(userDAO.getById(id));
     }
 
+    @Override
+    public Pair getByPlayerAndTour(int playerId, int tourId) {
+        return pairDAO.getByPlayerAndTour(playerId, tourId);
+    }
+
+    @Override
+    public void removeByPlayerAndTour(int playerId, int tourId) {
+        Pair byPlayerAndTour = getByPlayerAndTour(playerId, tourId);
+        pairDAO.remove(byPlayerAndTour);
+    }
+
+    @Override
+    public void removeById(int id) {
+        pairDAO.remove(id);
+    }
+
     public PairDAO getPairDAO() {
         return pairDAO;
     }

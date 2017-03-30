@@ -78,4 +78,9 @@ public class UserServiceImpl implements UserService {
     public void enterIntoTournament(int userId, String tourId) {
         userModule.enterIntoTournament(userId, tourId);
     }
+
+    @Override
+    public void quitWithPair(int userId, String tourId) {
+        userModule.quitWithPair(userId, tourId);
+    }
 }
