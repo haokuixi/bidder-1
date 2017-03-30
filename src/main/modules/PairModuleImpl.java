@@ -1,7 +1,6 @@
 package main.modules;
 
 import main.dao.PairDAO;
-import main.dao.UserDAO;
 import main.entities.Pair;
 
 import java.util.List;
@@ -9,11 +8,12 @@ import java.util.List;
 public class PairModuleImpl implements PairModule {
 
     PairDAO pairDAO;
-    UserDAO userDAO;
+    UserModule userModule;
+    TournamentModule tournamentModule;
 
     @Override
     public List<Pair> getByPlayer(int id) {
-        return pairDAO.getByPlayer(userDAO.getById(id));
+        return pairDAO.getByPlayer(userModule.getById(id));
     }
 
     @Override
@@ -32,6 +32,15 @@ public class PairModuleImpl implements PairModule {
         pairDAO.remove(id);
     }
 
+    @Override
+    public void createPair(int playerOne, int playerTwo, String tourId) {
+        Pair p = new Pair();
+        p.setPlayerOne(userModule.getById(playerOne));
+        p.setPlayerTwo(userModule.getById(playerTwo));
+        p.setTournament(tournamentModule.transformTournament(tournamentModule.getByHashedId(tourId)));
+        pairDAO.create(p);
+    }
+
     public PairDAO getPairDAO() {
         return pairDAO;
     }
@@ -40,11 +49,19 @@ public class PairModuleImpl implements PairModule {
         this.pairDAO = pairDAO;
     }
 
-    public UserDAO getUserDAO() {
-        return userDAO;
+    public UserModule getUserModule() {
+        return userModule;
     }
 
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public void setUserModule(UserModule userModule) {
+        this.userModule = userModule;
+    }
+
+    public TournamentModule getTournamentModule() {
+        return tournamentModule;
+    }
+
+    public void setTournamentModule(TournamentModule tournamentModule) {
+        this.tournamentModule = tournamentModule;
     }
 }

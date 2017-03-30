@@ -200,13 +200,28 @@
                             <td>
                                 <form:form
                                         action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
-                                        methodParam="tourId" method="post">
+                                        methodParam="tourId" method="post" modelAttribute="player">
                                     <c:choose>
                                         <c:when test="${pageContext.request.userPrincipal.name.equals(player.login)}">
                                             <button type="submit"
                                                     class="btn btn-primary btn-block login-button"
                                                     name="quit" value="quit">
                                                 <spring:message code="label.tournament.quit"/>
+                                            </button>
+                                        </c:when>
+                                    </c:choose>
+                                </form:form>
+
+                                <form:form
+                                        action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
+                                        methodParam="tourId" method="post">
+                                    <input type="hidden" name="otherPlayer" value="${player.id}" />
+                                    <c:choose>
+                                        <c:when test="${canJoin}">
+                                            <button type="submit"
+                                                    class="btn btn-primary btn-block login-button"
+                                                    name="enterPair" value="enterPair">
+                                                <spring:message code="label.tournament.enterpair"/>
                                             </button>
                                         </c:when>
                                     </c:choose>

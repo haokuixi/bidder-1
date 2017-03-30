@@ -14,6 +14,11 @@ public class PairServiceImpl implements PairService{
         return pairModule.getByPlayer(id);
     }
 
+    @Override
+    public void createPair(int playerOne, int playerTwo, String tourId) {
+        pairModule.createPair(playerOne, playerTwo, tourId);
+    }
+
     public PairModule getPairModule() {
         return pairModule;
     }

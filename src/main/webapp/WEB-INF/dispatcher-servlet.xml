@@ -68,7 +68,8 @@
 
     <bean id="pairModule" class="main.modules.PairModuleImpl">
         <property name="pairDAO" ref="pairDAO"/>
-        <property name="userDAO" ref="userDAO"/>
+        <property name="userModule" ref="userModule"/>
+        <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
 
     <bean id="userValidator" class="main.validators.UserValidator"/>
