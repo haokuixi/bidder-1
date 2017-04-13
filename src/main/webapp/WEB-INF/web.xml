@@ -37,4 +37,9 @@
             /WEB-INF/security-context.xml
         </param-value>
     </context-param>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/errors/404layout.jsp</location>
+    </error-page>
 </web-app>

@@ -51,4 +51,16 @@
         <put-attribute name="body" value="/WEB-INF/views/tournaments/edittournament.jsp"/>
     </definition>
 
+    <definition name="400" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/errors/400.jsp"/>
+    </definition>
+
+    <definition name="404" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/errors/404.jsp"/>
+    </definition>
+
+    <definition name="500" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/errors/500.jsp"/>
+    </definition>
+
 </tiles-definitions>
