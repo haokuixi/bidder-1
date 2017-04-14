@@ -51,6 +51,10 @@
         <put-attribute name="body" value="/WEB-INF/views/tournaments/edittournament.jsp"/>
     </definition>
 
+    <definition name="deal" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/deals/deal.jsp"/>
+    </definition>
+
     <definition name="400" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/errors/400.jsp"/>
     </definition>

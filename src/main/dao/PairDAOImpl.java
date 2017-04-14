@@ -21,9 +21,8 @@ public class PairDAOImpl implements PairDAO {
     private static final String GET_BY_PLAYER_AND_TOUR = "getByPlayerAndTour";
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
-    @Qualifier(value = "entityManager")
+    @Qualifier(value = "transactionManager")
     private EntityManager em;
-
 
     @Transactional
     public void create(Pair p) {

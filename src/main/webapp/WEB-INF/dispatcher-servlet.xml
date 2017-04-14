@@ -29,27 +29,29 @@
     <bean id="tournamentService" class="main.services.TournamentServiceImpl">
         <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
+    <bean id="pairService" class="main.services.PairServiceImpl">
+        <property name="pairModule" ref="pairModule"/>
+    </bean>
+    <bean id="userService" class="main.services.UserServiceImpl">
+        <property name="userModule" ref="userModule"/>
+    </bean>
+    <bean id="wzbsService" class="main.services.WzbsServiceImpl">
+        <property name="wzbsModule" ref="wzbsModule"/>
+    </bean>
+    <bean id="dealService" class="main.services.DealServiceImpl">
+        <property name="dealModule" ref="dealModule"/>
+    </bean>
+
+
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
         <property name="tournamentDAO" ref="tournamentDAO"/>
         <property name="pairDAO" ref="pairDAO"/>
         <property name="userModule" ref="userModule"/>
     </bean>
-    <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
-
-    <bean id="wzbsService" class="main.services.WzbsServiceImpl">
-        <property name="wzbsModule" ref="wzbsModule"/>
-    </bean>
-    <bean id="wzbsModule" class="main.modules.WzbsModuleImpl">
-        <property name="wzbsDAO" ref="wzbsDAO"/>
-    </bean>
-    <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
-
-    <bean id="pairService" class="main.services.PairServiceImpl">
-        <property name="pairModule" ref="pairModule"/>
-    </bean>
-
-    <bean id="userService" class="main.services.UserServiceImpl">
+    <bean id="pairModule" class="main.modules.PairModuleImpl">
+        <property name="pairDAO" ref="pairDAO"/>
         <property name="userModule" ref="userModule"/>
+        <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
     <bean id="userModule" class="main.modules.UserModuleImpl">
         <property name="wzbsModule" ref="wzbsModule"/>
@@ -57,8 +59,19 @@
         <property name="pairModule" ref="pairModule"/>
         <property name="userDAO" ref="userDAO"/>
     </bean>
-    <bean id="userDAO" class="main.dao.UserDAOImpl"/>
+    <bean id="wzbsModule" class="main.modules.WzbsModuleImpl">
+        <property name="wzbsDAO" ref="wzbsDAO"/>
+    </bean>
+    <bean id="dealModule" class="main.modules.DealModuleImpl">
+        <property name="dealDAO" ref="dealDAO"/>
+        <property name="tournamentModule" ref="tournamentModule"/>
+    </bean>
+
+    <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
     <bean id="pairDAO" class="main.dao.PairDAOImpl"/>
+    <bean id="userDAO" class="main.dao.UserDAOImpl"/>
+    <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
+    <bean id="dealDAO" class="main.dao.DealDAOImpl"/>
 
 
     <bean id="userDto" class="main.dto.UserDto">
@@ -66,11 +79,6 @@
     </bean>
     <bean id="wzbsDto" class="main.dto.WzbsDto"/>
 
-    <bean id="pairModule" class="main.modules.PairModuleImpl">
-        <property name="pairDAO" ref="pairDAO"/>
-        <property name="userModule" ref="userModule"/>
-        <property name="tournamentModule" ref="tournamentModule"/>
-    </bean>
 
     <bean id="userValidator" class="main.validators.UserValidator"/>
     <bean id="editUserValidator" class="main.validators.EditUserValidator"/>

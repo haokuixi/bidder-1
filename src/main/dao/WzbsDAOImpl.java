@@ -18,7 +18,7 @@ public class WzbsDAOImpl implements WzbsDAO {
     private static Logger LOGGER = Logger.getLogger(WzbsDAOImpl.class);
 
     @PersistenceContext
-    @Qualifier(value = "entityManager")
+    @Qualifier(value = "transactionManager")
     private EntityManager em;
 
     @Override
