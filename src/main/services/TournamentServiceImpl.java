@@ -56,6 +56,12 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public void beginTournament(String hashedId) {
+        tournamentModule.setTournamentStartDate(hashedId, LocalDateTime.now());
+        tournamentModule.incrementTournamentRound(hashedId);
+    }
+
+    @Override
     public void setTournamentStartDate(String hashedId, LocalDateTime startDate) {
         tournamentModule.setTournamentStartDate(hashedId, startDate);
     }

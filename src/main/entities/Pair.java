@@ -31,11 +31,11 @@ public class Pair {
     private int id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "player_1")
+    @JoinColumn(name = "player_ne")
     private User playerOne;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "player_2")
+    @JoinColumn(name = "player_sw")
     private User playerTwo;
 
     @ManyToOne(cascade = CascadeType.MERGE)

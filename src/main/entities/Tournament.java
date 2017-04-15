@@ -52,6 +52,9 @@ public class Tournament implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "round")
+    private int currentRound;
+
     public int getId() {
         return id;
     }
@@ -116,6 +119,14 @@ public class Tournament implements Serializable {
         this.status = status;
     }
 
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
     @Override
     public String toString() {
         return "Tournament{" +
@@ -127,6 +138,7 @@ public class Tournament implements Serializable {
                 ", endTime=" + endTime +
                 ", tournamentMode='" + tournamentMode + '\'' +
                 ", status='" + status + '\'' +
+                ", currentRound=" + currentRound +
                 '}';
     }
 }

@@ -106,6 +106,9 @@ public class TournamentModuleImpl implements TournamentModule {
                 && !tournament.getTournamentMode().getName().equals(t.getTournamentMode())) {
             t.setTournamentMode(tournament.getTournamentMode().getName());
         }
+
+        t.setCurrentRound(tournament.getCurrentRound());
+
         tournamentDAO.update(t);
     }
 
@@ -239,6 +242,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournamentDto.setTournamentMode(TournamentMode.valueOf(tournament.getTournamentMode().toUpperCase()));
         tournamentDto.setStatus(TournamentStatus.valueOf(tournament.getStatus()));
         tournamentDto.setHashedId(new DataHash().encode(tournament.getId()));
+        tournamentDto.setCurrentRound(tournament.getCurrentRound());
         return tournamentDto;
     }
 
@@ -257,6 +261,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
+        tournament.setCurrentRound(tournamentDto.getCurrentRound());
         return tournament;
     }
 
@@ -282,6 +287,13 @@ public class TournamentModuleImpl implements TournamentModule {
         }
 
         return true;
+    }
+
+    @Override
+    public void incrementTournamentRound(String hashedId) {
+        TournamentDto tournament = getByHashedId(hashedId);
+        tournament.setCurrentRound(tournament.getCurrentRound() + 1);
+        updateTournament(hashedId, tournament);
     }
 
     private boolean containsUser(List<User> users, User user) {

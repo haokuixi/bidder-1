@@ -19,6 +19,7 @@ public class TournamentDto {
     private String endDate;
     private TournamentMode tournamentMode;
     private TournamentStatus status;
+    private int currentRound;
 
     public int getId() {
         return id;
@@ -116,6 +117,14 @@ public class TournamentDto {
         this.status = status;
     }
 
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
     @Override
     public String toString() {
         return "TournamentDto{" +
@@ -131,6 +140,7 @@ public class TournamentDto {
                 ", endDate='" + endDate + '\'' +
                 ", tournamentMode=" + tournamentMode +
                 ", status=" + status +
+                ", currentRound=" + currentRound +
                 '}';
     }
 }

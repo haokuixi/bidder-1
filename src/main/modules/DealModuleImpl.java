@@ -5,6 +5,7 @@ import main.dao.DealDAO;
 import main.dto.DealDto;
 import main.entities.Deal;
 import main.model.deals.DealsUtils;
+import main.utils.DataHash;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -46,6 +47,11 @@ public class DealModuleImpl implements DealModule {
         dealDto.setDealModel(dealsUtils.jsonToDeal(deal.getCards()));
 
         return dealDto;
+    }
+
+    @Override
+    public Deal getDealById(String dealId) {
+        return dealDAO.getDealById(new DataHash().decode(dealId));
     }
 
     public DealDAO getDealDAO() {

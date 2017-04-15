@@ -13,4 +13,6 @@ public interface DealModule {
     Deal transformDeal(DealDto dealDto) throws JsonProcessingException;
 
     DealDto transformDeal(Deal deal) throws IOException;
+
+    Deal getDealById(String dealId);
 }

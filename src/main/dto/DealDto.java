@@ -1,12 +1,13 @@
 package main.dto;
 
-import main.entities.Tournament;
 import main.model.deals.DealModel;
 
 public class DealDto {
 
     private int id;
+    private String hashedId;
     private TournamentDto tournament;
+    private int tournamentRound;
     private DealModel dealModel;
 
     public DealDto() {
@@ -14,9 +15,9 @@ public class DealDto {
         dealModel = new DealModel();
     }
 
-    public DealDto(int id, TournamentDto tournament, DealModel dealModel) {
-        this.id = id;
+    public DealDto(TournamentDto tournament, int tournamentRound, DealModel dealModel) {
         this.tournament = tournament;
+        this.tournamentRound = tournamentRound;
         this.dealModel = dealModel;
     }
 
@@ -26,6 +27,14 @@ public class DealDto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getHashedId() {
+        return hashedId;
+    }
+
+    public void setHashedId(String hashedId) {
+        this.hashedId = hashedId;
     }
 
     public TournamentDto getTournament() {
@@ -42,5 +51,24 @@ public class DealDto {
 
     public void setDealModel(DealModel dealModel) {
         this.dealModel = dealModel;
+    }
+
+    public int getTournamentRound() {
+        return tournamentRound;
+    }
+
+    public void setTournamentRound(int tournamentRound) {
+        this.tournamentRound = tournamentRound;
+    }
+
+    @Override
+    public String toString() {
+        return "DealDto{" +
+                "id=" + id +
+                ", hashedId='" + hashedId + '\'' +
+                ", tournament=" + tournament +
+                ", tournamentRound=" + tournamentRound +
+                ", dealModel=" + dealModel +
+                '}';
     }
 }

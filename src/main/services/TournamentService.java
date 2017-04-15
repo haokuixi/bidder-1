@@ -27,6 +27,8 @@ public interface TournamentService {
 
     void editTournament(String hashedId, TournamentDto tournamentDto);
 
+    void beginTournament(String hashedId);
+
     void setTournamentStartDate(String hashedId, LocalDateTime startDate);
 
     void setTournamentEndDate(String hashedId, LocalDateTime endDate);

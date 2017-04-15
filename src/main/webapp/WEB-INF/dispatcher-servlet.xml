@@ -40,6 +40,7 @@
     </bean>
     <bean id="dealService" class="main.services.DealServiceImpl">
         <property name="dealModule" ref="dealModule"/>
+        <property name="dealResultModule" ref="dealResultModule"/>
     </bean>
 
 
@@ -66,12 +67,16 @@
         <property name="dealDAO" ref="dealDAO"/>
         <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
+    <bean id="dealResultModule" class="main.modules.DealResultModuleImpl">
+        <property name="dealResultDAO" ref="dealResultDAO"/>
+    </bean>
 
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
     <bean id="pairDAO" class="main.dao.PairDAOImpl"/>
     <bean id="userDAO" class="main.dao.UserDAOImpl"/>
     <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
     <bean id="dealDAO" class="main.dao.DealDAOImpl"/>
+    <bean id="dealResultDAO" class="main.dao.DealResultDAOImpl"/>
 
 
     <bean id="userDto" class="main.dto.UserDto">

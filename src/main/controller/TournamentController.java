@@ -65,10 +65,10 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair"})
-    public ModelAndView setStartDate(HttpServletRequest request) {
+    public ModelAndView beginTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
-        tournamentService.setTournamentStartDate(tourId, LocalDateTime.now());
+        tournamentService.beginTournament(tourId);
 
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getByHashedId(tourId));

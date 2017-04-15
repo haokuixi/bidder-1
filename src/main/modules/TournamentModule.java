@@ -36,4 +36,6 @@ public interface TournamentModule {
     TournamentDto transformTournament(Tournament tournament);
 
     Tournament transformTournament(TournamentDto tournamentDto);
+
+    void incrementTournamentRound(String hashedId);
 }

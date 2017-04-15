@@ -1,34 +1,32 @@
 package main.dao;
 
-import main.entities.Deal;
+import main.entities.DealResult;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import java.util.List;
 
-@Repository("dealRepository")
-public class DealDAOImpl implements DealDAO {
+public class DealResultDAOImpl implements DealResultDAO {
 
-    private static final String GET_BY_ID = "getById";
+    private static final String GET_BY_DEAL_ID = "getByDealId";
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     @Qualifier(value = "transactionManager")
     private EntityManager em;
 
     @Transactional
-    public void create(Deal d) {
+    public void create(DealResult d) {
         em.persist(d);
     }
 
-    @Transactional
-    public Deal getDealById(int dealId) {
-        Query query = em.createNamedQuery(GET_BY_ID);
+    @Override
+    public List<DealResult> getByDealId(int dealId) {
+        Query query = em.createNamedQuery(GET_BY_DEAL_ID);
         query.setParameter(1, dealId);
-
-        return (Deal) query.getSingleResult();
+        return query.getResultList();
     }
 }

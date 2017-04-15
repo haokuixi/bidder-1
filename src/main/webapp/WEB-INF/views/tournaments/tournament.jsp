@@ -123,6 +123,18 @@
                                         </c:choose>
                                     </td>
                                 </tr>
+                                <c:choose>
+                                    <c:when test="${tour.status.name=='INPROGRESS'}">
+                                        <tr align="center">
+                                            <td class="text">
+                                                <spring:message code="label.tournament.currentround"/>
+                                            </td>
+                                            <td class="text">
+                                                    ${tour.currentRound}
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                </c:choose>
                                 <tr>
                                     <form:form
                                             action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
@@ -215,7 +227,7 @@
                                 <form:form
                                         action="${pageContext.request.contextPath}/tournaments/tour?tourId=${tour.hashedId}"
                                         methodParam="tourId" method="post">
-                                    <input type="hidden" name="otherPlayer" value="${player.id}" />
+                                    <input type="hidden" name="otherPlayer" value="${player.id}"/>
                                     <c:choose>
                                         <c:when test="${canJoin}">
                                             <button type="submit"
