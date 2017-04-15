@@ -42,4 +42,21 @@
         <error-code>404</error-code>
         <location>/WEB-INF/views/errors/404layout.jsp</location>
     </error-page>
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/views/errors/400layout.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/errors/500layout.jsp</location>
+    </error-page>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

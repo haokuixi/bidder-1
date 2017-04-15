@@ -39,4 +39,14 @@ public class FullHand {
     public void setClubs(List<CardValue> clubs) {
         this.clubs = clubs;
     }
+
+    @Override
+    public String toString() {
+        return "FullHand{" +
+                "spades=" + spades +
+                ", hearts=" + hearts +
+                ", diamonds=" + diamonds +
+                ", clubs=" + clubs +
+                '}';
+    }
 }

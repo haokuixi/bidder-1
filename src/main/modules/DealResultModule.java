@@ -14,4 +14,6 @@ public interface DealResultModule {
     DealResultDto transformDealResult(DealResult dealResult);
 
     DealResult transformDealResult(DealResultDto dealResultDto);
+
+    String resolveContractColor(String text);
 }

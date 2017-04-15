@@ -24,6 +24,17 @@ public class DealResultModuleImpl implements DealResultModule {
     }
 
     @Override
+    public String resolveContractColor(String text) {
+        switch (text.substring(1, 2)) {
+            case "S" : return "♠";
+            case "H" : return "♥";
+            case "D" : return "♦";
+            case "C" : return "♣";
+            default: return "NT";
+        }
+    }
+
+    @Override
     public DealResultDto transformDealResult(DealResult dealResult) {
         DealResultDto dealResultDto = new DealResultDto();
         dealResultDto.setDeal(dealResult.getDealId());
@@ -37,6 +48,7 @@ public class DealResultModuleImpl implements DealResultModule {
         dealResultDto.setLead(dealResult.getLead());
         dealResultDto.setResult(dealResult.getResult());
         dealResultDto.setPoints(dealResult.getPoints());
+        dealResultDto.setContractColor(resolveContractColor(dealResult.getContract()));
 
         return dealResultDto;
     }

@@ -17,6 +17,7 @@ public class DealResultDto {
     private String lead;
     private int result;
     private int points;
+    private String contractColor;
 
     public int getId() {
         return id;
@@ -104,6 +105,14 @@ public class DealResultDto {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public String getContractColor() {
+        return contractColor;
+    }
+
+    public void setContractColor(String contractColor) {
+        this.contractColor = contractColor;
     }
 
     @Override
