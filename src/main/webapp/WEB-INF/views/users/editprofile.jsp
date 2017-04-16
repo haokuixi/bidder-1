@@ -130,14 +130,3 @@
 </div>
 </body>
 </html>
-
-<form:form modelAttribute="user" method="POST" enctype="utf8">
-    <br>
-    <table>
-
-
-    </table>
-    <button type="submit">
-        <spring:message code="label.form.submit"/>
-    </button>
-</form:form>

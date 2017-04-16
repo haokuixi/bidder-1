@@ -48,9 +48,11 @@ public class UserValidator implements Validator {
 
         // pzbs_id
         String shortName = user.getWzbs().getShortName();
-        int pzbsId = user.getPzbsId();
 
-        if (!WZBS_NZ.equals(shortName) && pzbsId == 0) {
+        Integer pzbsId = user.getPzbsId();
+
+        if ((WZBS_NZ.equals(shortName) && (pzbsId == null || pzbsId.equals(0))) ||
+                (!WZBS_NZ.equals(shortName) && (pzbsId != null || !pzbsId.equals(0)))) {
             errors.rejectValue("pzbsId", "validation.user.pzbsid.null");
         }
 

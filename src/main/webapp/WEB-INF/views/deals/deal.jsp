@@ -3,6 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+visible ${visible}
+<h2> heloł ${sessionScope.get("loggedUser").getLogin()}</h2>
+
+
 <div class="container" align="center">
     <div class="container">
         <div class="well col-md-9 col-lg-9">

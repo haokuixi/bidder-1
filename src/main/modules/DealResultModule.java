@@ -1,5 +1,6 @@
 package main.modules;
 
+import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.entities.DealResult;
 
@@ -16,4 +17,8 @@ public interface DealResultModule {
     DealResult transformDealResult(DealResultDto dealResultDto);
 
     String resolveContractColor(String text);
+
+    boolean didUserPlayThisDeal(String login, List<DealResultDto> results);
+
+    boolean didUserPlayThisDeal(String login, String dealId);
 }

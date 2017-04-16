@@ -1,8 +1,10 @@
 package main.modules;
 
 import main.dao.DealResultDAO;
+import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.entities.DealResult;
+import main.entities.Pair;
 import main.utils.DataHash;
 
 import java.util.List;
@@ -69,6 +71,28 @@ public class DealResultModuleImpl implements DealResultModule {
 
         return dealResult;
 
+    }
+
+    @Override
+    public boolean didUserPlayThisDeal(String login, List<DealResultDto> results) {
+        for(DealResultDto dr : results) {
+            Pair pairEW = dr.getPairEW();
+            Pair pairNS = dr.getPairNS();
+
+            if(pairEW.getPlayerOne().getLogin().equals(login) ||
+                    pairEW.getPlayerTwo().getLogin().equals(login) ||
+                    pairNS.getPlayerOne().getLogin().equals(login) ||
+                    pairNS.getPlayerTwo().getLogin().equals(login)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean didUserPlayThisDeal(String login, String dealId) {
+        return didUserPlayThisDeal(login, getByDealId(dealId));
     }
 
     public DealResultDAO getDealResultDAO() {

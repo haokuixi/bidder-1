@@ -2,6 +2,8 @@ package main.dto;
 
 import main.model.deals.DealModel;
 
+import java.util.List;
+
 public class DealDto {
 
     private int id;
@@ -9,6 +11,7 @@ public class DealDto {
     private TournamentDto tournament;
     private int tournamentRound;
     private DealModel dealModel;
+    private List<DealResultDto> results;
 
     public DealDto() {
         tournament = new TournamentDto();
@@ -59,6 +62,14 @@ public class DealDto {
 
     public void setTournamentRound(int tournamentRound) {
         this.tournamentRound = tournamentRound;
+    }
+
+    public List<DealResultDto> getResults() {
+        return results;
+    }
+
+    public void setResults(List<DealResultDto> results) {
+        this.results = results;
     }
 
     @Override

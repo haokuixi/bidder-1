@@ -19,7 +19,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public Deal getDealById(String dealId) {
+    public DealDto getDealById(String dealId) {
         return dealModule.getDealById(dealId);
     }
 
@@ -31,6 +31,11 @@ public class DealServiceImpl implements DealService {
     @Override
     public void saveDealResult(DealResultDto dealResult) {
         dealResultModule.create(dealResult);
+    }
+
+    @Override
+    public boolean isDealVisible(DealDto deal, String login) {
+        return dealModule.isDealVisible(deal, login);
     }
 
     public DealModule getDealModule() {

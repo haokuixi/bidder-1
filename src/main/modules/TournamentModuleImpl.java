@@ -121,10 +121,7 @@ public class TournamentModuleImpl implements TournamentModule {
 
     @Override
     public TournamentDto getByHashedId(String hashedId) {
-        int id = new DataHash().decode(hashedId);
-        TournamentDto tournamentDto = transformTournament(tournamentDAO.getById(id));
-        tournamentDto.setPairs(pairDAO.listByTourId(id));
-        return tournamentDto;
+        return getById(new DataHash().decode(hashedId));
     }
 
     @Override
@@ -174,8 +171,7 @@ public class TournamentModuleImpl implements TournamentModule {
     @Override
     public void setTournamentStartDate(String hashedId, LocalDateTime startDate) {
         dateTimeUtils = new DateTimeUtils();
-        int tourId = new DataHash().decode(hashedId);
-        TournamentDto t = getById(tourId);
+        TournamentDto t = getByHashedId(hashedId);
 
         if (startDate == null) {
             startDate = LocalDateTime.now();
@@ -183,14 +179,13 @@ public class TournamentModuleImpl implements TournamentModule {
 
         t.setStartDate(dateTimeUtils.parseDate(startDate, DATE_TIME_FORMAT));
         t.setStatus(TournamentStatus.INPROGRESS);
-        updateTournament(tourId, t);
+        updateTournament(new DataHash().decode(hashedId), t);
     }
 
     @Override
     public void setTournamentEndDate(String hashedId, LocalDateTime endDate) {
         dateTimeUtils = new DateTimeUtils();
-        int tourId = new DataHash().decode(hashedId);
-        TournamentDto t = getById(tourId);
+        TournamentDto t = getByHashedId(hashedId);
 
         if (endDate == null) {
             endDate = LocalDateTime.now();
@@ -198,7 +193,7 @@ public class TournamentModuleImpl implements TournamentModule {
 
         t.setEndDate(dateTimeUtils.parseDate(endDate, DATE_TIME_FORMAT));
         t.setStatus(TournamentStatus.COMPLETED);
-        updateTournament(tourId, t);
+        updateTournament(new DataHash().decode(hashedId), t);
     }
 
     public TournamentDAO getTournamentDAO() {
