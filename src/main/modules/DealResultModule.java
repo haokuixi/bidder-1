@@ -1,6 +1,5 @@
 package main.modules;
 
-import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.entities.DealResult;
 
