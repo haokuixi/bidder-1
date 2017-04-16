@@ -17,4 +17,6 @@ public interface DealService {
     void saveDealResult(DealResultDto dealResult);
 
     boolean isDealVisible(DealDto deal, String login);
+
+    boolean isResultButtonVisible(DealDto deal, String loggedUser);
 }

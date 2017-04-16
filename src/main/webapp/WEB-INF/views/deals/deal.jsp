@@ -196,9 +196,18 @@
         </div>
         </div>
 
-        <div class="container" align="center" style="position:absolute; left:18%; top:45%;">
+
+        <div class="container" align="center" style="position:absolute; left:18%; top:48%;">
             <div class="container">
                 <div class="well">
+                    <c:choose>
+                        <c:when test="${buttonVisible}">
+                            <a class="btn btn-primary btn-block login-button button"
+                               href="${pageContext.request.contextPath}/deals/enterresult?dealId=${deal.hashedId}">
+                                <spring:message code="label.deal.enterresult"/>
+                            </a>
+                        </c:when>
+                    </c:choose>
                     <table class="table">
                         <thead class="header">
                         <tr>

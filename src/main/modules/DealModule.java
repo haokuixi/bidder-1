@@ -19,4 +19,6 @@ public interface DealModule {
     DealDto getDealById(String dealId);
 
     boolean isDealVisible(DealDto deal, String login);
+
+    boolean isResultButtonVisible(DealDto deal, String loggedUser);
 }

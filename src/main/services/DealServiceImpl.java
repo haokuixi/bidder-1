@@ -38,6 +38,11 @@ public class DealServiceImpl implements DealService {
         return dealModule.isDealVisible(deal, login);
     }
 
+    @Override
+    public boolean isResultButtonVisible(DealDto deal, String loggedUser) {
+        return dealModule.isResultButtonVisible(deal, loggedUser);
+    }
+
     public DealModule getDealModule() {
         return dealModule;
     }

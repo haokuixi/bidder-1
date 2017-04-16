@@ -291,6 +291,18 @@ public class TournamentModuleImpl implements TournamentModule {
         updateTournament(hashedId, tournament);
     }
 
+    @Override
+    public boolean isUserInTournamentPairs(String hashedId, String login) {
+        TournamentDto tour = getByHashedId(hashedId);
+        for (Pair p : tour.getPairs()) {
+            if (p.getPlayerOne().getLogin().equals(login) || p.getPlayerTwo().getLogin().equals(login)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private boolean containsUser(List<User> users, User user) {
         for (User u : users) {
             if (u.getLogin().equals(user.getLogin())) {

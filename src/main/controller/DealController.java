@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class DealController {
 
     private static final String DEAL = "deal";
+    private static final String ENTER_RESULT = "enterresult";
 
     @Autowired
     DealService dealService;
@@ -28,7 +29,16 @@ public class DealController {
         model.addObject("deal", deal);
         model.addObject("results", dealService.getDealResultsByDealId(dealId));
         model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        model.addObject("buttonVisible", dealService.isResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.setViewName(DEAL);
+        return model;
+    }
+
+    @RequestMapping(value = "/enterresult", method = RequestMethod.GET)
+    public ModelAndView enterResult(@RequestParam String dealId, HttpServletRequest request) {
+        ModelAndView model = new ModelAndView();
+
+        model.setViewName(ENTER_RESULT);
         return model;
     }
 }

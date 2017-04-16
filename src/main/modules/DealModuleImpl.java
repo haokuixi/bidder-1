@@ -3,6 +3,7 @@ package main.modules;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import main.dao.DealDAO;
 import main.dto.DealDto;
+import main.dto.TournamentDto;
 import main.dto.TournamentStatus;
 import main.entities.Deal;
 import main.entities.User;
@@ -63,6 +64,7 @@ public class DealModuleImpl implements DealModule {
             LOGGER.debug(e.getMessage(), e);
         }
         dealDto.setResults(dealResultModule.getByDealId(new DataHash().encode(deal.getId())));
+        dealDto.setHashedId(new DataHash().encode(deal.getId()));
 
         return dealDto;
     }
@@ -78,6 +80,20 @@ public class DealModuleImpl implements DealModule {
 
         if (user.isJudge() || dealResultModule.didUserPlayThisDeal(login, deal.getResults())
                 || tournamentModule.getById(deal.getTournament().getId()).getStatus() != TournamentStatus.INPROGRESS) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isResultButtonVisible(DealDto deal, String loggedUser) {
+        User user = userModule.getUserByLogin(loggedUser);
+        TournamentDto tournament = tournamentModule.getById(deal.getTournament().getId());
+
+        if (user.isJudge() || !dealResultModule.didUserPlayThisDeal(loggedUser, deal.getResults())
+                || tournamentModule.isUserInTournamentPairs(tournament.getHashedId(), user.getLogin())
+                || tournament.getStatus() != TournamentStatus.INPROGRESS) {
             return true;
         }
 

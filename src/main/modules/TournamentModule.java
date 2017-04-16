@@ -38,4 +38,6 @@ public interface TournamentModule {
     Tournament transformTournament(TournamentDto tournamentDto);
 
     void incrementTournamentRound(String hashedId);
+
+    boolean isUserInTournamentPairs(String hashedId, String login);
 }
