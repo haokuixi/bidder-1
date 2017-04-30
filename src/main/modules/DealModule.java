@@ -21,4 +21,6 @@ public interface DealModule {
     boolean isDealVisible(DealDto deal, String login);
 
     boolean isResultButtonVisible(DealDto deal, String loggedUser);
+
+    String constructContract(int height, String color, String position, int tricks, int doubleValue);
 }

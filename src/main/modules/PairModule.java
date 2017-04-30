@@ -15,4 +15,6 @@ public interface PairModule {
     void removeById(int id);
 
     void createPair(int playerOne, int playerTwo, String tourId);
+
+    Pair getById(int id);
 }

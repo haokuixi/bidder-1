@@ -41,6 +41,11 @@ public class PairModuleImpl implements PairModule {
         pairDAO.create(p);
     }
 
+    @Override
+    public Pair getById(int id) {
+        return pairDAO.getById(id);
+    }
+
     public PairDAO getPairDAO() {
         return pairDAO;
     }

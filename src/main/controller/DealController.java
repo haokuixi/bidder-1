@@ -1,8 +1,10 @@
 package main.controller;
 
 import main.dto.DealDto;
+import main.entities.Pair;
 import main.entities.User;
 import main.services.DealService;
+import main.validators.DealValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ public class DealController {
 
     @Autowired
     DealService dealService;
+    @Autowired
+    DealValidator dealValidator;
 
     @RequestMapping(value = "/deal", method = RequestMethod.GET)
     public ModelAndView getDeal(@RequestParam String dealId, HttpServletRequest request) {
@@ -35,10 +39,28 @@ public class DealController {
     }
 
     @RequestMapping(value = "/enterresult", method = RequestMethod.GET)
-    public ModelAndView enterResult(@RequestParam String dealId, HttpServletRequest request) {
+    public ModelAndView enterResultView(@RequestParam String dealId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
-
+        model.addObject("dealId", dealId);
         model.setViewName(ENTER_RESULT);
+        return model;
+    }
+
+    @RequestMapping(value = "/enterresult", method = RequestMethod.POST, params = {"enterResult"})
+    public ModelAndView enterResult(@RequestParam String dealId, HttpServletRequest request) {
+        dealService.saveDealResult(request.getParameter("colorValue"),
+                Integer.valueOf(request.getParameter("heightValue")),
+                Integer.valueOf(request.getParameter("tricksValue")),
+                Integer.valueOf(request.getParameter("doubleValue")),
+                request.getParameter("positionValue"),
+                Boolean.valueOf(request.getParameter("vulnerableValue")),
+                dealId, new Pair(), new Pair());
+
+
+        ModelAndView model = new ModelAndView();
+        model.setViewName(ENTER_RESULT);
+
+
         return model;
     }
 }

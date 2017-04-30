@@ -2,7 +2,7 @@ package main.services;
 
 import main.dto.DealDto;
 import main.dto.DealResultDto;
-import main.entities.Deal;
+import main.entities.Pair;
 
 import java.util.List;
 
@@ -19,4 +19,7 @@ public interface DealService {
     boolean isDealVisible(DealDto deal, String login);
 
     boolean isResultButtonVisible(DealDto deal, String loggedUser);
+
+    void saveDealResult(String color, int height, int tricks, int doubleValue, String position, boolean vulnerable,
+                        String hashedDealId, Pair pairNS, Pair pairEW);
 }

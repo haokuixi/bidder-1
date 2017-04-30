@@ -41,6 +41,8 @@
     <bean id="dealService" class="main.services.DealServiceImpl">
         <property name="dealModule" ref="dealModule"/>
         <property name="dealResultModule" ref="dealResultModule"/>
+        <property name="userModule" ref="userModule"/>
+        <property name="pairModule" ref="pairModule"/>
     </bean>
 
 

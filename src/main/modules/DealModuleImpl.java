@@ -100,6 +100,33 @@ public class DealModuleImpl implements DealModule {
         return false;
     }
 
+    @Override
+    public String constructContract(int height, String color, String position, int tricks, int doubleValue) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(height);
+        sb.append(color);
+        if (doubleValue == 1) {
+            sb.append("x");
+        } else if (doubleValue == 2) {
+            sb.append("xx");
+        }
+        sb.append(position);
+
+        int tr = tricks - height - 6;
+
+        if (tr == 0) {
+            sb.append("=");
+        } else if (tr > 0) {
+            sb.append("+").append(tr);
+        } else {
+            sb.append("-").append(tr);
+        }
+
+
+        return sb.toString();
+    }
+
+
     public DealDAO getDealDAO() {
         return dealDAO;
     }
