@@ -34,4 +34,6 @@ public interface TournamentService {
     void setTournamentEndDate(String hashedId, LocalDateTime endDate);
 
     boolean canUserJoinTournament(String tourId, int userId);
+
+    boolean checkTournamentBeforeBegin(String tourId);
 }

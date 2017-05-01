@@ -40,4 +40,8 @@ public interface TournamentModule {
     void incrementTournamentRound(String hashedId);
 
     boolean isUserInTournamentPairs(String hashedId, String login);
+
+    void beginTournament(String hashedId);
+
+    boolean checkTournamentBeforeBegin(String tourId);
 }

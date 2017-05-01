@@ -303,6 +303,31 @@ public class TournamentModuleImpl implements TournamentModule {
         return false;
     }
 
+    @Override
+    public void beginTournament(String hashedId) {
+        TournamentDto tour = getByHashedId(hashedId);
+        List<Pair> pairs = tour.getPairs();
+
+        for (int i = 0; i < pairs.size(); i++) {
+            pairs.get(i).setTourNumber(i + 1);
+            pairDAO.update(pairs.get(i));
+            System.out.println(i + 1);
+        }
+    }
+
+    @Override
+    public boolean checkTournamentBeforeBegin(String tourId) {
+        TournamentDto tournamentDto = getByHashedId(tourId);
+
+        int size = tournamentDto.getPairs().size();
+
+        if (Math.floorMod(size, 2) != 0 || size < 6) {
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean containsUser(List<User> users, User user) {
         for (User u : users) {
             if (u.getLogin().equals(user.getLogin())) {

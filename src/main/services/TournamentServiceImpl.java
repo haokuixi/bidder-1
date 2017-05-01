@@ -59,6 +59,7 @@ public class TournamentServiceImpl implements TournamentService {
     public void beginTournament(String hashedId) {
         tournamentModule.setTournamentStartDate(hashedId, LocalDateTime.now());
         tournamentModule.incrementTournamentRound(hashedId);
+        tournamentModule.beginTournament(hashedId);
     }
 
     @Override
@@ -74,6 +75,11 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public boolean canUserJoinTournament(String tourId, int userId) {
         return tournamentModule.canUserJoinTournament(tourId, userId);
+    }
+
+    @Override
+    public boolean checkTournamentBeforeBegin(String tourId) {
+        return tournamentModule.checkTournamentBeforeBegin(tourId);
     }
 
     public TournamentModule getTournamentModule() {

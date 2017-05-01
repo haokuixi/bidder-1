@@ -4,7 +4,6 @@ import main.dto.DealDto;
 import main.entities.Pair;
 import main.entities.User;
 import main.services.DealService;
-import main.validators.DealValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +22,6 @@ public class DealController {
 
     @Autowired
     DealService dealService;
-    @Autowired
-    DealValidator dealValidator;
 
     @RequestMapping(value = "/deal", method = RequestMethod.GET)
     public ModelAndView getDeal(@RequestParam String dealId, HttpServletRequest request) {

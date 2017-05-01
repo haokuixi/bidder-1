@@ -150,6 +150,13 @@
                                         </c:choose>
                                     </form:form>
                                 </tr>
+                                <tr>
+                                    <c:choose>
+                                        <c:when test="${error!=null && error!=''}">
+                                                <spring:message code="${error}"/>
+                                        </c:when>
+                                    </c:choose>
+                                </tr>
                                 </tbody>
                             </table>
 

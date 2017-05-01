@@ -48,6 +48,9 @@ public class Pair {
     @Column(name = "imp_res", columnDefinition = "float4")
     private Double impResult;
 
+    @Column(name = "tour_pair_number")
+    private Integer tourNumber;
+
     public User getPlayerOne() {
         return playerOne;
     }
@@ -88,6 +91,14 @@ public class Pair {
         this.impResult = impResult;
     }
 
+    public Integer getTourNumber() {
+        return tourNumber;
+    }
+
+    public void setTourNumber(Integer tourNumber) {
+        this.tourNumber = tourNumber;
+    }
+
     @Override
     public String toString() {
         return "Pair{" +
@@ -97,6 +108,7 @@ public class Pair {
                 ", tournament=" + tournament +
                 ", maxResult=" + maxResult +
                 ", impResult=" + impResult +
+                ", tourNumber=" + tourNumber +
                 '}';
     }
 }

@@ -11,6 +11,7 @@ import main.validators.TournamentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,10 +68,16 @@ public class TournamentController {
     @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair"})
     public ModelAndView beginTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
-
-        tournamentService.beginTournament(tourId);
-
         ModelAndView model = new ModelAndView();
+
+        if(!tournamentService.checkTournamentBeforeBegin(tourId)) {
+            model.addObject("error", "label.tournament.cantstart");
+        } else {
+            tournamentService.beginTournament(tourId);
+            model.addObject("error", "none");
+        }
+
+
         model.addObject("tour", tournamentService.getByHashedId(tourId));
         model.setViewName(TOURNAMENT);
         return model;
