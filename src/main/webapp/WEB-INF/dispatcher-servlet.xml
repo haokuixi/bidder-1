@@ -44,6 +44,9 @@
         <property name="userModule" ref="userModule"/>
         <property name="pairModule" ref="pairModule"/>
     </bean>
+    <bean id="movementService" class="main.services.MovementServiceImpl">
+        <property name="movementModule" ref="movementModule"/>
+    </bean>
 
 
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
@@ -71,9 +74,11 @@
         <property name="userModule" ref="userModule"/>
         <property name="dealResultModule" ref="dealResultModule"/>
     </bean>
-
     <bean id="dealResultModule" class="main.modules.DealResultModuleImpl">
         <property name="dealResultDAO" ref="dealResultDAO"/>
+    </bean>
+    <bean id="movementModule" class="main.modules.MovementModuleImpl">
+        <property name="movementDAO" ref="movementsDAO"/>
     </bean>
 
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
@@ -82,6 +87,7 @@
     <bean id="wzbsDAO" class="main.dao.WzbsDAOImpl"/>
     <bean id="dealDAO" class="main.dao.DealDAOImpl"/>
     <bean id="dealResultDAO" class="main.dao.DealResultDAOImpl"/>
+    <bean id="movementsDAO" class="main.dao.MovementDAOImpl"/>
 
 
     <bean id="userDto" class="main.dto.UserDto">
