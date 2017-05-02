@@ -62,7 +62,29 @@ public class MovementModuleImpl implements MovementModule {
             e.printStackTrace();
         }
 
+        movementDto.setBoards(calculateBoards(movementDto));
+        movementDto.setRounds(movementDto.getMovementTables().getTable().get(0).getRounds().getRound().size());
+
         return movementDto;
+    }
+
+    private int calculateBoards(MovementDto movementDto) {
+        List<Tables.Table> tables = movementDto.getMovementTables().getTable();
+        int boards = 0;
+
+        if(!tables.isEmpty()) {
+            for(int i=0; i<tables.size(); i++) {
+                List<Tables.Table.Rounds.Round> rounds = tables.get(i).getRounds().getRound();
+                for(int j=0; j<rounds.size(); j++) {
+                    Byte to = rounds.get(j).getBoards().getTo();
+                    if(to > boards) {
+                        boards = to;
+                    }
+                }
+            }
+        }
+
+        return boards;
     }
 
     @Override
@@ -84,6 +106,7 @@ public class MovementModuleImpl implements MovementModule {
 
         return movement;
     }
+
 
     public MovementDAO getMovementDAO() {
         return movementDAO;

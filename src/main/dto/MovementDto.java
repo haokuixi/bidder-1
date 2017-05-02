@@ -10,6 +10,10 @@ public class MovementDto {
 
     private Tables movementTables;
 
+    private int boards;
+
+    private int rounds;
+
     public int getId() {
         return id;
     }
@@ -34,12 +38,30 @@ public class MovementDto {
         this.movementTables = movementTables;
     }
 
+    public int getBoards() {
+        return boards;
+    }
+
+    public void setBoards(int boards) {
+        this.boards = boards;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
     @Override
     public String toString() {
         return "MovementDto{" +
                 "id=" + id +
                 ", pairs=" + pairs +
                 ", movementTables=" + movementTables +
+                ", boards=" + boards +
+                ", rounds=" + rounds +
                 '}';
     }
 }

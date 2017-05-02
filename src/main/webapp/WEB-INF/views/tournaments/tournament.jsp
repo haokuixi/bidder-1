@@ -200,12 +200,58 @@
                 <table class="table">
                     <tbody>
                     <tr>
+                        <td colspan="${tour.movement.movementTables.table.size()}">
+                            <spring:message code="label.tournament.movements.boards"/> ${tour.movement.boards}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td/>
                         <c:forEach var="table" items="${tour.movement.movementTables.table}">
-                            <td>Stół ${table.number}</td>
-                            <td>NS: ${table.movement.ns}</td>
-                            <td>EW: ${table.movement.ew}</td>
+                            <th><spring:message code="label.tournament.movements.table"/> ${table.number} </th>
                         </c:forEach>
                     </tr>
+                    <tr>
+                        <td/>
+                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                            <c:choose>
+                                <c:when test="${table.movement.ns.equals(' stationary ')}">
+                                    <td>NS: <spring:message code="label.tournament.movements.stationary"/></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>NS: ${table.movement.ns}</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td/>
+                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                            <c:choose>
+                                <c:when test="${table.movement.ew=='stationary'}">
+                                    <td>EW: <spring:message code="label.tournament.movements.stationary"/></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>EW: ${table.movement.ew}</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
+
+                    <tr>
+                        <td colspan="${tour.movement.movementTables.table.size()}">
+                            <spring:message code="label.tournament.movements.boardsontables"/>:
+                        </td>
+                    </tr>
+
+                    <c:forEach var="i" begin="0" end="${tour.movement.rounds-1}">
+                        <tr>
+                            <td><spring:message code="label.tournament.movements.round"/> ${i+1}</td>
+                            <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                                <td>${table.rounds.round.get(i).boards.from}-${table.rounds.round.get(i).boards.to}</td>
+                            </c:forEach>
+                        </tr>
+                    </c:forEach>
+
                     </tbody>
                 </table>
             </div>
