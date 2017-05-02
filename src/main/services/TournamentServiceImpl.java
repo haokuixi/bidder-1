@@ -1,5 +1,6 @@
 package main.services;
 
+import main.dto.MovementDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.Tournament;
@@ -56,10 +57,10 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void beginTournament(String hashedId) {
+    public void beginTournament(String hashedId, MovementDto movements) {
         tournamentModule.setTournamentStartDate(hashedId, LocalDateTime.now());
         tournamentModule.incrementTournamentRound(hashedId);
-        tournamentModule.beginTournament(hashedId);
+        tournamentModule.beginTournament(hashedId, movements);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public boolean checkTournamentBeforeBegin(String tourId) {
+    public MovementDto checkTournamentBeforeBegin(String tourId) {
         return tournamentModule.checkTournamentBeforeBegin(tourId);
     }
 

@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.dto.MovementDto;
 import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.entities.User;
@@ -11,7 +12,6 @@ import main.validators.TournamentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,13 +70,14 @@ public class TournamentController {
         String tourId = request.getParameter("tourId");
         ModelAndView model = new ModelAndView();
 
-        if(!tournamentService.checkTournamentBeforeBegin(tourId)) {
+        MovementDto movements = tournamentService.checkTournamentBeforeBegin(tourId);
+
+        if (movements == null) {
             model.addObject("error", "label.tournament.cantstart");
         } else {
-            tournamentService.beginTournament(tourId);
+            tournamentService.beginTournament(tourId, movements);
             model.addObject("error", "none");
         }
-
 
         model.addObject("tour", tournamentService.getByHashedId(tourId));
         model.setViewName(TOURNAMENT);

@@ -153,7 +153,7 @@
                                 <tr>
                                     <c:choose>
                                         <c:when test="${error!=null && error!=''}">
-                                                <spring:message code="${error}"/>
+                                            <spring:message code="${error}"/>
                                         </c:when>
                                     </c:choose>
                                 </tr>
@@ -191,6 +191,27 @@
         </div>
     </div>
 </div>
+
+<c:choose>
+    <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
+        && tour.status.name().equals('INPROGRESS')}">
+        <div class="container">
+            <div class="well">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                            <td>Stół ${table.number}</td>
+                            <td>NS: ${table.movement.ns}</td>
+                            <td>EW: ${table.movement.ew}</td>
+                        </c:forEach>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </c:when>
+</c:choose>
 
 <c:choose>
     <c:when test="${tour.status.name().equals('CREATED')}">

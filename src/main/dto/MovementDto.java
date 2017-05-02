@@ -4,9 +4,19 @@ import main.model.movements.Tables;
 
 public class MovementDto {
 
+    int id;
+
     private int pairs;
 
     private Tables movementTables;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getPairs() {
         return pairs;
@@ -22,5 +32,14 @@ public class MovementDto {
 
     public void setMovementTables(Tables movementTables) {
         this.movementTables = movementTables;
+    }
+
+    @Override
+    public String toString() {
+        return "MovementDto{" +
+                "id=" + id +
+                ", pairs=" + pairs +
+                ", movementTables=" + movementTables +
+                '}';
     }
 }

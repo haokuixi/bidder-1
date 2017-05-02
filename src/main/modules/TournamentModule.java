@@ -1,5 +1,6 @@
 package main.modules;
 
+import main.dto.MovementDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.Tournament;
@@ -41,7 +42,7 @@ public interface TournamentModule {
 
     boolean isUserInTournamentPairs(String hashedId, String login);
 
-    void beginTournament(String hashedId);
+    void beginTournament(String hashedId, MovementDto movements);
 
-    boolean checkTournamentBeforeBegin(String tourId);
+    MovementDto checkTournamentBeforeBegin(String tourId);
 }

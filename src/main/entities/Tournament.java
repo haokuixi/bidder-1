@@ -58,6 +58,10 @@ public class Tournament implements Serializable {
     @Column(name = "rounds")
     private int rounds;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "movement_id")
+    private Movement movement;
+
     public int getId() {
         return id;
     }
@@ -138,6 +142,14 @@ public class Tournament implements Serializable {
         this.rounds = rounds;
     }
 
+    public Movement getMovement() {
+        return movement;
+    }
+
+    public void setMovement(Movement movement) {
+        this.movement = movement;
+    }
+
     @Override
     public String toString() {
         return "Tournament{" +
@@ -151,6 +163,7 @@ public class Tournament implements Serializable {
                 ", status='" + status + '\'' +
                 ", currentRound=" + currentRound +
                 ", rounds=" + rounds +
+                ", movement=" + movement +
                 '}';
     }
 }

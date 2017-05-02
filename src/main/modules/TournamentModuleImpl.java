@@ -2,6 +2,7 @@ package main.modules;
 
 import main.dao.PairDAO;
 import main.dao.TournamentDAO;
+import main.dto.MovementDto;
 import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.dto.TournamentStatus;
@@ -215,6 +216,9 @@ public class TournamentModuleImpl implements TournamentModule {
         tournamentDto.setStatus(TournamentStatus.valueOf(tournament.getStatus()));
         tournamentDto.setHashedId(new DataHash().encode(tournament.getId()));
         tournamentDto.setCurrentRound(tournament.getCurrentRound());
+        if (tournament.getMovement() != null) {
+            tournamentDto.setMovement(movementModule.transformMovement(tournament.getMovement()));
+        }
         return tournamentDto;
     }
 
@@ -234,6 +238,9 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
         tournament.setCurrentRound(tournamentDto.getCurrentRound());
+        if (tournamentDto.getMovement() != null) {
+            tournament.setMovement(movementModule.transformMovement(movementModule.getById(tournamentDto.getMovement().getId())));
+        }
         return tournament;
     }
 
@@ -281,27 +288,31 @@ public class TournamentModuleImpl implements TournamentModule {
     }
 
     @Override
-    public void beginTournament(String hashedId) {
+    public void beginTournament(String hashedId, MovementDto movements) {
         TournamentDto tour = getByHashedId(hashedId);
         List<Pair> pairs = tour.getPairs();
 
         for (int i = 0; i < pairs.size(); i++) {
             pairs.get(i).setTourNumber(i + 1);
             pairDAO.update(pairs.get(i));
-            System.out.println(i + 1);
         }
+
+        tour.setMovement(movements);
+        tournamentDAO.update(transformTournament(tour));
     }
 
     @Override
-    public boolean checkTournamentBeforeBegin(String tourId) {
+    public MovementDto checkTournamentBeforeBegin(String tourId) {
         TournamentDto tournamentDto = getByHashedId(tourId);
 
         int size = tournamentDto.getPairs().size();
-        if (movementModule.getByPairsNumber(size).size() == 0) {
-            return false;
-        }
+        List<MovementDto> movements = movementModule.getByPairsNumber(size);
 
-        return true;
+        if (movements.isEmpty()) {
+            return null;
+        } else {
+            return movements.get(0);
+        }
     }
 
     private boolean containsUser(List<User> users, User user) {

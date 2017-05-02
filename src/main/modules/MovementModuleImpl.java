@@ -49,6 +49,7 @@ public class MovementModuleImpl implements MovementModule {
     @Override
     public MovementDto transformMovement(Movement m) {
         MovementDto movementDto = new MovementDto();
+        movementDto.setId(m.getId());
         movementDto.setPairs(m.getPairs());
 
         JAXBContext context = null;
@@ -67,6 +68,7 @@ public class MovementModuleImpl implements MovementModule {
     @Override
     public Movement transformMovement(MovementDto m) {
         Movement movement = new Movement();
+        movement.setId(m.getId());
         movement.setPairs(m.getPairs());
 
         JAXBContext context = null;

@@ -30,6 +30,14 @@ public class Movement {
     @Column(name = "movements_file")
     private String xmlFile;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getPairs() {
         return pairs;
     }

@@ -20,6 +20,7 @@ public class TournamentDto {
     private TournamentMode tournamentMode;
     private TournamentStatus status;
     private int currentRound;
+    private MovementDto movement;
 
     public int getId() {
         return id;
@@ -125,6 +126,14 @@ public class TournamentDto {
         this.currentRound = currentRound;
     }
 
+    public MovementDto getMovement() {
+        return movement;
+    }
+
+    public void setMovement(MovementDto movement) {
+        this.movement = movement;
+    }
+
     @Override
     public String toString() {
         return "TournamentDto{" +
@@ -141,6 +150,7 @@ public class TournamentDto {
                 ", tournamentMode=" + tournamentMode +
                 ", status=" + status +
                 ", currentRound=" + currentRound +
+                ", movement=" + movement +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package main.services;
 
+import main.dto.MovementDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public interface TournamentService {
 
     void editTournament(String hashedId, TournamentDto tournamentDto);
 
-    void beginTournament(String hashedId);
+    void beginTournament(String hashedId, MovementDto movements);
 
     void setTournamentStartDate(String hashedId, LocalDateTime startDate);
 
@@ -35,5 +36,5 @@ public interface TournamentService {
 
     boolean canUserJoinTournament(String tourId, int userId);
 
-    boolean checkTournamentBeforeBegin(String tourId);
+    MovementDto checkTournamentBeforeBegin(String tourId);
 }
