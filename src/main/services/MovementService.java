@@ -1,15 +1,15 @@
 package main.services;
 
-import main.entities.Movement;
+import main.dto.MovementDto;
 
 import java.util.List;
 
 public interface MovementService {
 
-    void create(Movement m);
+    void create(MovementDto m);
 
-    List<Movement> getByPairsNumber(int pairsNumber);
+    List<MovementDto> getByPairsNumber(int pairsNumber);
 
-    Movement getByid(String hashedId);
+    MovementDto getByid(String hashedId);
 
 }

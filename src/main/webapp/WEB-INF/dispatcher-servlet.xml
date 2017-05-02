@@ -53,6 +53,7 @@
         <property name="tournamentDAO" ref="tournamentDAO"/>
         <property name="pairDAO" ref="pairDAO"/>
         <property name="userModule" ref="userModule"/>
+        <property name="movementModule" ref="movementModule"/>
     </bean>
     <bean id="pairModule" class="main.modules.PairModuleImpl">
         <property name="pairDAO" ref="pairDAO"/>

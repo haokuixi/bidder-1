@@ -24,6 +24,7 @@ public class TournamentModuleImpl implements TournamentModule {
     private static final int TOURS_PER_PAGE = 10;
 
     private UserModule userModule;
+    private MovementModule movementModule;
     private TournamentDAO tournamentDAO;
     private PairDAO pairDAO;
 
@@ -196,30 +197,6 @@ public class TournamentModuleImpl implements TournamentModule {
         updateTournament(new DataHash().decode(hashedId), t);
     }
 
-    public TournamentDAO getTournamentDAO() {
-        return tournamentDAO;
-    }
-
-    public void setTournamentDAO(TournamentDAO tournamentDAO) {
-        this.tournamentDAO = tournamentDAO;
-    }
-
-    public PairDAO getPairDAO() {
-        return pairDAO;
-    }
-
-    public void setPairDAO(PairDAO pairDAO) {
-        this.pairDAO = pairDAO;
-    }
-
-    public UserModule getUserModule() {
-        return userModule;
-    }
-
-    public void setUserModule(UserModule userModule) {
-        this.userModule = userModule;
-    }
-
     @Override
     public TournamentDto transformTournament(Tournament tournament) {
         dateTimeUtils = new DateTimeUtils();
@@ -320,8 +297,7 @@ public class TournamentModuleImpl implements TournamentModule {
         TournamentDto tournamentDto = getByHashedId(tourId);
 
         int size = tournamentDto.getPairs().size();
-
-        if (Math.floorMod(size, 2) != 0 || size < 6) {
+        if (movementModule.getByPairsNumber(size).size() == 0) {
             return false;
         }
 
@@ -335,5 +311,37 @@ public class TournamentModuleImpl implements TournamentModule {
             }
         }
         return false;
+    }
+
+    public TournamentDAO getTournamentDAO() {
+        return tournamentDAO;
+    }
+
+    public void setTournamentDAO(TournamentDAO tournamentDAO) {
+        this.tournamentDAO = tournamentDAO;
+    }
+
+    public PairDAO getPairDAO() {
+        return pairDAO;
+    }
+
+    public void setPairDAO(PairDAO pairDAO) {
+        this.pairDAO = pairDAO;
+    }
+
+    public UserModule getUserModule() {
+        return userModule;
+    }
+
+    public void setUserModule(UserModule userModule) {
+        this.userModule = userModule;
+    }
+
+    public MovementModule getMovementModule() {
+        return movementModule;
+    }
+
+    public void setMovementModule(MovementModule movementModule) {
+        this.movementModule = movementModule;
     }
 }

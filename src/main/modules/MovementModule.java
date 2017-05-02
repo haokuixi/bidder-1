@@ -1,16 +1,22 @@
 package main.modules;
 
+import main.dto.MovementDto;
 import main.entities.Movement;
 
 import java.util.List;
 
 public interface MovementModule {
 
-    void create(Movement m);
+    void create(MovementDto m);
 
-    List<Movement> getByPairsNumber(int pairsNumber);
+    List<MovementDto> getByPairsNumber(int pairsNumber);
 
-    Movement getById(int id);
+    MovementDto getById(int id);
 
-    Movement getByid(String hashedId);
+    MovementDto getByid(String hashedId);
+
+    MovementDto transformMovement(Movement m);
+
+    Movement transformMovement(MovementDto m);
+
 }

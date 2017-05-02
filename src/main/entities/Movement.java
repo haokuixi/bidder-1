@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "movements")
 @NamedQueries({
-        @NamedQuery(name = "getById", query = "FROM Movement WHERE id=?"),
+        @NamedQuery(name = "getMovementById", query = "FROM Movement WHERE id=?"),
         @NamedQuery(name = "getByPairsNumber", query = "FROM Movement WHERE pairs=?")
 }
 )

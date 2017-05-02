@@ -17,7 +17,7 @@ public class MovementDAOImpl implements MovementDAO {
     @Qualifier(value = "transactionManager")
     private EntityManager em;
 
-    private static final String GET_BY_ID = "getById";
+    private static final String GET_BY_ID = "getMovementById";
     private static final String GET_BY_PAIRS_NUMBER = "getByPairsNumber";
 
     @Override
