@@ -59,6 +59,10 @@
         <put-attribute name="body" value="/WEB-INF/views/deals/enterresult.jsp"/>
     </definition>
 
+    <definition name="round" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/tournaments/round.jsp"/>
+    </definition>
+
     <definition name="400" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/errors/400.jsp"/>
     </definition>

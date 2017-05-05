@@ -13,7 +13,9 @@ public interface TournamentDAO {
 
     Tournament getById(int id);
 
-    void update(Tournament t);
+    void updateByMerge(Tournament t);
+
+    void updateByPersist(Tournament t);
 
     void remove(int id);
 

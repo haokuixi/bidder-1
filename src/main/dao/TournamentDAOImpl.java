@@ -43,9 +43,15 @@ public class TournamentDAOImpl implements TournamentDAO {
     }
 
     @Override
-    public void update(Tournament t) {
+    public void updateByMerge(Tournament t) {
         LOGGER.info("Tournament updating");
         em.merge(t);
+    }
+
+    @Override
+    public void updateByPersist(Tournament t) {
+        LOGGER.info("Tournament updating");
+        em.persist(t);
     }
 
     @Override

@@ -22,6 +22,15 @@
         font-weight: bold;
         font-size: large;
     }
+
+    td.round {
+        color: #9b9b9b;
+    }
+
+    td.currentround {
+        color: brown;
+        font-weight: bold;
+    }
 </style>
 
 <div class="container">
@@ -247,7 +256,19 @@
                         <tr>
                             <td><spring:message code="label.tournament.movements.round"/> ${i+1}</td>
                             <c:forEach var="table" items="${tour.movement.movementTables.table}">
-                                <td>${table.rounds.round.get(i).boards.from}-${table.rounds.round.get(i).boards.to}</td>
+                                <c:choose>
+                                    <c:when test="${tour.currentRound==i+1}">
+                                        <td class="currentround">
+                                                ${table.rounds.round.get(i).boards.from}-${table.rounds.round.get(i).boards.to}
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td class="round">
+                                                ${table.rounds.round.get(i).boards.from}-${table.rounds.round.get(i).boards.to}
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </c:forEach>
                         </tr>
                     </c:forEach>

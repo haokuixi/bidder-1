@@ -1,6 +1,7 @@
 package main.dto;
 
 import main.entities.Pair;
+import main.entities.Round;
 import main.entities.User;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class TournamentDto {
     private String endDate;
     private TournamentMode tournamentMode;
     private TournamentStatus status;
-    private int currentRound;
+    private Round currentRound;
     private MovementDto movement;
+    private int rounds;
 
     public int getId() {
         return id;
@@ -118,11 +120,11 @@ public class TournamentDto {
         this.status = status;
     }
 
-    public int getCurrentRound() {
+    public Round getCurrentRound() {
         return currentRound;
     }
 
-    public void setCurrentRound(int currentRound) {
+    public void setCurrentRound(Round currentRound) {
         this.currentRound = currentRound;
     }
 
@@ -132,6 +134,14 @@ public class TournamentDto {
 
     public void setMovement(MovementDto movement) {
         this.movement = movement;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
     }
 
     @Override
@@ -151,6 +161,7 @@ public class TournamentDto {
                 ", status=" + status +
                 ", currentRound=" + currentRound +
                 ", movement=" + movement +
+                ", rounds=" + rounds +
                 '}';
     }
 }

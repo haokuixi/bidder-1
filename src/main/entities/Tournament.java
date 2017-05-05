@@ -52,8 +52,9 @@ public class Tournament implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "round")
-    private int currentRound;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "round")
+    private Round currentRound;
 
     @Column(name = "rounds")
     private int rounds;
@@ -126,11 +127,11 @@ public class Tournament implements Serializable {
         this.status = status;
     }
 
-    public int getCurrentRound() {
+    public Round getCurrentRound() {
         return currentRound;
     }
 
-    public void setCurrentRound(int currentRound) {
+    public void setCurrentRound(Round currentRound) {
         this.currentRound = currentRound;
     }
 

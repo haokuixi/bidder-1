@@ -3,10 +3,12 @@ package main.modules;
 import main.dao.PairDAO;
 import main.dao.TournamentDAO;
 import main.dto.MovementDto;
+import main.dto.RoundStatus;
 import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.dto.TournamentStatus;
 import main.entities.Pair;
+import main.entities.Round;
 import main.entities.Tournament;
 import main.entities.User;
 import main.utils.DataHash;
@@ -28,6 +30,7 @@ public class TournamentModuleImpl implements TournamentModule {
     private MovementModule movementModule;
     private TournamentDAO tournamentDAO;
     private PairDAO pairDAO;
+    private RoundModule roundModule;
 
     private DateTimeUtils dateTimeUtils;
 
@@ -111,7 +114,7 @@ public class TournamentModuleImpl implements TournamentModule {
 
         t.setCurrentRound(tournament.getCurrentRound());
 
-        tournamentDAO.update(t);
+        tournamentDAO.updateByMerge(t);
     }
 
     @Override
@@ -216,6 +219,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournamentDto.setStatus(TournamentStatus.valueOf(tournament.getStatus()));
         tournamentDto.setHashedId(new DataHash().encode(tournament.getId()));
         tournamentDto.setCurrentRound(tournament.getCurrentRound());
+        tournamentDto.setRounds(tournament.getRounds());
         if (tournament.getMovement() != null) {
             tournamentDto.setMovement(movementModule.transformMovement(tournament.getMovement()));
         }
@@ -238,6 +242,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
         tournament.setCurrentRound(tournamentDto.getCurrentRound());
+        tournament.setRounds(tournamentDto.getRounds());
         if (tournamentDto.getMovement() != null) {
             tournament.setMovement(movementModule.transformMovement(movementModule.getById(tournamentDto.getMovement().getId())));
         }
@@ -271,7 +276,10 @@ public class TournamentModuleImpl implements TournamentModule {
     @Override
     public void incrementTournamentRound(String hashedId) {
         TournamentDto tournament = getByHashedId(hashedId);
-        tournament.setCurrentRound(tournament.getCurrentRound() + 1);
+        Round r = new Round();
+        r.setTournament(transformTournament(tournament));
+        r.setRoundNumber(tournament.getCurrentRound().getRoundNumber()+1);
+        tournament.setCurrentRound(r);
         updateTournament(hashedId, tournament);
     }
 
@@ -298,8 +306,26 @@ public class TournamentModuleImpl implements TournamentModule {
         }
 
         tour.setMovement(movements);
-        tournamentDAO.update(transformTournament(tour));
+        tour.setRounds(movements.getRounds());
+        tournamentDAO.updateByMerge(transformTournament(tour));
+
+        createRoundsForTournament(tour);
     }
+
+    private void createRoundsForTournament(TournamentDto tour) {
+        List<Round> rounds = new ArrayList<>();
+
+        for(int i=1; i<=tour.getRounds(); i++) {
+            Round r = new Round();
+            r.setRoundNumber(i);
+            r.setTournament(transformTournament(tour));
+            r.setStatus(RoundStatus.CREATED.getName());
+            rounds.add(r);
+        }
+
+        roundModule.create(rounds);
+    }
+
 
     @Override
     public MovementDto checkTournamentBeforeBegin(String tourId) {
@@ -354,5 +380,13 @@ public class TournamentModuleImpl implements TournamentModule {
 
     public void setMovementModule(MovementModule movementModule) {
         this.movementModule = movementModule;
+    }
+
+    public RoundModule getRoundModule() {
+        return roundModule;
+    }
+
+    public void setRoundModule(RoundModule roundModule) {
+        this.roundModule = roundModule;
     }
 }
