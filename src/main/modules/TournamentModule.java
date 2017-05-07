@@ -45,4 +45,8 @@ public interface TournamentModule {
     void beginTournament(String hashedId, MovementDto movements);
 
     MovementDto checkTournamentBeforeBegin(String tourId);
+
+    void beginNextRound(String hashedId);
+
+    TournamentDto getByRoundId(String id);
 }

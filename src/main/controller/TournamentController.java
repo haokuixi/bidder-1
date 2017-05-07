@@ -5,6 +5,7 @@ import main.dto.TournamentDto;
 import main.dto.TournamentMode;
 import main.entities.User;
 import main.services.PairService;
+import main.services.RoundService;
 import main.services.TournamentService;
 import main.services.UserService;
 import main.validators.EditTournamentValidator;
@@ -42,6 +43,8 @@ public class TournamentController {
     private PairService pairService;
     @Autowired
     private EditTournamentValidator editTournamentValidator;
+    @Autowired
+    private RoundService roundService;
 
 
     @RequestMapping(value = "/tourlist", method = RequestMethod.GET)
@@ -65,7 +68,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair", "!startRound"})
     public ModelAndView beginTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
         ModelAndView model = new ModelAndView();
@@ -84,7 +87,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"endDate", "!startDate", "!quit", "!enter", "!quitPair", "!enterPair"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"endDate", "!startDate", "!quit", "!enter", "!quitPair", "!enterPair", "!startRound"})
     public ModelAndView setEndDate(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -96,7 +99,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "quit", "!enter", "!quitPair", "!enterPair"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "quit", "!enter", "!quitPair", "!enterPair", "!startRound"})
     public ModelAndView quitFromTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -111,7 +114,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "enter", "!quitPair", "!enterPair"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "enter", "!quitPair", "!enterPair", "!startRound"})
     public ModelAndView enterIntoTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -124,7 +127,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "quitPair", "!enterPair"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "quitPair", "!enterPair", "!startRound"})
     public ModelAndView quitTournamentWithPair(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
@@ -139,7 +142,7 @@ public class TournamentController {
         return model;
     }
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "!quitPair", "enterPair"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "!quitPair", "enterPair", "!startRound"})
     public ModelAndView enterTournamentWithAwaiting(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
         int otherPlayer = Integer.parseInt(request.getParameter("otherPlayer"));
@@ -211,5 +214,4 @@ public class TournamentController {
         model.setViewName(TOURNAMENT);
         return model;
     }
-
 }

@@ -139,7 +139,7 @@
                                                 <spring:message code="label.tournament.currentround"/>
                                             </td>
                                             <td class="text">
-                                                    ${tour.currentRound}
+                                                    ${tour.currentRound.roundNumber}
                                             </td>
                                         </tr>
                                     </c:when>
@@ -201,6 +201,36 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="well">
+        <form:form
+                action="${pageContext.request.contextPath}/rounds/tour?tourId=${tour.hashedId}"
+                methodParam="tourId" method="post">
+            <c:choose>
+                <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
+                && tour.status.name().equals('INPROGRESS')}">
+                    <c:choose>
+                        <c:when test="${tour.currentRound==null}">
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg btn-block login-button"
+                                    name="startRound" value="startRound">
+                                <spring:message code="label.tournament.round.start"/>
+                            </button>
+                        </c:when>
+                        <c:when test="${tour.currentRound!=null && tour.currentRound.status.equals('INPROGRESS')}">
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg btn-block login-button"
+                                    name="completeRound" value="completeRound">
+                                <spring:message code="label.tournament.round.complete"/>
+                            </button>
+                        </c:when>
+                    </c:choose>
+                </c:when>
+            </c:choose>
+        </form:form>
+    </div>
+</div>
+
 <c:choose>
     <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
         && tour.status.name().equals('INPROGRESS')}">
@@ -254,10 +284,22 @@
 
                     <c:forEach var="i" begin="0" end="${tour.movement.rounds-1}">
                         <tr>
-                            <td><spring:message code="label.tournament.movements.round"/> ${i+1}</td>
+                            <c:choose>
+                                <c:when test="${tour.fullRounds.get(i).status.name().equals('INPROGRESS')}">
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/rounds/round?roundId=${tour.fullRounds.get(i).hashedId}">
+                                                <spring:message code="label.tournament.movements.round"/> ${i+1}
+                                        </a>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><spring:message code="label.tournament.movements.round"/> ${i+1}</td>
+                                </c:otherwise>
+                            </c:choose>
+
                             <c:forEach var="table" items="${tour.movement.movementTables.table}">
                                 <c:choose>
-                                    <c:when test="${tour.currentRound==i+1}">
+                                    <c:when test="${tour.currentRound.roundNumber==i+1}">
                                         <td class="currentround">
                                                 ${table.rounds.round.get(i).boards.from}-${table.rounds.round.get(i).boards.to}
                                         </td>
@@ -268,11 +310,9 @@
                                         </td>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
                         </tr>
                     </c:forEach>
-
                     </tbody>
                 </table>
             </div>

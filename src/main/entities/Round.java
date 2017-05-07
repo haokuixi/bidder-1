@@ -73,7 +73,6 @@ public class Round {
     public String toString() {
         return "Round{" +
                 "id=" + id +
-                ", tournament=" + tournament +
                 ", roundNumber=" + roundNumber +
                 ", status='" + status + '\'' +
                 '}';

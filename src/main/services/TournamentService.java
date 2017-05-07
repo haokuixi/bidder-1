@@ -37,4 +37,8 @@ public interface TournamentService {
     boolean canUserJoinTournament(String tourId, int userId);
 
     MovementDto checkTournamentBeforeBegin(String tourId);
+
+    void beginNextRound(String hashedId);
+
+    TournamentDto getByRoundId(String id);
 }

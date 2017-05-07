@@ -82,6 +82,16 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentModule.checkTournamentBeforeBegin(tourId);
     }
 
+    @Override
+    public void beginNextRound(String hashedId) {
+        tournamentModule.beginNextRound(hashedId);
+    }
+
+    @Override
+    public TournamentDto getByRoundId(String id) {
+        return tournamentModule.getByRoundId(id);
+    }
+
     public TournamentModule getTournamentModule() {
         return tournamentModule;
     }

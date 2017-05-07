@@ -23,6 +23,7 @@ public class TournamentDto {
     private Round currentRound;
     private MovementDto movement;
     private int rounds;
+    private List<RoundDto> fullRounds;
 
     public int getId() {
         return id;
@@ -142,6 +143,14 @@ public class TournamentDto {
 
     public void setRounds(int rounds) {
         this.rounds = rounds;
+    }
+
+    public List<RoundDto> getFullRounds() {
+        return fullRounds;
+    }
+
+    public void setFullRounds(List<RoundDto> fullRounds) {
+        this.fullRounds = fullRounds;
     }
 
     @Override

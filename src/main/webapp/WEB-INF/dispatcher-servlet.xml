@@ -47,6 +47,9 @@
     <bean id="movementService" class="main.services.MovementServiceImpl">
         <property name="movementModule" ref="movementModule"/>
     </bean>
+    <bean id="roundService" class="main.services.RoundServiceImpl">
+        <property name="roundModule" ref="roundModule"/>
+    </bean>
 
 
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
@@ -84,6 +87,7 @@
     </bean>
     <bean id="roundModule" class="main.modules.RoundModuleImpl">
         <property name="roundDAO" ref="roundDAO"/>
+        <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
 
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>

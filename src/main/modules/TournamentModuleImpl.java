@@ -223,6 +223,9 @@ public class TournamentModuleImpl implements TournamentModule {
         if (tournament.getMovement() != null) {
             tournamentDto.setMovement(movementModule.transformMovement(tournament.getMovement()));
         }
+        if(!tournament.getStatus().equals(TournamentStatus.CREATED)) {
+            tournamentDto.setFullRounds(roundModule.getDtosByTourId(tournament.getId()));
+        }
         return tournamentDto;
     }
 
@@ -277,7 +280,6 @@ public class TournamentModuleImpl implements TournamentModule {
     public void incrementTournamentRound(String hashedId) {
         TournamentDto tournament = getByHashedId(hashedId);
         Round r = new Round();
-        r.setTournament(transformTournament(tournament));
         r.setRoundNumber(tournament.getCurrentRound().getRoundNumber()+1);
         tournament.setCurrentRound(r);
         updateTournament(hashedId, tournament);
@@ -318,8 +320,8 @@ public class TournamentModuleImpl implements TournamentModule {
         for(int i=1; i<=tour.getRounds(); i++) {
             Round r = new Round();
             r.setRoundNumber(i);
-            r.setTournament(transformTournament(tour));
             r.setStatus(RoundStatus.CREATED.getName());
+            r.setTournament(transformTournament(tour));
             rounds.add(r);
         }
 
@@ -339,6 +341,27 @@ public class TournamentModuleImpl implements TournamentModule {
         } else {
             return movements.get(0);
         }
+    }
+
+    @Override
+    public void beginNextRound(String hashedId) {
+        TournamentDto tournamentDto = getByHashedId(hashedId);
+
+        List<Round> rounds = roundModule.getByTourId(hashedId);
+        for(Round r:rounds) {
+            if(r.getStatus().equals(RoundStatus.CREATED.getName())) {
+                r.setStatus(RoundStatus.INPROGRESS.getName());
+                r.setTournament(transformTournament(tournamentDto));
+                tournamentDto.setCurrentRound(r);
+                tournamentDAO.updateByMerge(transformTournament(tournamentDto));
+                return;
+            }
+        }
+    }
+
+    @Override
+    public TournamentDto getByRoundId(String id) {
+        return transformTournament(roundModule.getById(id).getTournament());
     }
 
     private boolean containsUser(List<User> users, User user) {

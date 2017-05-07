@@ -26,6 +26,11 @@ public class RoundDAOImpl implements RoundDAO {
     }
 
     @Override
+    public void update(Round r) {
+        em.persist(r);
+    }
+
+    @Override
     public Round getById(int id) {
         Query query = em.createNamedQuery(GET_BY_ID);
         query.setParameter(1, id);

@@ -52,7 +52,7 @@ public class Tournament implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "round")
     private Round currentRound;
 
