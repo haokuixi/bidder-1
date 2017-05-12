@@ -11,6 +11,7 @@ import main.entities.Pair;
 import main.entities.Round;
 import main.entities.Tournament;
 import main.entities.User;
+import main.model.movements.Tables;
 import main.utils.DataHash;
 import main.utils.DateTimeUtils;
 
@@ -35,6 +36,8 @@ public class TournamentModuleImpl implements TournamentModule {
     private DateTimeUtils dateTimeUtils;
 
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String NS = "NS";
+    private static final String EW = "EW";
 
     @Override
     public List<Tournament> getTournamentList(int page) {
@@ -223,8 +226,11 @@ public class TournamentModuleImpl implements TournamentModule {
         if (tournament.getMovement() != null) {
             tournamentDto.setMovement(movementModule.transformMovement(tournament.getMovement()));
         }
-        if(!tournament.getStatus().equals(TournamentStatus.CREATED)) {
+        if (!tournament.getStatus().equals(TournamentStatus.CREATED)) {
             tournamentDto.setFullRounds(roundModule.getDtosByTourId(tournament.getId()));
+        }
+        if (tournament.getPreviousRound() != null) {
+            tournamentDto.setPreviousRound(tournament.getPreviousRound());
         }
         return tournamentDto;
     }
@@ -248,6 +254,9 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setRounds(tournamentDto.getRounds());
         if (tournamentDto.getMovement() != null) {
             tournament.setMovement(movementModule.transformMovement(movementModule.getById(tournamentDto.getMovement().getId())));
+        }
+        if (tournamentDto.getPreviousRound() != null) {
+            tournament.setPreviousRound(tournamentDto.getPreviousRound());
         }
         return tournament;
     }
@@ -280,7 +289,7 @@ public class TournamentModuleImpl implements TournamentModule {
     public void incrementTournamentRound(String hashedId) {
         TournamentDto tournament = getByHashedId(hashedId);
         Round r = new Round();
-        r.setRoundNumber(tournament.getCurrentRound().getRoundNumber()+1);
+        r.setRoundNumber(tournament.getCurrentRound().getRoundNumber() + 1);
         tournament.setCurrentRound(r);
         updateTournament(hashedId, tournament);
     }
@@ -317,7 +326,7 @@ public class TournamentModuleImpl implements TournamentModule {
     private void createRoundsForTournament(TournamentDto tour) {
         List<Round> rounds = new ArrayList<>();
 
-        for(int i=1; i<=tour.getRounds(); i++) {
+        for (int i = 1; i <= tour.getRounds(); i++) {
             Round r = new Round();
             r.setRoundNumber(i);
             r.setStatus(RoundStatus.CREATED.getName());
@@ -348,13 +357,71 @@ public class TournamentModuleImpl implements TournamentModule {
         TournamentDto tournamentDto = getByHashedId(hashedId);
 
         List<Round> rounds = roundModule.getByTourId(hashedId);
-        for(Round r:rounds) {
-            if(r.getStatus().equals(RoundStatus.CREATED.getName())) {
+        for (Round r : rounds) {
+            if (r.getStatus().equals(RoundStatus.CREATED.getName())) {
                 r.setStatus(RoundStatus.INPROGRESS.getName());
                 r.setTournament(transformTournament(tournamentDto));
                 tournamentDto.setCurrentRound(r);
+                applyPairsMovement(tournamentDto);
                 tournamentDAO.updateByMerge(transformTournament(tournamentDto));
                 return;
+            }
+        }
+    }
+
+    @Override
+    public void completeRound(String tourId) {
+        TournamentDto tournamentDto = getByHashedId(tourId);
+        List<Round> rounds = roundModule.getByTourId(tourId);
+
+        for (Round r : rounds) {
+            if (r.getStatus().equals(RoundStatus.INPROGRESS.getName())) {
+                r.setStatus(RoundStatus.COMPLETED.getName());
+                r.setTournament(transformTournament(tournamentDto));
+                tournamentDto.setPreviousRound(r);
+                tournamentDto.setCurrentRound(null);
+                tournamentDAO.updateByMerge(transformTournament(tournamentDto));
+                return;
+            }
+        }
+    }
+
+    private void applyPairsMovement(TournamentDto tournamentDto) {
+        List<Pair> pairs = tournamentDto.getPairs();
+
+        if (tournamentDto.getCurrentRound().getRoundNumber() == 1) {
+            int table = 1;
+            for (int i = 0; i < pairs.size(); i++) {
+                if (i % 2 == 0) {
+                    pairs.get(i).setCurrentTable(table);
+                    pairs.get(i).setCurrentPosition(NS);
+                } else {
+                    pairs.get(i).setCurrentTable(table);
+                    pairs.get(i).setCurrentPosition(EW);
+                    table++;
+                }
+            }
+        } else {
+            for (Pair p : pairs) {
+                setPairMovement(tournamentDto.getMovement().getMovementTables(), p);
+            }
+        }
+    }
+
+    private void setPairMovement(Tables tables, Pair p) {
+        if (p.getCurrentPosition().equals(NS)) {
+            String movement = tables.getTable().get(p.getCurrentTable() - 1).getMovement().getNs();
+            movement = movement.replaceAll("\\s", "");
+            if (!movement.equals("stationary")) {
+                p.setCurrentTable(Integer.valueOf(movement.substring(0, 1)));
+                p.setCurrentPosition(movement.substring(1, 3));
+            }
+        } else {
+            String movement = tables.getTable().get(p.getCurrentTable() - 1).getMovement().getEw();
+            movement = movement.replaceAll("\\s", "");
+            if (!movement.equals("stationary")) {
+                p.setCurrentTable(Integer.valueOf(movement.substring(0, 1)));
+                p.setCurrentPosition(movement.substring(1, 3));
             }
         }
     }

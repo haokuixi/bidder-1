@@ -3,7 +3,6 @@ package main.modules;
 import main.dao.RoundDAO;
 import main.dto.RoundDto;
 import main.dto.RoundStatus;
-import main.dto.TournamentStatus;
 import main.entities.Round;
 import main.utils.DataHash;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class RoundModuleImpl implements RoundModule {
 
     private RoundDAO roundDAO;
-    private TournamentModule  tournamentModule;
+    private TournamentModule tournamentModule;
 
     @Override
     public void create(Round r) {
@@ -57,7 +56,9 @@ public class RoundModuleImpl implements RoundModule {
 
     @Override
     public List<Round> getByTourId(String id) {
-        return roundDAO.getByTourId(new DataHash().decode(id));
+        List<Round> rounds = roundDAO.getByTourId(new DataHash().decode(id));
+        rounds.sort(Comparator.comparingInt(Round::getRoundNumber));
+        return rounds;
     }
 
     @Override
@@ -96,7 +97,7 @@ public class RoundModuleImpl implements RoundModule {
     private List<RoundDto> transformList(List<Round> rounds) {
         List<RoundDto> dtos = new ArrayList<>();
 
-        for(Round r:rounds) {
+        for (Round r : rounds) {
             dtos.add(transformRound(r));
         }
 

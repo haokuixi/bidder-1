@@ -48,5 +48,7 @@ public interface TournamentModule {
 
     void beginNextRound(String hashedId);
 
+    void completeRound(String tourId);
+
     TournamentDto getByRoundId(String id);
 }

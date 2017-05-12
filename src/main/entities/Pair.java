@@ -51,6 +51,12 @@ public class Pair {
     @Column(name = "tour_pair_number")
     private Integer tourNumber;
 
+    @Column(name = "current_table")
+    private Integer currentTable;
+
+    @Column(name = "current_position")
+    private String currentPosition;
+
     public User getPlayerOne() {
         return playerOne;
     }
@@ -97,6 +103,22 @@ public class Pair {
 
     public void setTourNumber(Integer tourNumber) {
         this.tourNumber = tourNumber;
+    }
+
+    public Integer getCurrentTable() {
+        return currentTable;
+    }
+
+    public void setCurrentTable(Integer currentTable) {
+        this.currentTable = currentTable;
+    }
+
+    public String getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(String currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     @Override

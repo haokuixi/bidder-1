@@ -21,6 +21,7 @@ public class TournamentDto {
     private TournamentMode tournamentMode;
     private TournamentStatus status;
     private Round currentRound;
+    private Round previousRound;
     private MovementDto movement;
     private int rounds;
     private List<RoundDto> fullRounds;
@@ -127,6 +128,14 @@ public class TournamentDto {
 
     public void setCurrentRound(Round currentRound) {
         this.currentRound = currentRound;
+    }
+
+    public Round getPreviousRound() {
+        return previousRound;
+    }
+
+    public void setPreviousRound(Round previousRound) {
+        this.previousRound = previousRound;
     }
 
     public MovementDto getMovement() {

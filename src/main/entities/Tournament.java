@@ -56,6 +56,10 @@ public class Tournament implements Serializable {
     @JoinColumn(name = "round")
     private Round currentRound;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "previous_round")
+    private Round previousRound;
+
     @Column(name = "rounds")
     private int rounds;
 
@@ -133,6 +137,14 @@ public class Tournament implements Serializable {
 
     public void setCurrentRound(Round currentRound) {
         this.currentRound = currentRound;
+    }
+
+    public Round getPreviousRound() {
+        return previousRound;
+    }
+
+    public void setPreviousRound(Round previousRound) {
+        this.previousRound = previousRound;
     }
 
     public int getRounds() {

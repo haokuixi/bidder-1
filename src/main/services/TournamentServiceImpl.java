@@ -88,6 +88,11 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public void completeRound(String tourId) {
+        tournamentModule.completeRound(tourId);
+    }
+
+    @Override
     public TournamentDto getByRoundId(String id) {
         return tournamentModule.getByRoundId(id);
     }

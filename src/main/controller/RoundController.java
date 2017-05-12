@@ -37,11 +37,26 @@ public class RoundController {
     }
 
 
-    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair", "startRound"})
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair", "startRound", "!completeRound"})
     public ModelAndView startRound(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
         tournamentService.beginNextRound(tourId);
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("canJoin", tournamentService.canUserJoinTournament(tourId,
+                ((User) request.getSession().getAttribute("loggedUser")).getId()));
+        model.addObject("tour", tournamentService.getByHashedId(tourId));
+        model.addObject("awaiting", userService.getAwaitingByTournament(tourId));
+        model.setViewName(TOURNAMENT);
+        return model;
+    }
+
+    @RequestMapping(value = "/tour", method = RequestMethod.POST, params = {"!startDate", "!endDate", "!quit", "!enter", "!quitPair", "!enterPair", "!startRound", "completeRound"})
+    public ModelAndView completeRound(HttpServletRequest request) {
+        String tourId = request.getParameter("tourId");
+
+        tournamentService.completeRound(tourId);
 
         ModelAndView model = new ModelAndView();
         model.addObject("canJoin", tournamentService.canUserJoinTournament(tourId,
