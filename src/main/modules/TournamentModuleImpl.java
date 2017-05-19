@@ -234,6 +234,7 @@ public class TournamentModuleImpl implements TournamentModule {
         if (tournament.getPreviousRound() != null) {
             tournamentDto.setPreviousRound(roundModule.transformRound(tournament.getPreviousRound()));
         }
+        tournamentDto.setPairs(pairDAO.listByTourId(tournament.getId()));
         return tournamentDto;
     }
 

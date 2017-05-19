@@ -49,6 +49,19 @@ public class TournamentDto {
         return null;
     }
 
+    public String getPairNames(int table, String position) {
+        StringBuilder sb = new StringBuilder();
+        for (Pair p : pairs) {
+            if (p.getCurrentTable().equals(table) && p.getCurrentPosition().equals(position)) {
+                sb.append(p.getPlayerOne().getSurname());
+                sb.append(" - ");
+                sb.append(p.getPlayerTwo().getSurname());
+                break;
+            }
+        }
+        return sb.toString();
+    }
+
     public int getId() {
         return id;
     }

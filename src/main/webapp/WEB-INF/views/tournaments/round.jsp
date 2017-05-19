@@ -3,12 +3,24 @@
 
 <div class="container">
     <div class="well">
-       <div style="alignment: center"><spring:message code="label.tournament.movements.round"/> ${round.roundNumber} </div>
+        <div style="alignment: center"><spring:message
+                code="label.tournament.movements.round"/> ${round.roundNumber} </div>
     </div>
 </div>
 
 <c:choose>
-    <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)}">
+    <c:when test="${round.status.equals('COMPLETED')}">
+        <div class="container">
+            <div class="well">
+                zakonczona runda: wyniki
+            </div>
+        </div>
+    </c:when>
+</c:choose>
+
+<c:choose>
+    <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
+    && round.status.equals('INPROGRESS')}">
         <div class="container">
             <div class="well">
                 <table class="table">
@@ -16,6 +28,30 @@
                         <td/>
                         <c:forEach var="table" items="${tour.movement.movementTables.table}">
                             <th><spring:message code="label.tournament.movements.table"/> ${table.number} </th>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td>
+                            <spring:message code="label.tournament.round.playingpairs"/>
+                        </td>
+                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                            <td>NS: ${tour.getPairNames(table.number, 'NS')}</td>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td/>
+                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                            <td>EW: ${tour.getPairNames(table.number, 'EW')}</td>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td>
+                            <spring:message code="label.tournament.movements.boardsontablesnumbers"/>
+                        </td>
+                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
+                            <td class="round">
+                                    ${table.rounds.round.get(round.roundNumber).boards.from}-${table.rounds.round.get(round.roundNumber).boards.to}
+                            </td>
                         </c:forEach>
                     </tr>
                     <tr>
@@ -42,17 +78,6 @@
                                     <td>EW: ${table.movement.ew}</td>
                                 </c:otherwise>
                             </c:choose>
-                        </c:forEach>
-                    </tr>
-
-                    <tr>
-                        <td/>
-                        <c:forEach var="table" items="${tour.movement.movementTables.table}">
-
-                            <td class="round">
-                                    ${table.rounds.round.get(round.roundNumber).boards.from}-${table.rounds.round.get(round.roundNumber).boards.to}
-                            </td>
-
                         </c:forEach>
                     </tr>
                 </table>

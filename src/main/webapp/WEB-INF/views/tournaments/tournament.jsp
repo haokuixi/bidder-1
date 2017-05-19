@@ -291,7 +291,8 @@
                     <c:forEach var="i" begin="0" end="${tour.movement.rounds-1}">
                         <tr>
                             <c:choose>
-                                <c:when test="${tour.fullRounds.get(i).status.name().equals('INPROGRESS')}">
+                                <c:when test="${tour.fullRounds.get(i).status.name().equals('INPROGRESS') ||
+                                tour.fullRounds.get(i).status.name().equals('COMPLETED')}">
                                     <td>
                                         <a href="${pageContext.request.contextPath}/rounds/round?roundId=${tour.fullRounds.get(i).hashedId}">
                                             <spring:message code="label.tournament.movements.round"/> ${i+1}
