@@ -115,7 +115,7 @@ public class TournamentModuleImpl implements TournamentModule {
             t.setTournamentMode(tournament.getTournamentMode().getName());
         }
 
-        t.setCurrentRound(tournament.getCurrentRound());
+        t.setCurrentRound(roundModule.transformRound(tournament.getCurrentRound()));
 
         tournamentDAO.updateByMerge(t);
     }
@@ -221,7 +221,9 @@ public class TournamentModuleImpl implements TournamentModule {
         tournamentDto.setTournamentMode(TournamentMode.valueOf(tournament.getTournamentMode().toUpperCase()));
         tournamentDto.setStatus(TournamentStatus.valueOf(tournament.getStatus()));
         tournamentDto.setHashedId(new DataHash().encode(tournament.getId()));
-        tournamentDto.setCurrentRound(tournament.getCurrentRound());
+        if (tournament.getCurrentRound() != null) {
+            tournamentDto.setCurrentRound(roundModule.transformRound(tournament.getCurrentRound()));
+        }
         tournamentDto.setRounds(tournament.getRounds());
         if (tournament.getMovement() != null) {
             tournamentDto.setMovement(movementModule.transformMovement(tournament.getMovement()));
@@ -230,7 +232,7 @@ public class TournamentModuleImpl implements TournamentModule {
             tournamentDto.setFullRounds(roundModule.getDtosByTourId(tournament.getId()));
         }
         if (tournament.getPreviousRound() != null) {
-            tournamentDto.setPreviousRound(tournament.getPreviousRound());
+            tournamentDto.setPreviousRound(roundModule.transformRound(tournament.getPreviousRound()));
         }
         return tournamentDto;
     }
@@ -250,13 +252,13 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
-        tournament.setCurrentRound(tournamentDto.getCurrentRound());
+        tournament.setCurrentRound(roundModule.transformRound(tournamentDto.getCurrentRound()));
         tournament.setRounds(tournamentDto.getRounds());
         if (tournamentDto.getMovement() != null) {
             tournament.setMovement(movementModule.transformMovement(movementModule.getById(tournamentDto.getMovement().getId())));
         }
         if (tournamentDto.getPreviousRound() != null) {
-            tournament.setPreviousRound(tournamentDto.getPreviousRound());
+            tournament.setPreviousRound(roundModule.transformRound(tournamentDto.getPreviousRound()));
         }
         return tournament;
     }
@@ -290,7 +292,7 @@ public class TournamentModuleImpl implements TournamentModule {
         TournamentDto tournament = getByHashedId(hashedId);
         Round r = new Round();
         r.setRoundNumber(tournament.getCurrentRound().getRoundNumber() + 1);
-        tournament.setCurrentRound(r);
+        tournament.setCurrentRound(roundModule.transformRound(r));
         updateTournament(hashedId, tournament);
     }
 
@@ -361,7 +363,7 @@ public class TournamentModuleImpl implements TournamentModule {
             if (r.getStatus().equals(RoundStatus.CREATED.getName())) {
                 r.setStatus(RoundStatus.INPROGRESS.getName());
                 r.setTournament(transformTournament(tournamentDto));
-                tournamentDto.setCurrentRound(r);
+                tournamentDto.setCurrentRound(roundModule.transformRound(r));
                 applyPairsMovement(tournamentDto);
                 tournamentDAO.updateByMerge(transformTournament(tournamentDto));
                 return;
@@ -378,7 +380,7 @@ public class TournamentModuleImpl implements TournamentModule {
             if (r.getStatus().equals(RoundStatus.INPROGRESS.getName())) {
                 r.setStatus(RoundStatus.COMPLETED.getName());
                 r.setTournament(transformTournament(tournamentDto));
-                tournamentDto.setPreviousRound(r);
+                tournamentDto.setPreviousRound(roundModule.transformRound(r));
                 tournamentDto.setCurrentRound(null);
                 tournamentDAO.updateByMerge(transformTournament(tournamentDto));
                 return;

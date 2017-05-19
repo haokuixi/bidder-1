@@ -201,35 +201,41 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="well">
-        <form:form
-                action="${pageContext.request.contextPath}/rounds/tour?tourId=${tour.hashedId}"
-                methodParam="tourId" method="post">
-            <c:choose>
-                <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
+
+<form:form
+        action="${pageContext.request.contextPath}/rounds/tour?tourId=${tour.hashedId}"
+        methodParam="tourId" method="post">
+    <c:choose>
+        <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
                 && tour.status.name().equals('INPROGRESS')}">
-                    <c:choose>
-                        <c:when test="${tour.currentRound==null}">
+            <c:choose>
+                <c:when test="${tour.currentRound==null}">
+                    <div class="container">
+                        <div class="well">
                             <button type="submit"
                                     class="btn btn-primary btn-lg btn-block login-button"
                                     name="startRound" value="startRound">
                                 <spring:message code="label.tournament.round.start"/>
                             </button>
-                        </c:when>
-                        <c:when test="${tour.currentRound!=null && tour.currentRound.status.equals('INPROGRESS')}">
+                        </div>
+                    </div>
+                </c:when>
+                <c:when test="${tour.currentRound!=null && tour.currentRound.status.equals('INPROGRESS')}">
+                    <div class="container">
+                        <div class="well">
                             <button type="submit"
                                     class="btn btn-primary btn-lg btn-block login-button"
                                     name="completeRound" value="completeRound">
                                 <spring:message code="label.tournament.round.complete"/>
                             </button>
-                        </c:when>
-                    </c:choose>
+                        </div>
+                    </div>
                 </c:when>
             </c:choose>
-        </form:form>
-    </div>
-</div>
+        </c:when>
+    </c:choose>
+</form:form>
+
 
 <c:choose>
     <c:when test="${pageContext.request.userPrincipal.name.equals(tour.judge.name)
@@ -288,7 +294,7 @@
                                 <c:when test="${tour.fullRounds.get(i).status.name().equals('INPROGRESS')}">
                                     <td>
                                         <a href="${pageContext.request.contextPath}/rounds/round?roundId=${tour.fullRounds.get(i).hashedId}">
-                                                <spring:message code="label.tournament.movements.round"/> ${i+1}
+                                            <spring:message code="label.tournament.movements.round"/> ${i+1}
                                         </a>
                                     </td>
                                 </c:when>
@@ -314,6 +320,50 @@
                         </tr>
                     </c:forEach>
                     </tbody>
+                </table>
+            </div>
+        </div>
+    </c:when>
+    <c:when test="${tour.containsPlayer(pageContext.request.userPrincipal.name)
+        && tour.status.name().equals('INPROGRESS')}">
+        <div class="container">
+            <div class="well">
+                <table class="table">
+                    <tr>
+                        <td/>
+                        <c:forEach var="i" begin="0" end="${tour.movement.rounds-1}">
+                            <c:choose>
+                                <c:when test="${tour.fullRounds.get(i).status.name().equals('INPROGRESS') ||
+                                tour.fullRounds.get(i).status.name().equals('COMPLETED')}">
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/rounds/round?roundId=${tour.fullRounds.get(i).hashedId}">
+                                            <spring:message code="label.tournament.movements.round"/> ${i+1}
+                                        </a>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><spring:message code="label.tournament.movements.round"/> ${i+1}</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td>
+                            <spring:message code="label.tournament.movements.nextround"/>
+                        </td>
+                        <c:forEach var="i" begin="0" end="${tour.movement.rounds-1}">
+                            <c:choose>
+                                <c:when test="${tour.currentRound.roundNumber==i+1}">
+                                    <td>
+                                            ${tour.getMovementForPair(pageContext.request.userPrincipal.name)}
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td></td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
                 </table>
             </div>
         </div>

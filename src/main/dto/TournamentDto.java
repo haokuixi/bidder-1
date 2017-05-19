@@ -1,7 +1,6 @@
 package main.dto;
 
 import main.entities.Pair;
-import main.entities.Round;
 import main.entities.User;
 
 import java.util.List;
@@ -20,11 +19,35 @@ public class TournamentDto {
     private String endDate;
     private TournamentMode tournamentMode;
     private TournamentStatus status;
-    private Round currentRound;
-    private Round previousRound;
+    private RoundDto currentRound;
+    private RoundDto previousRound;
     private MovementDto movement;
     private int rounds;
     private List<RoundDto> fullRounds;
+
+    public boolean containsPlayer(String login) {
+        for (Pair p : pairs) {
+            if (p.getPlayerOne().getLogin().equals(login) || p.getPlayerTwo().getLogin().equals(login)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getMovementForPair(String userLogin) {
+        Pair pair;
+        for (Pair p : pairs) {
+            if (p.getPlayerOne().getLogin().equals(userLogin) || p.getPlayerTwo().getLogin().equals(userLogin)) {
+                pair = p;
+                if (pair.getCurrentPosition().equals("NS")) {
+                    return movement.getMovementTables().getTable().get(pair.getCurrentTable() - 1).getMovement().getNs();
+                } else {
+                    return movement.getMovementTables().getTable().get(pair.getCurrentTable() - 1).getMovement().getEw();
+                }
+            }
+        }
+        return null;
+    }
 
     public int getId() {
         return id;
@@ -122,19 +145,19 @@ public class TournamentDto {
         this.status = status;
     }
 
-    public Round getCurrentRound() {
+    public RoundDto getCurrentRound() {
         return currentRound;
     }
 
-    public void setCurrentRound(Round currentRound) {
+    public void setCurrentRound(RoundDto currentRound) {
         this.currentRound = currentRound;
     }
 
-    public Round getPreviousRound() {
+    public RoundDto getPreviousRound() {
         return previousRound;
     }
 
-    public void setPreviousRound(Round previousRound) {
+    public void setPreviousRound(RoundDto previousRound) {
         this.previousRound = previousRound;
     }
 
