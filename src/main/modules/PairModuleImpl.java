@@ -2,6 +2,7 @@ package main.modules;
 
 import main.dao.PairDAO;
 import main.entities.Pair;
+import main.utils.DataHash;
 
 import java.util.List;
 
@@ -12,18 +13,18 @@ public class PairModuleImpl implements PairModule {
     TournamentModule tournamentModule;
 
     @Override
-    public List<Pair> getByPlayer(int id) {
-        return pairDAO.getByPlayer(userModule.getById(id));
+    public List<Pair> getByPlayer(String login) {
+        return pairDAO.getByPlayer(userModule.getUserByLogin(login));
     }
 
     @Override
-    public Pair getByPlayerAndTour(int playerId, int tourId) {
-        return pairDAO.getByPlayerAndTour(playerId, tourId);
+    public Pair getByPlayerAndTour(String login, String tourHashedId) {
+        return pairDAO.getByPlayerAndTour(login, new DataHash().decode(tourHashedId));
     }
 
     @Override
-    public void removeByPlayerAndTour(int playerId, int tourId) {
-        Pair byPlayerAndTour = getByPlayerAndTour(playerId, tourId);
+    public void removeByPlayerAndTour(String login, String tourHashedId) {
+        Pair byPlayerAndTour = getByPlayerAndTour(login, tourHashedId);
         pairDAO.remove(byPlayerAndTour);
     }
 

@@ -70,17 +70,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void quitFromTournament(int userId, String tourId) {
-        userModule.quitFromTournament(userId, tourId);
+    public void quitFromTournament(String login, String tourId) {
+        userModule.quitFromTournament(login, tourId);
     }
 
     @Override
-    public void enterIntoTournament(int userId, String tourId) {
-        userModule.enterIntoTournament(userId, tourId);
+    public void enterIntoTournament(String login, String tourId) {
+        userModule.enterIntoTournament(login, tourId);
     }
 
     @Override
-    public void quitWithPair(int userId, String tourId) {
-        userModule.quitWithPair(userId, tourId);
+    public void quitWithPair(String login, String tourId) {
+        userModule.quitWithPair(login, tourId);
     }
 }

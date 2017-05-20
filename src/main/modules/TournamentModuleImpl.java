@@ -32,6 +32,7 @@ public class TournamentModuleImpl implements TournamentModule {
     private TournamentDAO tournamentDAO;
     private PairDAO pairDAO;
     private RoundModule roundModule;
+    private DealModule dealModule;
 
     private DateTimeUtils dateTimeUtils;
 
@@ -115,7 +116,9 @@ public class TournamentModuleImpl implements TournamentModule {
             t.setTournamentMode(tournament.getTournamentMode().getName());
         }
 
-        t.setCurrentRound(roundModule.transformRound(tournament.getCurrentRound()));
+        if(tournament.getCurrentRound() != null) {
+            t.setCurrentRound(roundModule.transformRound(tournament.getCurrentRound()));
+        }
 
         tournamentDAO.updateByMerge(t);
     }
@@ -234,6 +237,7 @@ public class TournamentModuleImpl implements TournamentModule {
         if (tournament.getPreviousRound() != null) {
             tournamentDto.setPreviousRound(roundModule.transformRound(tournament.getPreviousRound()));
         }
+        tournamentDto.setDeals(dealModule.getByTourId(tournamentDto.getHashedId()));
         tournamentDto.setPairs(pairDAO.listByTourId(tournament.getId()));
         return tournamentDto;
     }
@@ -253,7 +257,9 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
-        tournament.setCurrentRound(roundModule.transformRound(tournamentDto.getCurrentRound()));
+        if(tournamentDto.getCurrentRound() != null){
+            tournament.setCurrentRound(roundModule.transformRound(tournamentDto.getCurrentRound()));
+        }
         tournament.setRounds(tournamentDto.getRounds());
         if (tournamentDto.getMovement() != null) {
             tournament.setMovement(movementModule.transformMovement(movementModule.getById(tournamentDto.getMovement().getId())));
@@ -481,5 +487,13 @@ public class TournamentModuleImpl implements TournamentModule {
 
     public void setRoundModule(RoundModule roundModule) {
         this.roundModule = roundModule;
+    }
+
+    public DealModule getDealModule() {
+        return dealModule;
+    }
+
+    public void setDealModule(DealModule dealModule) {
+        this.dealModule = dealModule;
     }
 }

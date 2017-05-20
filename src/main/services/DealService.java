@@ -2,6 +2,7 @@ package main.services;
 
 import main.dto.DealDto;
 import main.dto.DealResultDto;
+import main.dto.TournamentDto;
 import main.entities.Pair;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface DealService {
 
     void saveDealResult(String color, int height, int tricks, int doubleValue, String position, boolean vulnerable,
                         String hashedDealId, Pair pairNS, Pair pairEW);
+
+    void createDealsForTournament(TournamentDto tournament);
 }

@@ -164,28 +164,28 @@ public class UserModuleImpl implements UserModule {
     }
 
     @Override
-    public void quitFromTournament(int userId, String tourId) {
-        userDAO.quitFromTournament(userId, new DataHash().decode(tourId));
+    public void quitFromTournament(String login, String tourId) {
+        userDAO.quitFromTournament(login, tourId);
     }
 
     @Override
-    public void enterIntoTournament(int userId, String tourId) {
+    public void enterIntoTournament(String login, String tourId) {
         AwaitingPlayer awaitingPlayer = new AwaitingPlayer();
-        awaitingPlayer.setPlayer(userDAO.getById(userId));
+        awaitingPlayer.setPlayer(userDAO.getUserByLogin(login));
         awaitingPlayer.setTournament(tournamentModule.transformTournament(tournamentModule.getByHashedId(tourId)));
 
         userDAO.enterIntoTournament(awaitingPlayer);
     }
 
     @Override
-    public void quitWithPair(int userId, String tourId) {
-        Pair pair = pairModule.getByPlayerAndTour(userId, new DataHash().decode(tourId));
-        pairModule.removeByPlayerAndTour(userId, new DataHash().decode(tourId));
+    public void quitWithPair(String login, String tourId) {
+        Pair pair = pairModule.getByPlayerAndTour(login, tourId);
+        pairModule.removeByPlayerAndTour(login, tourId);
 
-        if (pair.getPlayerOne().getId() == userId) {
-            enterIntoTournament(pair.getPlayerTwo().getId(), tourId);
+        if (pair.getPlayerOne().getLogin() == login) {
+            enterIntoTournament(pair.getPlayerTwo().getLogin(), tourId);
         } else {
-            enterIntoTournament(pair.getPlayerOne().getId(), tourId);
+            enterIntoTournament(pair.getPlayerOne().getLogin(), tourId);
         }
     }
 }

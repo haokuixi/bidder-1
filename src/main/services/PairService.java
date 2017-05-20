@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface PairService {
 
-    List<Pair> getByPlayer(int id);
+    List<Pair> getByPlayer(String login);
+
+    Pair getByPlayerAndTour(String login, String tourHashedId);
 
     void createPair(int playerOne, int playerTwo, String tourId);
 }

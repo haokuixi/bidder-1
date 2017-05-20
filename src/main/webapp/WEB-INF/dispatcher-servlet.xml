@@ -28,6 +28,7 @@
 
     <bean id="tournamentService" class="main.services.TournamentServiceImpl">
         <property name="tournamentModule" ref="tournamentModule"/>
+        <property name="dealModule" ref="dealModule"/>
     </bean>
     <bean id="pairService" class="main.services.PairServiceImpl">
         <property name="pairModule" ref="pairModule"/>
@@ -58,6 +59,7 @@
         <property name="userModule" ref="userModule"/>
         <property name="movementModule" ref="movementModule"/>
         <property name="roundModule" ref="roundModule"/>
+        <property name="dealModule" ref="dealModule"/>
     </bean>
     <bean id="pairModule" class="main.modules.PairModuleImpl">
         <property name="pairDAO" ref="pairDAO"/>

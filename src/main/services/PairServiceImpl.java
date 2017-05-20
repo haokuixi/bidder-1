@@ -10,8 +10,13 @@ public class PairServiceImpl implements PairService{
     PairModule pairModule;
 
     @Override
-    public List<Pair> getByPlayer(int id) {
-        return pairModule.getByPlayer(id);
+    public List<Pair> getByPlayer(String login) {
+        return pairModule.getByPlayer(login);
+    }
+
+    @Override
+    public Pair getByPlayerAndTour(String login, String tourHashedId) {
+        return pairModule.getByPlayerAndTour(login, tourHashedId);
     }
 
     @Override

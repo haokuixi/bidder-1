@@ -1,5 +1,6 @@
 package main.dto;
 
+import main.entities.Deal;
 import main.entities.Pair;
 import main.entities.User;
 
@@ -24,6 +25,7 @@ public class TournamentDto {
     private MovementDto movement;
     private int rounds;
     private List<RoundDto> fullRounds;
+    private List<DealDto> deals;
 
     public boolean containsPlayer(String login) {
         for (Pair p : pairs) {
@@ -60,6 +62,15 @@ public class TournamentDto {
             }
         }
         return sb.toString();
+    }
+
+    public String getDealByNumber(int number) {
+        for(DealDto d: deals) {
+            if(d.getTourDealNumber()==number) {
+                return d.getHashedId();
+            }
+        }
+        return null;
     }
 
     public int getId() {
@@ -196,6 +207,14 @@ public class TournamentDto {
 
     public void setFullRounds(List<RoundDto> fullRounds) {
         this.fullRounds = fullRounds;
+    }
+
+    public List<DealDto> getDeals() {
+        return deals;
+    }
+
+    public void setDeals(List<DealDto> deals) {
+        this.deals = deals;
     }
 
     @Override

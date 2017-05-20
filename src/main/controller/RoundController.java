@@ -1,6 +1,9 @@
 package main.controller;
 
+import main.dto.TournamentDto;
+import main.entities.Pair;
 import main.entities.User;
+import main.services.PairService;
 import main.services.RoundService;
 import main.services.TournamentService;
 import main.services.UserService;
@@ -26,12 +29,20 @@ public class RoundController {
     private TournamentService tournamentService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PairService pairService;
 
     @RequestMapping(value = "/round", method = RequestMethod.GET)
     public ModelAndView getRound(@RequestParam String roundId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
+        TournamentDto tour = tournamentService.getByRoundId(roundId);
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        if(!loggedUser.isJudge() && tour.containsPlayer(loggedUser.getLogin())) {
+            Pair pair = pairService.getByPlayerAndTour(loggedUser.getLogin(), tour.getHashedId());
+            tour.setCurrentPair(pair);
+        }
         model.addObject("round", roundService.getById(roundId));
-        model.addObject("tour", tournamentService.getByRoundId(roundId));
+        model.addObject("tour", tour);
         model.setViewName(ROUND);
         return model;
     }

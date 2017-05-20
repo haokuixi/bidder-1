@@ -4,6 +4,7 @@ import main.dto.MovementDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.Tournament;
+import main.modules.DealModule;
 import main.modules.TournamentModule;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 public class TournamentServiceImpl implements TournamentService {
 
     TournamentModule tournamentModule;
+    DealModule dealModule;
 
     @Transactional
     public void addTournament(TournamentDto t) {
@@ -60,6 +62,7 @@ public class TournamentServiceImpl implements TournamentService {
     public void beginTournament(String hashedId, MovementDto movements) {
         tournamentModule.setTournamentStartDate(hashedId, LocalDateTime.now());
         tournamentModule.beginTournament(hashedId, movements);
+        dealModule.createDealsForTournament(getByHashedId(hashedId));
     }
 
     @Override
@@ -103,5 +106,13 @@ public class TournamentServiceImpl implements TournamentService {
 
     public void setTournamentModule(TournamentModule tournamentModule) {
         this.tournamentModule = tournamentModule;
+    }
+
+    public DealModule getDealModule() {
+        return dealModule;
+    }
+
+    public void setDealModule(DealModule dealModule) {
+        this.dealModule = dealModule;
     }
 }

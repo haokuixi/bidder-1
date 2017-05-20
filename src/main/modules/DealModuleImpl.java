@@ -12,6 +12,8 @@ import main.utils.DataHash;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DealModuleImpl implements DealModule {
 
@@ -46,8 +48,9 @@ public class DealModuleImpl implements DealModule {
         dealsUtils = new DealsUtils();
         Deal deal = new Deal();
         deal.setId(dealDto.getId());
-        deal.setTournament(tournamentModule.transformTournament(dealDto.getTournament()));
+        deal.setTournament(tournamentModule.transformTournament(tournamentModule.getById(dealDto.getTournamentId())));
         deal.setCards(dealsUtils.dealToJson(dealDto.getDealModel()));
+        deal.setDealNumber(dealDto.getTourDealNumber());
 
         return deal;
     }
@@ -57,7 +60,7 @@ public class DealModuleImpl implements DealModule {
         dealsUtils = new DealsUtils();
         DealDto dealDto = new DealDto();
         dealDto.setId(deal.getId());
-        dealDto.setTournament(tournamentModule.transformTournament(deal.getTournament()));
+        dealDto.setTournamentId(deal.getTournament().getId());
         try {
             dealDto.setDealModel(dealsUtils.jsonToDeal(deal.getCards()));
         } catch (IOException e) {
@@ -65,6 +68,7 @@ public class DealModuleImpl implements DealModule {
         }
         dealDto.setResults(dealResultModule.getByDealId(new DataHash().encode(deal.getId())));
         dealDto.setHashedId(new DataHash().encode(deal.getId()));
+        dealDto.setTourDealNumber(deal.getDealNumber());
 
         return dealDto;
     }
@@ -78,8 +82,8 @@ public class DealModuleImpl implements DealModule {
     public boolean isDealVisible(DealDto deal, String login) {
         User user = userModule.getUserByLogin(login);
 
-        if (user.isJudge() || dealResultModule.didUserPlayThisDeal(login, deal.getResults())
-                || tournamentModule.getById(deal.getTournament().getId()).getStatus() != TournamentStatus.INPROGRESS) {
+        if (user.isJudge() || dealResultModule.didUserPlayedThisDeal(login, deal.getResults())
+                || tournamentModule.getById(deal.getTournamentId()).getStatus() != TournamentStatus.INPROGRESS) {
             return true;
         }
 
@@ -89,9 +93,9 @@ public class DealModuleImpl implements DealModule {
     @Override
     public boolean isResultButtonVisible(DealDto deal, String loggedUser) {
         User user = userModule.getUserByLogin(loggedUser);
-        TournamentDto tournament = tournamentModule.getById(deal.getTournament().getId());
+        TournamentDto tournament = tournamentModule.getById(deal.getTournamentId());
 
-        if (user.isJudge() || !dealResultModule.didUserPlayThisDeal(loggedUser, deal.getResults())
+        if (user.isJudge() || !dealResultModule.didUserPlayedThisDeal(loggedUser, deal.getResults())
                 || tournamentModule.isUserInTournamentPairs(tournament.getHashedId(), user.getLogin())
                 || tournament.getStatus() != TournamentStatus.INPROGRESS) {
             return true;
@@ -126,6 +130,26 @@ public class DealModuleImpl implements DealModule {
         return sb.toString();
     }
 
+    @Override
+    public void createDealsForTournament(TournamentDto tournament) {
+        int boards = tournament.getMovement().getBoards();
+        for (int i = 0; i < boards; i++) {
+            DealDto dealDto = new DealDto();
+            dealDto.setTournamentId(tournament.getId());
+            dealDto.setTourDealNumber(i + 1);
+            createDeal(dealDto);
+        }
+    }
+
+    @Override
+    public List<DealDto> getByTourId(String hashedTourId) {
+        List<Deal> deals = dealDAO.getByTourId(new DataHash().decode(hashedTourId));
+        List<DealDto> dtos = new ArrayList<>();
+        for (Deal d : deals) {
+            dtos.add(transformDeal(d));
+        }
+        return dtos;
+    }
 
     public DealDAO getDealDAO() {
         return dealDAO;

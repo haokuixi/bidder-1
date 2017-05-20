@@ -103,7 +103,7 @@ public class TournamentController {
     public ModelAndView quitFromTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
-        userService.quitFromTournament(((User) request.getSession().getAttribute("loggedUser")).getId(), tourId);
+        userService.quitFromTournament(((User) request.getSession().getAttribute("loggedUser")).getLogin(), tourId);
 
         ModelAndView model = new ModelAndView();
         model.addObject("canJoin", tournamentService.canUserJoinTournament(tourId,
@@ -118,7 +118,7 @@ public class TournamentController {
     public ModelAndView enterIntoTournament(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
-        userService.enterIntoTournament(((User) request.getSession().getAttribute("loggedUser")).getId(), tourId);
+        userService.enterIntoTournament(((User) request.getSession().getAttribute("loggedUser")).getLogin(), tourId);
 
         ModelAndView model = new ModelAndView();
         model.addObject("tour", tournamentService.getByHashedId(tourId));
@@ -131,7 +131,7 @@ public class TournamentController {
     public ModelAndView quitTournamentWithPair(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
 
-        userService.quitWithPair(((User) request.getSession().getAttribute("loggedUser")).getId(), tourId);
+        userService.quitWithPair(((User) request.getSession().getAttribute("loggedUser")).getLogin(), tourId);
 
         ModelAndView model = new ModelAndView();
         model.addObject("canJoin", tournamentService.canUserJoinTournament(tourId,
@@ -146,7 +146,7 @@ public class TournamentController {
     public ModelAndView enterTournamentWithAwaiting(HttpServletRequest request) {
         String tourId = request.getParameter("tourId");
         int otherPlayer = Integer.parseInt(request.getParameter("otherPlayer"));
-        userService.quitFromTournament(otherPlayer, tourId); // remove from awaiting
+        userService.quitFromTournament(userService.getUserById(otherPlayer).getLogin(), tourId); // remove from awaiting
         pairService.createPair(((User) request.getSession().getAttribute("loggedUser")).getId(), otherPlayer, tourId);
 
         ModelAndView model = new ModelAndView();

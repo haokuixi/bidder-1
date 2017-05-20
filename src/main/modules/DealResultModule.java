@@ -17,7 +17,7 @@ public interface DealResultModule {
 
     String resolveContractColor(String text);
 
-    boolean didUserPlayThisDeal(String login, List<DealResultDto> results);
+    boolean didUserPlayedThisDeal(String login, List<DealResultDto> results);
 
-    boolean didUserPlayThisDeal(String login, String dealId);
+    boolean didUserPlayedThisDeal(String login, String dealId);
 }

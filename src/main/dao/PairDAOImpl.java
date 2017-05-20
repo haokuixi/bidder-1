@@ -74,9 +74,9 @@ public class PairDAOImpl implements PairDAO {
     }
 
     @Transactional
-    public Pair getByPlayerAndTour(int playerId, int tourId) {
+    public Pair getByPlayerAndTour(String login, int tourId) {
         Query query = em.createNamedQuery(GET_BY_PLAYER_AND_TOUR);
-        query.setParameter("player", playerId);
+        query.setParameter("player", login);
         query.setParameter("tour", tourId);
 
         return (Pair) query.getSingleResult();

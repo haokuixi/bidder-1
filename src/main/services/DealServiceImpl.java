@@ -3,6 +3,7 @@ package main.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import main.dto.DealDto;
 import main.dto.DealResultDto;
+import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.modules.DealModule;
 import main.modules.DealResultModule;
@@ -70,6 +71,11 @@ public class DealServiceImpl implements DealService {
         dealResultDto.setLead("2X");
 
         saveDealResult(dealResultDto);
+    }
+
+    @Override
+    public void createDealsForTournament(TournamentDto tournament) {
+        dealModule.createDealsForTournament(tournament);
     }
 
     public DealModule getDealModule() {

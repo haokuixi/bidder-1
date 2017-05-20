@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "awaiting_players")
 @NamedQueries({
         @NamedQuery(name = "getByTournament", query = "FROM AwaitingPlayer WHERE tournament.id=?"),
-        @NamedQuery(name = "getByUserAndTournament", query = "FROM AwaitingPlayer WHERE player.id=? AND tournament.id=?")
+        @NamedQuery(name = "getByUserAndTournament", query = "FROM AwaitingPlayer WHERE player.login=? AND tournament.id=?")
 })
 public class AwaitingPlayer {
 

@@ -8,19 +8,16 @@ public class DealDto {
 
     private int id;
     private String hashedId;
-    private TournamentDto tournament;
-    private int tournamentRound;
+    private int tournamentId;
     private DealModel dealModel;
     private List<DealResultDto> results;
+    private int tourDealNumber;
 
     public DealDto() {
-        tournament = new TournamentDto();
         dealModel = new DealModel();
     }
 
-    public DealDto(TournamentDto tournament, int tournamentRound, DealModel dealModel) {
-        this.tournament = tournament;
-        this.tournamentRound = tournamentRound;
+    public DealDto(DealModel dealModel) {
         this.dealModel = dealModel;
     }
 
@@ -40,12 +37,12 @@ public class DealDto {
         this.hashedId = hashedId;
     }
 
-    public TournamentDto getTournament() {
-        return tournament;
+    public int getTournamentId() {
+        return tournamentId;
     }
 
-    public void setTournament(TournamentDto tournament) {
-        this.tournament = tournament;
+    public void setTournamentId(int tournamentId) {
+        this.tournamentId = tournamentId;
     }
 
     public DealModel getDealModel() {
@@ -56,14 +53,6 @@ public class DealDto {
         this.dealModel = dealModel;
     }
 
-    public int getTournamentRound() {
-        return tournamentRound;
-    }
-
-    public void setTournamentRound(int tournamentRound) {
-        this.tournamentRound = tournamentRound;
-    }
-
     public List<DealResultDto> getResults() {
         return results;
     }
@@ -72,14 +61,23 @@ public class DealDto {
         this.results = results;
     }
 
+    public int getTourDealNumber() {
+        return tourDealNumber;
+    }
+
+    public void setTourDealNumber(int tourDealNumber) {
+        this.tourDealNumber = tourDealNumber;
+    }
+
     @Override
     public String toString() {
         return "DealDto{" +
                 "id=" + id +
                 ", hashedId='" + hashedId + '\'' +
-                ", tournament=" + tournament +
-                ", tournamentRound=" + tournamentRound +
+                ", tournamentId=" + tournamentId +
                 ", dealModel=" + dealModel +
+                ", results=" + results +
+                ", tourDealNumber=" + tourDealNumber +
                 '}';
     }
 }

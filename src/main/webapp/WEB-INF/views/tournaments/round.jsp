@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="container">
     <div class="well">
@@ -81,6 +82,26 @@
                         </c:forEach>
                     </tr>
                 </table>
+            </div>
+        </div>
+    </c:when>
+</c:choose>
+
+<c:choose>
+    <c:when test="${tour.containsPlayer(pageContext.request.userPrincipal.name)
+        && round.status.equals('INPROGRESS')}">
+        <div class="container">
+            <div class="well">
+                <c:forEach var="i"
+                           begin="${tour.movement.movementTables.table.get(tour.currentPair.currentTable-1).rounds.round.get(tour.currentRound.roundNumber).boards.from}"
+                           end="${tour.movement.movementTables.table.get(tour.currentPair.currentTable-1).rounds.round.get(tour.currentRound.roundNumber).boards.to}">
+                    <div class="container">
+                        <a href=${pageContext.request.contextPath}/deals/deal?dealId=${tour.getDealByNumber(i)}>
+                            rozdanie numer ${i}
+                        </a>
+                        <br/>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </c:when>

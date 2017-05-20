@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface PairModule {
 
-    List<Pair> getByPlayer(int id);
+    List<Pair> getByPlayer(String login);
 
-    Pair getByPlayerAndTour(int playerId, int tourId);
+    Pair getByPlayerAndTour(String login, String tourHashedId);
 
-    void removeByPlayerAndTour(int playerId, int tourId);
+    void removeByPlayerAndTour(String login, String tourHashedId);
 
     void removeById(int id);
 

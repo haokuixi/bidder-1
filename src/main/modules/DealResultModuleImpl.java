@@ -1,7 +1,6 @@
 package main.modules;
 
 import main.dao.DealResultDAO;
-import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.entities.DealResult;
 import main.entities.Pair;
@@ -74,7 +73,7 @@ public class DealResultModuleImpl implements DealResultModule {
     }
 
     @Override
-    public boolean didUserPlayThisDeal(String login, List<DealResultDto> results) {
+    public boolean didUserPlayedThisDeal(String login, List<DealResultDto> results) {
         for(DealResultDto dr : results) {
             Pair pairEW = dr.getPairEW();
             Pair pairNS = dr.getPairNS();
@@ -91,8 +90,8 @@ public class DealResultModuleImpl implements DealResultModule {
     }
 
     @Override
-    public boolean didUserPlayThisDeal(String login, String dealId) {
-        return didUserPlayThisDeal(login, getByDealId(dealId));
+    public boolean didUserPlayedThisDeal(String login, String dealId) {
+        return didUserPlayedThisDeal(login, getByDealId(dealId));
     }
 
     public DealResultDAO getDealResultDAO() {

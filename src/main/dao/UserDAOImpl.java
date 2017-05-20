@@ -2,6 +2,7 @@ package main.dao;
 
 import main.entities.AwaitingPlayer;
 import main.entities.User;
+import main.utils.DataHash;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -100,16 +101,16 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public AwaitingPlayer getByUserAndTournament(int userId, int tourId) {
+    public AwaitingPlayer getByUserAndTournament(String login, int tourId) {
         Query query = em.createNamedQuery(GET_AWAITING_PLAYERS_BY_USER_AND_TOUR);
-        query.setParameter(1, userId);
+        query.setParameter(1, login);
         query.setParameter(2, tourId);
         return (AwaitingPlayer) query.getSingleResult();
     }
 
     @Override
-    public void quitFromTournament(int userId, int tourId) {
-        AwaitingPlayer player = getByUserAndTournament(userId, tourId);
+    public void quitFromTournament(String login, String tourId) {
+        AwaitingPlayer player = getByUserAndTournament(login, new DataHash().decode(tourId));
         AwaitingPlayer awaitingPlayer = em.find(AwaitingPlayer.class, player.getPlayerId());
 
         if (awaitingPlayer != null) {

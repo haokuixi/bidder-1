@@ -15,9 +15,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "deals")
-@NamedQueries(
-        @NamedQuery(name = "getById", query = "FROM Deal WHERE id=?")
-)
+@NamedQueries({
+        @NamedQuery(name = "getById", query = "FROM Deal WHERE id=?"),
+        @NamedQuery(name = "getDealByTourId", query = "FROM Deal WHERE tournament.id=?")
+})
 public class Deal {
 
     @Id
@@ -30,8 +31,8 @@ public class Deal {
     @JoinColumn(name = "tour_id")
     private Tournament tournament;
 
-    @Column(name = "round")
-    private int tournamentRound;
+    @Column(name = "tour_deal_number")
+    private int dealNumber;
 
     @Column(name = "cards")
     private String cards;
@@ -52,12 +53,12 @@ public class Deal {
         this.tournament = tournament;
     }
 
-    public int getTournamentRound() {
-        return tournamentRound;
+    public int getDealNumber() {
+        return dealNumber;
     }
 
-    public void setTournamentRound(int tournamentRound) {
-        this.tournamentRound = tournamentRound;
+    public void setDealNumber(int dealNumber) {
+        this.dealNumber = dealNumber;
     }
 
     public String getCards() {
@@ -73,7 +74,7 @@ public class Deal {
         return "Deal{" +
                 "id=" + id +
                 ", tournament=" + tournament +
-                ", tournamentRound=" + tournamentRound +
+                ", dealNumber=" + dealNumber +
                 ", cards='" + cards + '\'' +
                 '}';
     }

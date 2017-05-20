@@ -25,9 +25,9 @@ public interface UserDAO {
 
     List<User> getAwaitingByTournament(int tourId);
 
-    AwaitingPlayer getByUserAndTournament(int userId, int tourId);
+    AwaitingPlayer getByUserAndTournament(String login, int tourId);
 
-    void quitFromTournament(int userId, int tourId);
+    void quitFromTournament(String login, String tourId);
 
     void enterIntoTournament(AwaitingPlayer awaitingPlayer);
 }
