@@ -71,6 +71,10 @@
         <put-attribute name="body" value="/WEB-INF/views/errors/400.jsp"/>
     </definition>
 
+    <definition name="403" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/errors/403.jsp"/>
+    </definition>
+
     <definition name="404" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/errors/404.jsp"/>
     </definition>

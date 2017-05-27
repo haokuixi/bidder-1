@@ -19,6 +19,7 @@ public class UserModuleImpl implements UserModule {
 
     private static final String WZBS_NZ = "NZ";
     private static final String ROLE_USER = "ROLE_USER";
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private static final int USER_PER_PAGE = 10;
     UserDAO userDAO;
     WzbsModule wzbsModule;
@@ -127,7 +128,12 @@ public class UserModuleImpl implements UserModule {
             u.setPassword(passwordEncoder.encode(userDto.getPassword()));
             u.setWzbs(wzbsModule.getWzbsByShortName(userDto.getWzbs().getShortName()));
             u.setJudge(userDto.isJudge());
-            u.setRole(ROLE_USER);
+
+            if(u.isJudge()) {
+                u.setRole(ROLE_ADMIN);
+            } else {
+                u.setRole(ROLE_USER);
+            }
 
             if (!WZBS_NZ.equals(u.getWzbs().getShortName())) {
                 u.setPzbsId(userDto.getPzbsId());
