@@ -1,6 +1,7 @@
 package main.modules;
 
 import main.dto.MovementDto;
+import main.dto.XmlContentDto;
 import main.entities.Movement;
 
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 public interface MovementModule {
 
     void create(MovementDto m);
+
+    void create(XmlContentDto xml);
 
     List<MovementDto> getByPairsNumber(int pairsNumber);
 
@@ -19,4 +22,5 @@ public interface MovementModule {
 
     Movement transformMovement(MovementDto m);
 
+    MovementDto createDto(XmlContentDto xml);
 }

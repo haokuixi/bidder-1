@@ -2,6 +2,7 @@ package main.modules;
 
 import main.dao.MovementDAO;
 import main.dto.MovementDto;
+import main.dto.XmlContentDto;
 import main.entities.Movement;
 import main.model.movements.Tables;
 import main.utils.DataHash;
@@ -22,6 +23,11 @@ public class MovementModuleImpl implements MovementModule {
     @Override
     public void create(MovementDto m) {
         movementDAO.create(transformMovement(m));
+    }
+
+    @Override
+    public void create(XmlContentDto xml) {
+        create(createDto(xml));
     }
 
     @Override
@@ -65,6 +71,26 @@ public class MovementModuleImpl implements MovementModule {
         movementDto.setBoards(calculateBoards(movementDto));
         movementDto.setRounds(movementDto.getMovementTables().getTable().get(0).getRounds().getRound().size());
 
+        return movementDto;
+    }
+
+    @Override
+    public MovementDto createDto(XmlContentDto xml) {
+        MovementDto movementDto = new MovementDto();
+        JAXBContext context = null;
+        String movement = xml.getXmlContent().replace("\t", "").replace("\n", "").replace("\r", "");
+        try {
+            context = JAXBContext.newInstance(Tables.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            StringReader reader = new StringReader(movement);
+            movementDto.setMovementTables((Tables) unmarshaller.unmarshal(reader));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+        movementDto.setBoards(calculateBoards(movementDto));
+        movementDto.setRounds(movementDto.getMovementTables().getTable().get(0).getRounds().getRound().size());
+        movementDto.setPairs(movementDto.getMovementTables().getTable().size()*2);
         return movementDto;
     }
 

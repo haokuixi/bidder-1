@@ -1,6 +1,7 @@
 package main.services;
 
 import main.dto.MovementDto;
+import main.dto.XmlContentDto;
 import main.modules.MovementModule;
 
 import java.util.List;
@@ -15,6 +16,11 @@ public class MovementServiceImpl implements MovementService {
     }
 
     @Override
+    public void create(XmlContentDto xml) {
+        movementModule.create(xml);
+    }
+
+    @Override
     public List<MovementDto> getByPairsNumber(int pairsNumber) {
         return movementModule.getByPairsNumber(pairsNumber);
     }
@@ -22,6 +28,11 @@ public class MovementServiceImpl implements MovementService {
     @Override
     public MovementDto getByid(String hashedId) {
         return movementModule.getByid(hashedId);
+    }
+
+    @Override
+    public MovementDto createDto(XmlContentDto xml) {
+        return movementModule.createDto(xml);
     }
 
     public MovementModule getMovementModule() {

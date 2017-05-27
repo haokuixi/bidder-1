@@ -63,6 +63,10 @@
         <put-attribute name="body" value="/WEB-INF/views/tournaments/round.jsp"/>
     </definition>
 
+    <definition name="judge" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/judge/judge.jsp"/>
+    </definition>
+
     <definition name="400" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/errors/400.jsp"/>
     </definition>

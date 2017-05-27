@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -51,6 +52,9 @@
     <bean id="roundService" class="main.services.RoundServiceImpl">
         <property name="roundModule" ref="roundModule"/>
     </bean>
+    <bean id="judgeService" class="main.services.JudgeServiceImpl">
+        <property name="judgeModule" ref="judgeModule"/>
+    </bean>
 
 
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
@@ -90,6 +94,9 @@
     <bean id="roundModule" class="main.modules.RoundModuleImpl">
         <property name="roundDAO" ref="roundDAO"/>
         <property name="tournamentModule" ref="tournamentModule"/>
+    </bean>
+    <bean id="judgeModule" class="main.modules.JudgeModuleImpl">
+
     </bean>
 
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>

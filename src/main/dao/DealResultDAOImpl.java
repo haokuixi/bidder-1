@@ -2,6 +2,7 @@ package main.dao;
 
 import main.entities.DealResult;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,8 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import java.util.List;
 
+@Transactional
+@Repository("dealResultRepository")
 public class DealResultDAOImpl implements DealResultDAO {
 
     private static final String GET_BY_DEAL_ID = "getByDealId";
