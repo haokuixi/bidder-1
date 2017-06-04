@@ -6,8 +6,10 @@ import main.dto.DealDto;
 import main.dto.TournamentDto;
 import main.dto.TournamentStatus;
 import main.entities.Deal;
+import main.entities.Pair;
 import main.entities.User;
 import main.model.deals.DealsUtils;
+import main.model.movements.Tables;
 import main.utils.DataHash;
 import org.apache.log4j.Logger;
 
@@ -22,6 +24,7 @@ public class DealModuleImpl implements DealModule {
     TournamentModule tournamentModule;
     UserModule userModule;
     DealResultModule dealResultModule;
+    PairModule pairModule;
     DealsUtils dealsUtils;
     DealDAO dealDAO;
 
@@ -81,9 +84,38 @@ public class DealModuleImpl implements DealModule {
     @Override
     public boolean isDealVisible(DealDto deal, String login) {
         User user = userModule.getUserByLogin(login);
+        TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
 
         if (user.isJudge() || dealResultModule.didUserPlayedThisDeal(login, deal.getResults())
-                || tournamentModule.getById(deal.getTournamentId()).getStatus() != TournamentStatus.INPROGRESS) {
+                || isUserPlayingThisDealNow(login, deal)
+                || tour.getStatus() == TournamentStatus.COMPLETED) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isUserPlayingThisDealNow(String login, DealDto deal) {
+        TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
+        Pair pair = pairModule.getByPlayerAndTour(login, tour.getHashedId());
+
+        if (pair == null) {
+            return false;
+        }
+
+        Tables.Table table = tour.getMovement().getMovementTables().getTable().get(pair.getCurrentTable() - 1);
+
+        if (table == null) {
+            return false;
+        }
+
+        Tables.Table.Rounds.Round round = table.getRounds().getRound().get(tour.getCurrentRound().getRoundNumber());
+
+        if (round == null) {
+            return false;
+        }
+
+        if (round.getBoards().getFrom().intValue() <= deal.getTourDealNumber() && round.getBoards().getTo().intValue() >= deal.getTourDealNumber()) {
             return true;
         }
 
@@ -181,5 +213,13 @@ public class DealModuleImpl implements DealModule {
 
     public void setDealResultModule(DealResultModule dealResultModule) {
         this.dealResultModule = dealResultModule;
+    }
+
+    public PairModule getPairModule() {
+        return pairModule;
+    }
+
+    public void setPairModule(PairModule pairModule) {
+        this.pairModule = pairModule;
     }
 }

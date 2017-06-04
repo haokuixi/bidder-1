@@ -84,6 +84,7 @@
         <property name="tournamentModule" ref="tournamentModule"/>
         <property name="userModule" ref="userModule"/>
         <property name="dealResultModule" ref="dealResultModule"/>
+        <property name="pairModule" ref="pairModule"/>
     </bean>
     <bean id="dealResultModule" class="main.modules.DealResultModuleImpl">
         <property name="dealResultDAO" ref="dealResultDAO"/>
