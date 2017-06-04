@@ -8,6 +8,10 @@
     <packaging>war</packaging>
     <name>dispatcher</name>
 
+    <properties>
+        <application.path>/</application.path>
+    </properties>
+
     <build>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
@@ -35,7 +39,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
-                    <path>/</path>
+                    <path>${application.path}</path>
                     <port>9080</port>
                     <charset>UTF-8</charset>
                     <uriEncoding>UTF-8</uriEncoding>

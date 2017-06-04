@@ -15,8 +15,10 @@ http://www.springframework.org/schema/security/spring-security-4.1.xsd http://ww
         <logout logout-success-url="/mainpage"/>
         <access-denied-handler error-page="/403" />
         <intercept-url pattern="/judge**" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/tour/create**" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/tour/edit**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/tournaments**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/tournaments/tourlist**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/tournaments/create**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/tournaments/edit**" access="hasRole('ROLE_ADMIN')" />
         <csrf/>
     </http>
 

@@ -5,7 +5,7 @@
         .footer {
             width: 100%;
             float: left;
-            background: #ffedec;
+            background: #cdf0ff;
             height: 50px;
         }
     </style>
@@ -15,23 +15,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <div class="footer navbar-fixed-bottom">
-    <c:choose>
-        <c:when test="${sessionScope.get('loggedUser').getLogin() != null}">
-            <h2> heloł ${sessionScope.get("loggedUser").getLogin()}</h2>
-
-            <c:choose>
-                <c:when test="${user.judge==true}">
-                    <h3> jesteś sędziom </h3>
-                </c:when>
-                <c:otherwise>
-                    <h3> jesteś graczem </h3>
-                </c:otherwise>
-            </c:choose>
-        </c:when>
-        <c:otherwise>
-            <h2> heloł gościu </h2>
-        </c:otherwise>
-    </c:choose>
-
+    <div class="container">
+            Aplikacja do przeprowadzania turniejów brydża sportowego. Łódź 2017
+    </div>
 </div>
 

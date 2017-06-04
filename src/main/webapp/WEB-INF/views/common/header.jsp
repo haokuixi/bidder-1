@@ -27,7 +27,6 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                 <li><a href="${pageContext.request.contextPath}/users/userlist?page=1">
                     <spring:message code="header.users"/>
                 </a></li>
