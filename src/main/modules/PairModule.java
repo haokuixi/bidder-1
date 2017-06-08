@@ -17,4 +17,6 @@ public interface PairModule {
     void createPair(int playerOne, int playerTwo, String tourId);
 
     Pair getById(int id);
+
+    Pair getByTourTableAndPosition(String tourHashedId, int tableNumber, String position);
 }

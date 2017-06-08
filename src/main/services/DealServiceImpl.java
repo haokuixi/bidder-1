@@ -5,11 +5,15 @@ import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
+import main.entities.User;
+import main.exceptions.LeadValidationException;
 import main.modules.DealModule;
 import main.modules.DealResultModule;
 import main.modules.PairModule;
+import main.modules.TournamentModule;
 import main.modules.UserModule;
 import main.utils.ContractPointsCalculator;
+import main.utils.DataHash;
 
 import java.util.List;
 
@@ -19,6 +23,9 @@ public class DealServiceImpl implements DealService {
     DealResultModule dealResultModule;
     UserModule userModule;
     PairModule pairModule;
+
+    private static final String NS = "NS";
+    private static final String EW = "EW";
 
     @Override
     public void createDeal(DealDto deal) {
@@ -51,24 +58,32 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public void saveDealResult(String color, int height, int tricks, int doubleValue, String position, boolean vulnerable, String hashedDealId, Pair pairNS, Pair pairEW) {
+    public void saveDealResult(User user, String color, int height, int tricks, int doubleValue, String position, boolean vulnerable, String hashedDealId, String lead) {
         DealResultDto dealResultDto = new DealResultDto();
         dealResultDto.setContractColor(color);
         dealResultDto.setContract(dealModule.constructContract(height, color, position, tricks, doubleValue));
         dealResultDto.setResult(tricks);
         dealResultDto.setPoints(ContractPointsCalculator.calculatePoints(height, color, doubleValue, vulnerable, tricks));
         dealResultDto.setDeclarerPosition(position);
+        dealResultDto.setLead(lead);
+
         try {
             dealResultDto.setDeal(dealModule.transformDeal(dealModule.getDealByHashedId(hashedDealId)));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        //todo:
-        dealResultDto.setDeclarer(userModule.getById(87));
-        dealResultDto.setPairEW(pairModule.getById(50));
-        dealResultDto.setPairNS(pairModule.getById(101));
-        dealResultDto.setLead("2X");
+        String hashedTourId = new DataHash().encode(dealModule.getDealById(hashedDealId).getTournamentId());
+
+        Pair pair = pairModule.getByPlayerAndTour(user.getLogin(), hashedTourId);
+        if (pair.getCurrentPosition().equals(NS)) {
+            dealResultDto.setPairNS(pair);
+            dealResultDto.setPairEW(pairModule.getByTourTableAndPosition(hashedTourId, pair.getCurrentTable(), EW));
+        } else {
+            dealResultDto.setPairEW(pair);
+            dealResultDto.setPairNS(pairModule.getByTourTableAndPosition(hashedTourId, pair.getCurrentTable(), NS));
+        }
+
 
         saveDealResult(dealResultDto);
     }
@@ -76,6 +91,11 @@ public class DealServiceImpl implements DealService {
     @Override
     public void createDealsForTournament(TournamentDto tournament) {
         dealModule.createDealsForTournament(tournament);
+    }
+
+    @Override
+    public void validateDealResult(DealResultDto dto) throws LeadValidationException {
+        dealModule.validateDealResult(dto);
     }
 
     public DealModule getDealModule() {

@@ -25,7 +25,6 @@ public class MovementDAOImpl implements MovementDAO {
     @Override
     public void create(Movement m) {
         em.persist(m);
-        System.out.println("after persist");
     }
 
     @Override

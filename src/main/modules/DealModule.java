@@ -2,8 +2,10 @@ package main.modules;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import main.dto.DealDto;
+import main.dto.DealResultDto;
 import main.dto.TournamentDto;
 import main.entities.Deal;
+import main.exceptions.LeadValidationException;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,4 +31,6 @@ public interface DealModule {
     void createDealsForTournament(TournamentDto tournament);
 
     List<DealDto> getByTourId(String hashedTourId);
+
+    void validateDealResult(DealResultDto dto) throws LeadValidationException;
 }

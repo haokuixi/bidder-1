@@ -27,11 +27,16 @@ public class DealResultModuleImpl implements DealResultModule {
     @Override
     public String resolveContractColor(String text) {
         switch (text.substring(1, 2)) {
-            case "S" : return "♠";
-            case "H" : return "♥";
-            case "D" : return "♦";
-            case "C" : return "♣";
-            default: return "NT";
+            case "S":
+                return "♠";
+            case "H":
+                return "♥";
+            case "D":
+                return "♦";
+            case "C":
+                return "♣";
+            default:
+                return "NT";
         }
     }
 
@@ -43,7 +48,6 @@ public class DealResultModuleImpl implements DealResultModule {
         dealResultDto.setHashedId(new DataHash().encode(dealResult.getId()));
         dealResultDto.setPairNS(dealResult.getPairNS());
         dealResultDto.setPairEW(dealResult.getPairEW());
-        dealResultDto.setDeclarer(dealResult.getDeclarer());
         dealResultDto.setDeclarerPosition(dealResult.getDeclarerPosition());
         dealResultDto.setContract(dealResult.getContract());
         dealResultDto.setLead(dealResult.getLead());
@@ -61,7 +65,6 @@ public class DealResultModuleImpl implements DealResultModule {
         dealResult.setId(dealResultDto.getId());
         dealResult.setPairNS(dealResultDto.getPairNS());
         dealResult.setPairEW(dealResultDto.getPairEW());
-        dealResult.setDeclarer(dealResultDto.getDeclarer());
         dealResult.setDeclarerPosition(dealResultDto.getDeclarerPosition());
         dealResult.setContract(dealResultDto.getContract());
         dealResult.setLead(dealResultDto.getLead());
@@ -74,11 +77,11 @@ public class DealResultModuleImpl implements DealResultModule {
 
     @Override
     public boolean didUserPlayedThisDeal(String login, List<DealResultDto> results) {
-        for(DealResultDto dr : results) {
+        for (DealResultDto dr : results) {
             Pair pairEW = dr.getPairEW();
             Pair pairNS = dr.getPairNS();
 
-            if(pairEW.getPlayerOne().getLogin().equals(login) ||
+            if (pairEW.getPlayerOne().getLogin().equals(login) ||
                     pairEW.getPlayerTwo().getLogin().equals(login) ||
                     pairNS.getPlayerOne().getLogin().equals(login) ||
                     pairNS.getPlayerTwo().getLogin().equals(login)) {

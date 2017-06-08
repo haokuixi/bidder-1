@@ -3,11 +3,13 @@ package main.modules;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import main.dao.DealDAO;
 import main.dto.DealDto;
+import main.dto.DealResultDto;
 import main.dto.TournamentDto;
 import main.dto.TournamentStatus;
 import main.entities.Deal;
 import main.entities.Pair;
 import main.entities.User;
+import main.exceptions.LeadValidationException;
 import main.model.deals.DealsUtils;
 import main.model.movements.Tables;
 import main.utils.DataHash;
@@ -15,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DealModuleImpl implements DealModule {
@@ -181,6 +184,28 @@ public class DealModuleImpl implements DealModule {
             dtos.add(transformDeal(d));
         }
         return dtos;
+    }
+
+    @Override
+    public void validateDealResult(DealResultDto dto) throws LeadValidationException {
+        List<String> COLORS = Arrays.asList("C", "D", "H", "S");
+        String lead = dto.getLead();
+
+        if (lead.length() != 2) {
+            throw LeadValidationException.leadValidationException();
+        } else {
+            char first = lead.toCharArray()[0];
+            char second = lead.toCharArray()[1];
+
+            if ((first - '0' < 2 || first - '0' > 9) && first != 'T') {
+                throw LeadValidationException.leadValidationException();
+            }
+
+            if (!COLORS.contains(new String(new char[]{second}))) {
+                throw LeadValidationException.leadValidationException();
+            }
+        }
+
     }
 
     public DealDAO getDealDAO() {

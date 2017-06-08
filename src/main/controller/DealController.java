@@ -1,8 +1,9 @@
 package main.controller;
 
 import main.dto.DealDto;
-import main.entities.Pair;
+import main.dto.DealResultDto;
 import main.entities.User;
+import main.exceptions.LeadValidationException;
 import main.services.DealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,19 +46,36 @@ public class DealController {
 
     @RequestMapping(value = "/enterresult", method = RequestMethod.POST, params = {"enterResult"})
     public ModelAndView enterResult(@RequestParam String dealId, HttpServletRequest request) {
-        dealService.saveDealResult(request.getParameter("colorValue"),
-                Integer.valueOf(request.getParameter("heightValue")),
-                Integer.valueOf(request.getParameter("tricksValue")),
-                Integer.valueOf(request.getParameter("doubleValue")),
-                request.getParameter("positionValue"),
-                Boolean.valueOf(request.getParameter("vulnerableValue")),
-                dealId, new Pair(), new Pair());
-
 
         ModelAndView model = new ModelAndView();
-        model.setViewName(ENTER_RESULT);
+        DealResultDto dto = new DealResultDto();
+        dto.setLead(request.getParameter("leadValue"));
 
+        try {
+            dealService.validateDealResult(dto);
+            dealService.saveDealResult((User) request.getSession().getAttribute("loggedUser"),
+                    request.getParameter("colorValue"),
+                    Integer.valueOf(request.getParameter("heightValue")),
+                    Integer.valueOf(request.getParameter("tricksValue")),
+                    Integer.valueOf(request.getParameter("doubleValue")),
+                    request.getParameter("positionValue"),
+                    Boolean.valueOf(request.getParameter("vulnerableValue")),
+                    dealId,
+                    request.getParameter("leadValue"));
+            model.addObject("success", true);
+        } catch (LeadValidationException e) {
+            model.addObject("validationError", e.getMessage());
+            model.setViewName(ENTER_RESULT);
+            return model;
+        }
 
+        DealDto deal = dealService.getDealById(dealId);
+
+        model.addObject("deal", deal);
+        model.addObject("results", dealService.getDealResultsByDealId(dealId));
+        model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        model.addObject("buttonVisible", dealService.isResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        model.setViewName(DEAL);
         return model;
     }
 }

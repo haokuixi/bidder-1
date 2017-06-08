@@ -4,6 +4,8 @@ import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
+import main.entities.User;
+import main.exceptions.LeadValidationException;
 
 import java.util.List;
 
@@ -21,8 +23,10 @@ public interface DealService {
 
     boolean isResultButtonVisible(DealDto deal, String loggedUser);
 
-    void saveDealResult(String color, int height, int tricks, int doubleValue, String position, boolean vulnerable,
-                        String hashedDealId, Pair pairNS, Pair pairEW);
+    void saveDealResult(User user, String color, int height, int tricks, int doubleValue, String position,
+                        boolean vulnerable, String hashedDealId, String lead);
 
     void createDealsForTournament(TournamentDto tournament);
+
+    void validateDealResult(DealResultDto dto) throws LeadValidationException;
 }

@@ -2,6 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style>
+    label.error {
+        color: #ff0000;
+    }
+</style>
+
 <script>
     var height = 0;
     var color = 0;
@@ -138,6 +144,21 @@
 
 <div class="well" align="center">
 
+    <c:choose>
+        <c:when test="${success==true}">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <br><br>
+                        <h2 style="color:#0fad00">Dodano wynik</h2>
+                        <br><br>
+                    </div>
+
+                </div>
+            </div>
+        </c:when>
+    </c:choose>
+
     <button class="btn btn-primary btn-lg" onclick="chooseHeight(1)">1</button>
     <button class="btn btn-primary btn-lg" onclick="chooseHeight(2)">2</button>
     <button class="btn btn-primary btn-lg" onclick="chooseHeight(3)">3</button>
@@ -203,18 +224,8 @@
 
     <br/>
     <br/>
-
-    <div class="container">
-        <div class="well">
-            <label for="heightValue" id="heightValue"></label>
-            <label for="colorValue" id="colorValue"></label>
-            <label for="positionValue" id="positionValue"></label>
-            <label for="contractDouble" id="contractDouble"></label>
-            <label for="tricks" id="tricks"></label>
-        </div>
-    </div>
-
     <br/>
+
 
     <form:form action="${pageContext.request.contextPath}/deals/enterresult?dealId=${dealId}"
                methodParam="dealId" method="post">
@@ -224,6 +235,29 @@
         <input type="hidden" name="doubleValue" id="doubleInput"/>
         <input type="hidden" name="vulnerableValue" id="vulnerableInput"/>
         <input type="hidden" name="positionValue" id="positionInput"/>
+        <label>
+            <spring:message code="label.deal.lead"/>
+        </label>
+        <input name="leadValue" id="leadInput"/>
+        <c:choose>
+            <c:when test="${validationError!=null}">
+                <label class="error"><spring:message code="${validationError}"/></label>
+            </c:when>
+        </c:choose>
+        <br/>
+        <br/>
+        <div class="container">
+            <div class="well">
+                <label for="heightValue" id="heightValue"></label>
+                <label for="colorValue" id="colorValue"></label>
+                <label for="positionValue" id="positionValue"></label>
+                <label for="contractDouble" id="contractDouble"></label>
+                <label for="tricks" id="tricks"></label>
+                <label for="lead" id="lead"></label>
+            </div>
+        </div>
+        <br/>
+        <br/>
         <button type="submit" id="sendButton" class="btn btn-primary btn-block login-button"
                 name="enterResult" value="enterResult" onclick="setContract()" disabled="true">
             <spring:message code="label.deal.enterresult.confirm"/>

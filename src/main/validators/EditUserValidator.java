@@ -4,7 +4,6 @@ import main.dao.UserDAO;
 import main.dto.UserDto;
 import main.dto.WzbsDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -13,7 +12,6 @@ public class EditUserValidator implements Validator {
     private static final String WZBS_NZ = "NZ";
 
     @Autowired
-    @Qualifier("userDAO")
     UserDAO userDAO;
 
     @Override
@@ -26,11 +24,11 @@ public class EditUserValidator implements Validator {
         String firstName = ((UserDto) o).getFirstName();
         String lastName = ((UserDto) o).getLastName();
 
-        if (firstName!=null && firstName.isEmpty()) {
+        if (firstName != null && firstName.isEmpty()) {
             errors.rejectValue("firstName", "validation.user.firstname.null");
         }
 
-        if (lastName!=null && lastName.isEmpty()) {
+        if (lastName != null && lastName.isEmpty()) {
             errors.rejectValue("lastName", "validation.user.lastname.null");
         }
 

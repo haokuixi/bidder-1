@@ -47,6 +47,11 @@ public class PairModuleImpl implements PairModule {
         return pairDAO.getById(id);
     }
 
+    @Override
+    public Pair getByTourTableAndPosition(String tourHashedId, int tableNumber, String position) {
+        return pairDAO.getByTourTableAndPosition(new DataHash().decode(tourHashedId), tableNumber, position);
+    }
+
     public PairDAO getPairDAO() {
         return pairDAO;
     }

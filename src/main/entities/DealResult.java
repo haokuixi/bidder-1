@@ -38,10 +38,6 @@ public class DealResult {
     @JoinColumn(name = "ew_pair")
     private Pair pairEW;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "declarer")
-    private User declarer;
-
     @Column(name = "declarer_position")
     private String declarerPosition;
 
@@ -87,14 +83,6 @@ public class DealResult {
 
     public void setPairEW(Pair pairEW) {
         this.pairEW = pairEW;
-    }
-
-    public User getDeclarer() {
-        return declarer;
-    }
-
-    public void setDeclarer(User declarer) {
-        this.declarer = declarer;
     }
 
     public String getDeclarerPosition() {
@@ -144,7 +132,6 @@ public class DealResult {
                 ", dealId=" + dealId +
                 ", pairNS=" + pairNS +
                 ", pairEW=" + pairEW +
-                ", declarer=" + declarer +
                 ", declarerPosition='" + declarerPosition + '\'' +
                 ", contract='" + contract + '\'' +
                 ", lead='" + lead + '\'' +

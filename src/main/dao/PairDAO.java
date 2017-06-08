@@ -24,4 +24,6 @@ public interface PairDAO {
     List<Pair> getByPlayer(User player);
 
     Pair getByPlayerAndTour(String login, int tourId);
+
+    Pair getByTourTableAndPosition(int tourId, int tableNumber, String position);
 }

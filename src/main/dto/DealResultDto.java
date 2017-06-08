@@ -11,7 +11,6 @@ public class DealResultDto {
     private Deal deal;
     private Pair pairNS;
     private Pair pairEW;
-    private User declarer;
     private String declarerPosition;
     private String contract;
     private String lead;
@@ -57,14 +56,6 @@ public class DealResultDto {
 
     public void setPairEW(Pair pairEW) {
         this.pairEW = pairEW;
-    }
-
-    public User getDeclarer() {
-        return declarer;
-    }
-
-    public void setDeclarer(User declarer) {
-        this.declarer = declarer;
     }
 
     public String getDeclarerPosition() {
@@ -123,7 +114,6 @@ public class DealResultDto {
                 ", deal=" + deal +
                 ", pairNS=" + pairNS +
                 ", pairEW=" + pairEW +
-                ", declarer=" + declarer +
                 ", declarerPosition='" + declarerPosition + '\'' +
                 ", contract='" + contract + '\'' +
                 ", lead='" + lead + '\'' +

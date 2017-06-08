@@ -258,7 +258,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
         if(tournamentDto.getCurrentRound() != null){
-            tournament.setCurrentRound(roundModule.transformRound(tournamentDto.getCurrentRound()));
+            tournament.setCurrentRound(roundModule.getById(tournamentDto.getCurrentRound().getId()));
         }
         tournament.setRounds(tournamentDto.getRounds());
         if (tournamentDto.getMovement() != null) {

@@ -19,6 +19,7 @@ public class PairDAOImpl implements PairDAO {
     private static final String GET_BY_PLAYER = "getByPlayer";
     private static final String GET_ALL_BY_TOUR_QUERY = "getByTourId";
     private static final String GET_BY_PLAYER_AND_TOUR = "getByPlayerAndTour";
+    private static final String GET_BY_TOUR_TABLE_POSITION = "getByTourTableAndPosition";
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     @Qualifier(value = "transactionManager")
@@ -78,6 +79,16 @@ public class PairDAOImpl implements PairDAO {
         Query query = em.createNamedQuery(GET_BY_PLAYER_AND_TOUR);
         query.setParameter("player", login);
         query.setParameter("tour", tourId);
+
+        return (Pair) query.getSingleResult();
+    }
+
+    @Transactional
+    public Pair getByTourTableAndPosition(int tourId, int tableNumber, String position) {
+        Query query = em.createNamedQuery(GET_BY_TOUR_TABLE_POSITION);
+        query.setParameter("tour", tourId);
+        query.setParameter("table", tableNumber);
+        query.setParameter("position", position);
 
         return (Pair) query.getSingleResult();
     }
