@@ -21,7 +21,7 @@ public interface DealService {
 
     boolean isDealVisible(DealDto deal, String login);
 
-    boolean isResultButtonVisible(DealDto deal, String loggedUser);
+    boolean isEnterResultButtonVisible(DealDto deal, String loggedUser);
 
     void saveDealResult(User user, String color, int height, int tricks, int doubleValue, String position,
                         boolean vulnerable, String hashedDealId, String lead);

@@ -126,13 +126,13 @@ public class DealModuleImpl implements DealModule {
     }
 
     @Override
-    public boolean isResultButtonVisible(DealDto deal, String loggedUser) {
+    public boolean isEnterResultButtonVisible(DealDto deal, String loggedUser) {
         User user = userModule.getUserByLogin(loggedUser);
         TournamentDto tournament = tournamentModule.getById(deal.getTournamentId());
 
-        if (user.isJudge() || !dealResultModule.didUserPlayedThisDeal(loggedUser, deal.getResults())
-                || tournamentModule.isUserInTournamentPairs(tournament.getHashedId(), user.getLogin())
-                || tournament.getStatus() != TournamentStatus.INPROGRESS) {
+        if (user.isJudge() || (!dealResultModule.didUserPlayedThisDeal(loggedUser, deal.getResults())
+                && tournamentModule.isUserInTournamentPairs(tournament.getHashedId(), user.getLogin())
+                && tournament.getStatus() != TournamentStatus.INPROGRESS)) {
             return true;
         }
 
@@ -157,11 +157,7 @@ public class DealModuleImpl implements DealModule {
             sb.append("=");
         } else if (tr > 0) {
             sb.append("+").append(tr);
-        } else {
-            sb.append("-").append(tr);
         }
-
-
         return sb.toString();
     }
 

@@ -10,7 +10,6 @@ import main.exceptions.LeadValidationException;
 import main.modules.DealModule;
 import main.modules.DealResultModule;
 import main.modules.PairModule;
-import main.modules.TournamentModule;
 import main.modules.UserModule;
 import main.utils.ContractPointsCalculator;
 import main.utils.DataHash;
@@ -53,8 +52,8 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public boolean isResultButtonVisible(DealDto deal, String loggedUser) {
-        return dealModule.isResultButtonVisible(deal, loggedUser);
+    public boolean isEnterResultButtonVisible(DealDto deal, String loggedUser) {
+        return dealModule.isEnterResultButtonVisible(deal, loggedUser);
     }
 
     @Override

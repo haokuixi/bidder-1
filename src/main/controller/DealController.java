@@ -31,7 +31,7 @@ public class DealController {
         model.addObject("deal", deal);
         model.addObject("results", dealService.getDealResultsByDealId(dealId));
         model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
-        model.addObject("buttonVisible", dealService.isResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.setViewName(DEAL);
         return model;
     }
@@ -74,7 +74,7 @@ public class DealController {
         model.addObject("deal", deal);
         model.addObject("results", dealService.getDealResultsByDealId(dealId));
         model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
-        model.addObject("buttonVisible", dealService.isResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.setViewName(DEAL);
         return model;
     }

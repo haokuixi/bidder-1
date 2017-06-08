@@ -6,7 +6,7 @@
 <c:choose>
     <c:when test="${visible}">
         <div class="container" align="center">
-            <div class="container col-md-4 col-lg-4" style="position:absolute; left:32%; top:10%;">
+            <div class="container col-md-4 col-lg-4">
                 <table class="table">
                     <tr>
                         <td/>
@@ -197,7 +197,7 @@
         </div>
 
 
-        <div class="container" align="center" style="position:absolute; left:18%; top:48%;">
+        <div class="container" align="center">
             <div class="container">
                 <div class="well">
                     <c:choose>
