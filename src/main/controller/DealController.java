@@ -28,12 +28,7 @@ public class DealController {
     @RequestMapping(value = "/deal", method = RequestMethod.GET)
     public ModelAndView getDeal(@RequestParam String dealId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
-        DealDto deal = dealService.getDealById(dealId);
-        model.addObject("deal", deal);
-        model.addObject("results", dealService.getDealResultsByDealId(dealId));
-        model.addObject("canEnterDeal", dealService.canEnterDeal(dealId, (User) request.getSession().getAttribute("loggedUser")));
-        model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
-        model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        setDealModelObjects(model, dealId, request);
         model.setViewName(DEAL);
         return model;
     }
@@ -71,12 +66,7 @@ public class DealController {
             return model;
         }
 
-        DealDto deal = dealService.getDealById(dealId);
-
-        model.addObject("deal", deal);
-        model.addObject("results", dealService.getDealResultsByDealId(dealId));
-        model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
-        model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
+        setDealModelObjects(model, dealId, request);
         model.setViewName(DEAL);
         return model;
     }
@@ -88,5 +78,16 @@ public class DealController {
         model.addObject("dealId", dealId);
         model.setViewName(ENTER_DEAL);
         return model;
+    }
+
+    private void setDealModelObjects(ModelAndView model, String dealId, HttpServletRequest request) {
+        DealDto deal = dealService.getDealById(dealId);
+        User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+        model.addObject("deal", deal);
+        model.addObject("results", dealService.getDealResultsByDealId(dealId));
+        model.addObject("canEnterDeal", dealService.canEnterDeal(dealId, loggedUser));
+        model.addObject("visible", dealService.isDealVisible(deal, (loggedUser).getLogin()));
+        model.addObject("resultsVisible", dealService.areResultsVisible(dealId, loggedUser));
+        model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, (loggedUser).getLogin()));
     }
 }

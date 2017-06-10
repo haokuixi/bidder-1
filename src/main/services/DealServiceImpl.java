@@ -102,6 +102,11 @@ public class DealServiceImpl implements DealService {
         return dealModule.canEnterDeal(dealId, user);
     }
 
+    @Override
+    public boolean areResultsVisible(String dealId, User user) {
+        return dealModule.areResultsVisible(dealId, user);
+    }
+
     public DealModule getDealModule() {
         return dealModule;
     }

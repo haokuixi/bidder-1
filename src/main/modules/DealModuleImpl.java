@@ -132,7 +132,7 @@ public class DealModuleImpl implements DealModule {
 
         if (!dealResultModule.didUserPlayedThisDeal(loggedUser, deal.getResults())
                 && tournamentModule.isUserInTournamentPairs(tournament.getHashedId(), user.getLogin())
-                && tournament.getStatus() != TournamentStatus.INPROGRESS) {
+                && tournament.getStatus() == TournamentStatus.INPROGRESS) {
             return true;
         }
 
@@ -207,6 +207,14 @@ public class DealModuleImpl implements DealModule {
     @Override
     public boolean canEnterDeal(String dealId, User user) {
         return tournamentModule.getById(getDealByHashedId(dealId).getTournamentId()).getJudge().getLogin().equals(user.getLogin());
+    }
+
+    @Override
+    public boolean areResultsVisible(String dealId, User user) {
+        DealDto deal = getDealByHashedId(dealId);
+        TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
+        return tour.getJudge().getLogin().equals(user.getLogin())
+                || (tour.containsPlayer(user.getLogin()) && deal.containsUsersResult(user));
     }
 
     public DealDAO getDealDAO() {

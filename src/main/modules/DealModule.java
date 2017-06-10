@@ -36,4 +36,6 @@ public interface DealModule {
     void validateDealResult(DealResultDto dto) throws LeadValidationException;
 
     boolean canEnterDeal(String dealId, User user);
+
+    boolean areResultsVisible(String dealId, User user);
 }

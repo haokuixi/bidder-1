@@ -1,5 +1,6 @@
 package main.dto;
 
+import main.entities.User;
 import main.model.deals.DealModel;
 
 import java.util.List;
@@ -12,6 +13,18 @@ public class DealDto {
     private DealModel dealModel;
     private List<DealResultDto> results;
     private int tourDealNumber;
+
+    public boolean containsUsersResult(User user) {
+        for (DealResultDto d : results) {
+            if (d.getPairEW().getPlayerOne().getLogin().equals(user.getLogin()) ||
+                    d.getPairEW().getPlayerTwo().getLogin().equals(user.getLogin()) ||
+                    d.getPairNS().getPlayerOne().getLogin().equals(user.getLogin()) ||
+                    d.getPairNS().getPlayerTwo().getLogin().equals(user.getLogin())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public DealDto() {
         dealModel = new DealModel();
