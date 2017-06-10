@@ -20,6 +20,7 @@ public class DealController {
 
     private static final String DEAL = "deal";
     private static final String ENTER_RESULT = "enterresult";
+    private static final String ENTER_DEAL = "enterdeal";
 
     @Autowired
     DealService dealService;
@@ -30,6 +31,7 @@ public class DealController {
         DealDto deal = dealService.getDealById(dealId);
         model.addObject("deal", deal);
         model.addObject("results", dealService.getDealResultsByDealId(dealId));
+        model.addObject("canEnterDeal", dealService.canEnterDeal(dealId, (User) request.getSession().getAttribute("loggedUser")));
         model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.setViewName(DEAL);
@@ -76,6 +78,15 @@ public class DealController {
         model.addObject("visible", dealService.isDealVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, ((User) request.getSession().getAttribute("loggedUser")).getLogin()));
         model.setViewName(DEAL);
+        return model;
+    }
+
+
+    @RequestMapping(value = "/enterdeal", method = RequestMethod.GET)
+    public ModelAndView enterDeal(@RequestParam String dealId, HttpServletRequest request) {
+        ModelAndView model = new ModelAndView();
+        model.addObject("dealId", dealId);
+        model.setViewName(ENTER_DEAL);
         return model;
     }
 }

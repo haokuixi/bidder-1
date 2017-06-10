@@ -97,7 +97,7 @@
                            end="${tour.movement.movementTables.table.get(tour.currentPair.currentTable-1).rounds.round.get(tour.currentRound.roundNumber).boards.to}">
                     <div class="container">
                         <a href=${pageContext.request.contextPath}/deals/deal?dealId=${tour.getDealByNumber(i)}>
-                            rozdanie numer ${i}
+                            <spring:message code="label.deal.no"/> ${i}
                         </a>
                         <br/>
                     </div>

@@ -29,4 +29,6 @@ public interface DealService {
     void createDealsForTournament(TournamentDto tournament);
 
     void validateDealResult(DealResultDto dto) throws LeadValidationException;
+
+    boolean canEnterDeal(String dealId, User user);
 }

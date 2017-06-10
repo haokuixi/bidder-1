@@ -192,10 +192,17 @@
                         <td/>
                     </tr>
                 </table>
+
+                <c:choose>
+                    <c:when test="${canEnterDeal}">
+                        <a class="btn btn-primary btn-block login-button button"
+                           href="${pageContext.request.contextPath}/deals/enterdeal?dealId=${deal.hashedId}">
+                            <spring:message code="label.deal.entercards"/>
+                        </a>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
-        </div>
-
 
         <div class="container" align="center">
             <div class="container">

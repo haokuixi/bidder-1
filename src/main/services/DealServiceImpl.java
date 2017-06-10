@@ -97,6 +97,11 @@ public class DealServiceImpl implements DealService {
         dealModule.validateDealResult(dto);
     }
 
+    @Override
+    public boolean canEnterDeal(String dealId, User user) {
+        return dealModule.canEnterDeal(dealId, user);
+    }
+
     public DealModule getDealModule() {
         return dealModule;
     }

@@ -322,6 +322,15 @@
                     </c:forEach>
                     </tbody>
                 </table>
+
+                <c:forEach var="d" items="${tour.deals}">
+                    <div class="container">
+                        <a href=${pageContext.request.contextPath}/deals/deal?dealId=${tour.getDealByNumber(d.tourDealNumber)}>
+                            <spring:message code="label.deal.no"/> ${d.tourDealNumber}
+                        </a>
+                        <br/>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </c:when>

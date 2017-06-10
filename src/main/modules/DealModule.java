@@ -5,6 +5,7 @@ import main.dto.DealDto;
 import main.dto.DealResultDto;
 import main.dto.TournamentDto;
 import main.entities.Deal;
+import main.entities.User;
 import main.exceptions.LeadValidationException;
 
 import java.io.IOException;
@@ -33,4 +34,6 @@ public interface DealModule {
     List<DealDto> getByTourId(String hashedTourId);
 
     void validateDealResult(DealResultDto dto) throws LeadValidationException;
+
+    boolean canEnterDeal(String dealId, User user);
 }
