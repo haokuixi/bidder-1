@@ -27,6 +27,11 @@ public class DealDAOImpl implements DealDAO {
     }
 
     @Transactional
+    public void update(Deal d) {
+        em.merge(d);
+    }
+
+    @Transactional
     public Deal getDealById(int dealId) {
         Query query = em.createNamedQuery(GET_BY_ID);
         query.setParameter(1, dealId);

@@ -3,9 +3,11 @@ package main.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import main.dto.DealDto;
 import main.dto.DealResultDto;
+import main.dto.EnteredDealDto;
 import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.User;
+import main.exceptions.EnterDealValidationException;
 import main.exceptions.LeadValidationException;
 import main.modules.DealModule;
 import main.modules.DealResultModule;
@@ -105,6 +107,11 @@ public class DealServiceImpl implements DealService {
     @Override
     public boolean areResultsVisible(String dealId, User user) {
         return dealModule.areResultsVisible(dealId, user);
+    }
+
+    @Override
+    public void enterDeal(String hashedDealId, EnteredDealDto deal) throws EnterDealValidationException {
+        dealModule.enterDeal(hashedDealId, deal);
     }
 
     public DealModule getDealModule() {

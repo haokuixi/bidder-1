@@ -2,11 +2,14 @@ package main.controller;
 
 import main.dto.DealDto;
 import main.dto.DealResultDto;
+import main.dto.EnteredDealDto;
 import main.entities.User;
+import main.exceptions.EnterDealValidationException;
 import main.exceptions.LeadValidationException;
 import main.services.DealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,9 +76,10 @@ public class DealController {
 
 
     @RequestMapping(value = "/enterdeal", method = RequestMethod.GET)
-    public ModelAndView enterDeal(@RequestParam String dealId, HttpServletRequest request) {
+    public ModelAndView getEnterDeal(@RequestParam String dealId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         model.addObject("dealId", dealId);
+        model.addObject("deal", new EnteredDealDto());
         model.setViewName(ENTER_DEAL);
         return model;
     }
@@ -89,5 +93,23 @@ public class DealController {
         model.addObject("visible", dealService.isDealVisible(deal, (loggedUser).getLogin()));
         model.addObject("resultsVisible", dealService.areResultsVisible(dealId, loggedUser));
         model.addObject("buttonVisible", dealService.isEnterResultButtonVisible(deal, (loggedUser).getLogin()));
+    }
+
+
+    @RequestMapping(value = "/enterdeal", method = RequestMethod.POST)
+    public ModelAndView enterDeal(@ModelAttribute("deal") EnteredDealDto deal, ModelAndView model, HttpServletRequest request) {
+        String dealId = request.getParameter("dealId");
+
+        try {
+            dealService.enterDeal(dealId, deal);
+        } catch (EnterDealValidationException e) {
+            model.addObject("error", e.getMessage());
+            model.setViewName(ENTER_DEAL);
+            return model;
+        }
+
+        setDealModelObjects(model, dealId, request);
+        model.setViewName(DEAL);
+        return model;
     }
 }

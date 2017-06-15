@@ -4,13 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import main.dao.DealDAO;
 import main.dto.DealDto;
 import main.dto.DealResultDto;
+import main.dto.EnteredDealDto;
 import main.dto.TournamentDto;
 import main.dto.TournamentStatus;
 import main.entities.Deal;
 import main.entities.Pair;
 import main.entities.User;
+import main.exceptions.EnterDealValidationException;
 import main.exceptions.LeadValidationException;
+import main.model.deals.CardValue;
+import main.model.deals.DealModel;
 import main.model.deals.DealsUtils;
+import main.model.deals.FullHand;
 import main.model.movements.Tables;
 import main.utils.DataHash;
 import org.apache.log4j.Logger;
@@ -18,6 +23,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DealModuleImpl implements DealModule {
@@ -38,6 +44,11 @@ public class DealModuleImpl implements DealModule {
         } catch (JsonProcessingException e) {
             LOGGER.debug(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void updateDeal(DealDto d) throws JsonProcessingException {
+        dealDAO.update(transformDeal(d));
     }
 
     @Override
@@ -215,6 +226,72 @@ public class DealModuleImpl implements DealModule {
         TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
         return tour.getJudge().getLogin().equals(user.getLogin())
                 || (tour.containsPlayer(user.getLogin()) && deal.containsUsersResult(user));
+    }
+
+    @Override
+    public void enterDeal(String hashedDealId, EnteredDealDto deal) throws EnterDealValidationException {
+        try {
+            DealDto dealDto = getDealByHashedId(hashedDealId);
+            dealDto.setDealModel(constructDealModel(deal));
+            updateDeal(dealDto);
+        } catch (JsonProcessingException e) {
+            throw EnterDealValidationException.unknownError(e);
+        }
+    }
+
+    @Override
+    public DealModel constructDealModel(EnteredDealDto deal) throws EnterDealValidationException {
+        DealModel dealModel = new DealModel();
+        dealModel.setNorth(constructFullHand(deal.getNorthSpades(), deal.getNorthHearts(), deal.getNorthDiamonds(), deal.getNorthClubs()));
+        dealModel.setSouth(constructFullHand(deal.getSouthSpades(), deal.getSouthHearts(), deal.getSouthDiamonds(), deal.getSouthClubs()));
+        dealModel.setEast(constructFullHand(deal.getEastSpades(), deal.getEastHearts(), deal.getEastDiamonds(), deal.getEastClubs()));
+        dealModel.setWest(constructFullHand(deal.getWestSpades(), deal.getWestHearts(), deal.getWestDiamonds(), deal.getWestClubs()));
+        validateDealModel(dealModel);
+        return dealModel;
+    }
+
+    private FullHand constructFullHand(String spades, String hearts, String diamonds, String clubs) {
+        FullHand fullHand = new FullHand();
+        fullHand.setSpades(cardsToCardValues(spades));
+        fullHand.setHearts(cardsToCardValues(hearts));
+        fullHand.setDiamonds(cardsToCardValues(diamonds));
+        fullHand.setClubs(cardsToCardValues(clubs));
+        return fullHand;
+    }
+
+    private List<CardValue> cardsToCardValues(String cards) {
+        List<CardValue> values = new ArrayList<>();
+        char[] chars = cards.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            values.add(CardValue.resolve(String.valueOf(chars[i])));
+        }
+        return values;
+    }
+
+    private void validateDealModel(DealModel dealModel) throws EnterDealValidationException {
+        validateColor(dealModel.getNorth().getSpades(), dealModel.getSouth().getSpades(), dealModel.getEast().getSpades(), dealModel.getWest().getSpades());
+        validateColor(dealModel.getNorth().getHearts(), dealModel.getSouth().getHearts(), dealModel.getEast().getHearts(), dealModel.getWest().getHearts());
+        validateColor(dealModel.getNorth().getDiamonds(), dealModel.getSouth().getDiamonds(), dealModel.getEast().getDiamonds(), dealModel.getWest().getDiamonds());
+        validateColor(dealModel.getNorth().getClubs(), dealModel.getSouth().getClubs(), dealModel.getEast().getClubs(), dealModel.getWest().getClubs());
+    }
+
+    private void validateColor(List<CardValue> north, List<CardValue> south, List<CardValue> east, List<CardValue> west) throws EnterDealValidationException {
+        List<CardValue> all = new ArrayList<>();
+        all.addAll(north);
+        all.addAll(south);
+        all.addAll(east);
+        all.addAll(west);
+        List<CardValue> values = new LinkedList<>(Arrays.asList(CardValue.values()));
+
+
+        for (CardValue c : all) {
+            if (values.contains(c)) {
+                values.remove(c);
+            } else {
+                throw EnterDealValidationException.wrongContent(new Throwable());
+            }
+        }
+
     }
 
     public DealDAO getDealDAO() {

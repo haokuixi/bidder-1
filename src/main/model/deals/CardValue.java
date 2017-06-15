@@ -28,4 +28,13 @@ public enum CardValue {
     public void setName(String name) {
         this.name = name;
     }
+
+    public static CardValue resolve(String s) {
+        for(CardValue cv : CardValue.values()) {
+            if(cv.getName().equals(s)) {
+                return cv;
+            }
+        }
+        return null;
+    }
 }

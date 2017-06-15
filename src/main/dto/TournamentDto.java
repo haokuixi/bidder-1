@@ -4,7 +4,9 @@ import main.entities.Deal;
 import main.entities.Pair;
 import main.entities.User;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TournamentDto {
 
@@ -210,7 +212,7 @@ public class TournamentDto {
     }
 
     public List<DealDto> getDeals() {
-        return deals;
+        return deals.stream().sorted(Comparator.comparingInt(DealDto::getTourDealNumber)).collect(Collectors.toList());
     }
 
     public void setDeals(List<DealDto> deals) {

@@ -8,6 +8,8 @@ public interface DealDAO {
 
     void create(Deal d);
 
+    void update(Deal d);
+
     Deal getDealById(int dealId);
 
     List<Deal> getByTourId(int tourId);
