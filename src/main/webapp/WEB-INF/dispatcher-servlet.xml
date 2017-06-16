@@ -55,6 +55,9 @@
     <bean id="judgeService" class="main.services.JudgeServiceImpl">
         <property name="judgeModule" ref="judgeModule"/>
     </bean>
+    <bean id="roundResultService" class="main.services.RoundResultServiceImpl">
+        <property name="roundResultModule" ref="roundResultModule"/>
+    </bean>
 
 
     <bean id="tournamentModule" class="main.modules.TournamentModuleImpl">
@@ -97,7 +100,9 @@
         <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
     <bean id="judgeModule" class="main.modules.JudgeModuleImpl">
-
+    </bean>
+    <bean id="roundResultModule" class="main.modules.RoundResultModuleImpl">
+        <property name="tournamentModule" ref="tournamentModule"/>
     </bean>
 
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>
@@ -108,7 +113,7 @@
     <bean id="dealResultDAO" class="main.dao.DealResultDAOImpl"/>
     <bean id="movementsDAO" class="main.dao.MovementDAOImpl"/>
     <bean id="roundDAO" class="main.dao.RoundDAOImpl"/>
-
+    <bean id="roundResultDAO" class="main.dao.RoundResultDAOImpl"/>
 
     <bean id="userDto" class="main.dto.UserDto">
         <property name="wzbsModule" ref="wzbsModule"/>

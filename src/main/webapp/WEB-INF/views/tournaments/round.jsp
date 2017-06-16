@@ -13,7 +13,31 @@
     <c:when test="${round.status.equals('COMPLETED')}">
         <div class="container">
             <div class="well">
-                zakonczona runda: wyniki
+                <table class="table">
+                    <thead class="header">
+                    <tr class="header-panel">
+                        <th><spring:message code="label.round.pairposition"/></th>
+                        <th><spring:message code="label.round.pair"/></th>
+                        <th><spring:message code="label.round.result"/></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="result" items="roundResults">
+                        <tr>
+                            <td>${result.position}</td>
+                            <td>${result.pair.playerOne.surname, result.pair.playerTwo.surname}</td>
+                            <c:choose>
+                                <c:when test="${mode.equals('IMPS')}">
+                                    <td>${result.impResult}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${result.maxResult}</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </c:when>

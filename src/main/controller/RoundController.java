@@ -1,9 +1,12 @@
 package main.controller;
 
+import main.dto.RoundStatus;
 import main.dto.TournamentDto;
 import main.entities.Pair;
+import main.entities.Round;
 import main.entities.User;
 import main.services.PairService;
+import main.services.RoundResultService;
 import main.services.RoundService;
 import main.services.TournamentService;
 import main.services.UserService;
@@ -31,18 +34,26 @@ public class RoundController {
     private UserService userService;
     @Autowired
     private PairService pairService;
+    @Autowired
+    private RoundResultService roundResultService;
 
     @RequestMapping(value = "/round", method = RequestMethod.GET)
     public ModelAndView getRound(@RequestParam String roundId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         TournamentDto tour = tournamentService.getByRoundId(roundId);
         User loggedUser = (User) request.getSession().getAttribute("loggedUser");
-        if(!loggedUser.isJudge() && tour.containsPlayer(loggedUser.getLogin())) {
+        if (!loggedUser.isJudge() && tour.containsPlayer(loggedUser.getLogin())) {
             Pair pair = pairService.getByPlayerAndTour(loggedUser.getLogin(), tour.getHashedId());
             tour.setCurrentPair(pair);
         }
-        model.addObject("round", roundService.getById(roundId));
+
+        Round round = roundService.getById(roundId);
+        model.addObject("round", round);
         model.addObject("tour", tour);
+        if (RoundStatus.COMPLETED.getName().equals(round.getStatus())) {
+            model.addObject("mode", tour.getTournamentMode().getName());
+            model.addObject("roundResults", roundResultService.getByTourAndRoundNumber(tour.getHashedId(), round.getRoundNumber()));
+        }
         model.setViewName(ROUND);
         return model;
     }
