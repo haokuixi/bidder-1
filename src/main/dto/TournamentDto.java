@@ -1,6 +1,5 @@
 package main.dto;
 
-import main.entities.Deal;
 import main.entities.Pair;
 import main.entities.User;
 
@@ -67,8 +66,8 @@ public class TournamentDto {
     }
 
     public String getDealByNumber(int number) {
-        for(DealDto d: deals) {
-            if(d.getTourDealNumber()==number) {
+        for (DealDto d : deals) {
+            if (d.getTourDealNumber() == number) {
                 return d.getHashedId();
             }
         }

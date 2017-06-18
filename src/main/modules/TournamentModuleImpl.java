@@ -32,6 +32,7 @@ public class TournamentModuleImpl implements TournamentModule {
     private TournamentDAO tournamentDAO;
     private PairDAO pairDAO;
     private RoundModule roundModule;
+    private RoundResultModule roundResultModule;
     private DealModule dealModule;
 
     private DateTimeUtils dateTimeUtils;
@@ -487,6 +488,14 @@ public class TournamentModuleImpl implements TournamentModule {
 
     public void setRoundModule(RoundModule roundModule) {
         this.roundModule = roundModule;
+    }
+
+    public RoundResultModule getRoundResultModule() {
+        return roundResultModule;
+    }
+
+    public void setRoundResultModule(RoundResultModule roundResultModule) {
+        this.roundResultModule = roundResultModule;
     }
 
     public DealModule getDealModule() {

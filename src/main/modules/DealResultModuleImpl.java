@@ -54,6 +54,7 @@ public class DealResultModuleImpl implements DealResultModule {
         dealResultDto.setResult(dealResult.getResult());
         dealResultDto.setPoints(dealResult.getPoints());
         dealResultDto.setContractColor(resolveContractColor(dealResult.getContract()));
+        dealResultDto.setRoundNumber(dealResult.getRoundNumber());
 
         return dealResultDto;
     }
@@ -70,6 +71,7 @@ public class DealResultModuleImpl implements DealResultModule {
         dealResult.setLead(dealResultDto.getLead());
         dealResult.setResult(dealResultDto.getResult());
         dealResult.setPoints(dealResultDto.getPoints());
+        dealResult.setRoundNumber(dealResultDto.getRoundNumber());
 
         return dealResult;
 

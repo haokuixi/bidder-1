@@ -19,7 +19,7 @@ public class UserModuleImpl implements UserModule {
 
     private static final String WZBS_NZ = "NZ";
     private static final String ROLE_USER = "ROLE_USER";
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+    private static final String ROLE_JUDGE = "ROLE_JUDGE";
     private static final int USER_PER_PAGE = 10;
     UserDAO userDAO;
     WzbsModule wzbsModule;
@@ -130,7 +130,7 @@ public class UserModuleImpl implements UserModule {
             u.setJudge(userDto.isJudge());
 
             if(u.isJudge()) {
-                u.setRole(ROLE_ADMIN);
+                u.setRole(ROLE_JUDGE);
             } else {
                 u.setRole(ROLE_USER);
             }

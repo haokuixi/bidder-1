@@ -17,6 +17,9 @@ public class DealResultDto {
     private int result;
     private int points;
     private String contractColor;
+    private int roundNumber;
+    private double maxResult;
+    private double impResult;
 
     public int getId() {
         return id;
@@ -104,6 +107,30 @@ public class DealResultDto {
 
     public void setContractColor(String contractColor) {
         this.contractColor = contractColor;
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+    public double getMaxResult() {
+        return maxResult;
+    }
+
+    public void setMaxResult(double maxResult) {
+        this.maxResult = maxResult;
+    }
+
+    public double getImpResult() {
+        return impResult;
+    }
+
+    public void setImpResult(double impResult) {
+        this.impResult = impResult;
     }
 
     @Override

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "round_results")
 @NamedQueries({
-        @NamedQuery(name = "getResultByTourAndRound", query = "from RoundResult where Tournament.id=:tour and roundNumber=:roundNumber")
+        @NamedQuery(name = "getResultByTourAndRound", query = "from RoundResult where tournament.id=:tour and roundNumber=:roundNumber")
 })
 public class RoundResult {
 

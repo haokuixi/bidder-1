@@ -23,6 +23,7 @@ public class TournamentValidator implements Validator {
         DateTimeUtils dtu = new DateTimeUtils();
 
         // tytul
+
         String title = ((TournamentDto) o).getTitle();
 
         if (title == null || title.isEmpty()) {
@@ -32,7 +33,6 @@ public class TournamentValidator implements Validator {
         if (title != null && title.length() > 40) {
             errors.rejectValue("title", "validation.tournament.title.length");
         }
-
         // startdate
         String startDate = ((TournamentDto) o).getStartDate();
 

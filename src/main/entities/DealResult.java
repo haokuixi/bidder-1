@@ -53,6 +53,9 @@ public class DealResult {
     @Column(name = "points")
     private int points;
 
+    @Column(name = "round_number")
+    private int roundNumber;
+
     public int getId() {
         return id;
     }
@@ -123,6 +126,14 @@ public class DealResult {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
     }
 
     @Override

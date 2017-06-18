@@ -1,8 +1,12 @@
 package main.modules;
 
 import main.dao.RoundDAO;
+import main.dto.DealDto;
+import main.dto.DealResultDto;
 import main.dto.RoundDto;
 import main.dto.RoundStatus;
+import main.dto.TournamentDto;
+import main.dto.TournamentMode;
 import main.entities.Round;
 import main.utils.DataHash;
 
@@ -10,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoundModuleImpl implements RoundModule {
 
@@ -92,6 +97,23 @@ public class RoundModuleImpl implements RoundModule {
     @Override
     public List<RoundDto> getDtosByTourId(String id) {
         return transformList(getByTourId(id));
+    }
+
+    @Override
+    public void completeRound(Round r) {
+        if (TournamentMode.IMPS.getName().equals(r.getTournament().getTournamentMode())) {
+            calculateImpsForRound(r);
+        } else {
+            calculateMaxesForRound(r);
+        }
+    }
+
+    private void calculateMaxesForRound(Round round) {
+
+    }
+
+    private void calculateImpsForRound(Round r) {
+
     }
 
     private List<RoundDto> transformList(List<Round> rounds) {

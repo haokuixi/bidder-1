@@ -29,4 +29,6 @@ public interface RoundModule {
     Round transformRound(RoundDto roundDto);
 
     RoundDto transformRound(Round round);
+
+    void completeRound(Round r);
 }
