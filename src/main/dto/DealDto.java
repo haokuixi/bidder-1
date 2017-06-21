@@ -7,9 +7,8 @@ import java.util.List;
 
 public class DealDto {
 
-    private int id;
     private String hashedId;
-    private int tournamentId;
+    private String tournamentHashedId;
     private DealModel dealModel;
     private List<DealResultDto> results;
     private int tourDealNumber;
@@ -34,14 +33,6 @@ public class DealDto {
         this.dealModel = dealModel;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getHashedId() {
         return hashedId;
     }
@@ -50,12 +41,12 @@ public class DealDto {
         this.hashedId = hashedId;
     }
 
-    public int getTournamentId() {
-        return tournamentId;
+    public String getTournamentHashedId() {
+        return tournamentHashedId;
     }
 
-    public void setTournamentId(int tournamentId) {
-        this.tournamentId = tournamentId;
+    public void setTournamentHashedId(String tournamentHashedId) {
+        this.tournamentHashedId = tournamentHashedId;
     }
 
     public DealModel getDealModel() {
@@ -85,9 +76,8 @@ public class DealDto {
     @Override
     public String toString() {
         return "DealDto{" +
-                "id=" + id +
                 ", hashedId='" + hashedId + '\'' +
-                ", tournamentId=" + tournamentId +
+                ", tournamentHashedId=" + tournamentHashedId +
                 ", dealModel=" + dealModel +
                 ", results=" + results +
                 ", tourDealNumber=" + tourDealNumber +

@@ -200,8 +200,6 @@
         </div>
     </div>
 </div>
-
-
 <form:form
         action="${pageContext.request.contextPath}/rounds/tour?tourId=${tour.hashedId}"
         methodParam="tourId" method="post">
@@ -220,7 +218,7 @@
                         </div>
                     </div>
                 </c:when>
-                <c:when test="${tour.currentRound!=null && tour.currentRound.status.equals('INPROGRESS')}">
+                <c:when test="${tour.currentRound!=null && tour.currentRound.status.name().equals('INPROGRESS')}">
                     <div class="container">
                         <div class="well">
                             <button type="submit"

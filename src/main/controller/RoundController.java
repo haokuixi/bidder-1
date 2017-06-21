@@ -50,10 +50,8 @@ public class RoundController {
         Round round = roundService.getById(roundId);
         model.addObject("round", round);
         model.addObject("tour", tour);
-        if (RoundStatus.COMPLETED.getName().equals(round.getStatus())) {
-            model.addObject("mode", tour.getTournamentMode().getName());
-            model.addObject("roundResults", roundResultService.getByTourAndRoundNumber(tour.getHashedId(), round.getRoundNumber()));
-        }
+        model.addObject("mode", tour.getTournamentMode().getName());
+        model.addObject("roundResults", roundResultService.getByTourAndRoundNumber(tour.getHashedId(), round.getRoundNumber()));
         model.setViewName(ROUND);
         return model;
     }

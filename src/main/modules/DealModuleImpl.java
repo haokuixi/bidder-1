@@ -64,8 +64,8 @@ public class DealModuleImpl implements DealModule {
     public Deal transformDeal(DealDto dealDto) throws JsonProcessingException {
         dealsUtils = new DealsUtils();
         Deal deal = new Deal();
-        deal.setId(dealDto.getId());
-        deal.setTournament(tournamentModule.transformTournament(tournamentModule.getById(dealDto.getTournamentId())));
+        deal.setId(new DataHash().decode(dealDto.getHashedId()));
+        deal.setTournament(tournamentModule.transformTournament(tournamentModule.getById(new DataHash().decode(dealDto.getTournamentHashedId()))));
         deal.setCards(dealsUtils.dealToJson(dealDto.getDealModel()));
         deal.setDealNumber(dealDto.getTourDealNumber());
 
@@ -76,8 +76,7 @@ public class DealModuleImpl implements DealModule {
     public DealDto transformDeal(Deal deal) {
         dealsUtils = new DealsUtils();
         DealDto dealDto = new DealDto();
-        dealDto.setId(deal.getId());
-        dealDto.setTournamentId(deal.getTournament().getId());
+        dealDto.setTournamentHashedId(new DataHash().encode(deal.getTournament().getId()));
         try {
             dealDto.setDealModel(dealsUtils.jsonToDeal(deal.getCards()));
         } catch (IOException e) {
@@ -98,7 +97,7 @@ public class DealModuleImpl implements DealModule {
     @Override
     public boolean isDealVisible(DealDto deal, String login) {
         User user = userModule.getUserByLogin(login);
-        TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
+        TournamentDto tour = tournamentModule.getById(new DataHash().decode(deal.getTournamentHashedId()));
 
         if (user.isJudge() || dealResultModule.didUserPlayedThisDeal(login, deal.getResults())
                 || isUserPlayingThisDealNow(login, deal)
@@ -110,7 +109,7 @@ public class DealModuleImpl implements DealModule {
     }
 
     private boolean isUserPlayingThisDealNow(String login, DealDto deal) {
-        TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
+        TournamentDto tour = tournamentModule.getById(new DataHash().decode(deal.getTournamentHashedId()));
         Pair pair = pairModule.getByPlayerAndTour(login, tour.getHashedId());
 
         if (pair == null) {
@@ -139,7 +138,7 @@ public class DealModuleImpl implements DealModule {
     @Override
     public boolean isEnterResultButtonVisible(DealDto deal, String loggedUser) {
         User user = userModule.getUserByLogin(loggedUser);
-        TournamentDto tournament = tournamentModule.getById(deal.getTournamentId());
+        TournamentDto tournament = tournamentModule.getById(new DataHash().decode(deal.getTournamentHashedId()));
 
         if (!dealResultModule.didUserPlayedThisDeal(loggedUser, deal.getResults())
                 && tournamentModule.isUserInTournamentPairs(tournament.getHashedId(), user.getLogin())
@@ -177,7 +176,7 @@ public class DealModuleImpl implements DealModule {
         int boards = tournament.getMovement().getBoards();
         for (int i = 0; i < boards; i++) {
             DealDto dealDto = new DealDto();
-            dealDto.setTournamentId(tournament.getId());
+            dealDto.setTournamentHashedId(tournament.getHashedId());
             dealDto.setTourDealNumber(i + 1);
             createDeal(dealDto);
         }
@@ -217,13 +216,13 @@ public class DealModuleImpl implements DealModule {
 
     @Override
     public boolean canEnterDeal(String dealId, User user) {
-        return tournamentModule.getById(getDealByHashedId(dealId).getTournamentId()).getJudge().getLogin().equals(user.getLogin());
+        return tournamentModule.getById(new DataHash().decode(getDealByHashedId(dealId).getTournamentHashedId())).getJudge().getLogin().equals(user.getLogin());
     }
 
     @Override
     public boolean areResultsVisible(String dealId, User user) {
         DealDto deal = getDealByHashedId(dealId);
-        TournamentDto tour = tournamentModule.getById(deal.getTournamentId());
+        TournamentDto tour = tournamentModule.getById(new DataHash().decode(deal.getTournamentHashedId()));
         return tour.getJudge().getLogin().equals(user.getLogin())
                 || (tour.containsPlayer(user.getLogin()) && deal.containsUsersResult(user));
     }

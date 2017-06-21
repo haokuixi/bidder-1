@@ -2,6 +2,8 @@ package main.dto;
 
 import main.entities.Pair;
 
+import java.math.BigDecimal;
+
 public class RoundResultDto {
 
     private String hashedId;
@@ -12,9 +14,9 @@ public class RoundResultDto {
 
     private int roundNumber;
 
-    private Double maxResult;
+    private BigDecimal maxResult;
 
-    private Double impResult;
+    private BigDecimal impResult;
 
     private int position;
 
@@ -50,19 +52,19 @@ public class RoundResultDto {
         this.roundNumber = roundNumber;
     }
 
-    public Double getMaxResult() {
+    public BigDecimal getMaxResult() {
         return maxResult;
     }
 
-    public void setMaxResult(Double maxResult) {
+    public void setMaxResult(BigDecimal maxResult) {
         this.maxResult = maxResult;
     }
 
-    public Double getImpResult() {
+    public BigDecimal getImpResult() {
         return impResult;
     }
 
-    public void setImpResult(Double impResult) {
+    public void setImpResult(BigDecimal impResult) {
         this.impResult = impResult;
     }
 

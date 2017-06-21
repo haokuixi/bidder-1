@@ -212,7 +212,7 @@ public class TournamentModuleImpl implements TournamentModule {
     public TournamentDto transformTournament(Tournament tournament) {
         dateTimeUtils = new DateTimeUtils();
         TournamentDto tournamentDto = new TournamentDto();
-        tournamentDto.setId(tournament.getId());
+        tournamentDto.setHashedId(new DataHash().encode(tournament.getId()));
         tournamentDto.setTitle(tournament.getTitle());
         tournamentDto.setDescription(tournament.getDescription());
         tournamentDto.setJudge(tournament.getJudge());
@@ -247,7 +247,7 @@ public class TournamentModuleImpl implements TournamentModule {
     public Tournament transformTournament(TournamentDto tournamentDto) {
         dateTimeUtils = new DateTimeUtils();
         Tournament tournament = new Tournament();
-        tournament.setId(tournamentDto.getId());
+        tournament.setId(new DataHash().decode(tournamentDto.getHashedId()));
         tournament.setTitle(tournamentDto.getTitle());
         tournament.setJudge(tournamentDto.getJudge());
 
@@ -259,14 +259,14 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
         if(tournamentDto.getCurrentRound() != null){
-            tournament.setCurrentRound(roundModule.getById(tournamentDto.getCurrentRound().getId()));
+            tournament.setCurrentRound(roundModule.getById(tournamentDto.getCurrentRound().getHashedId()));
         }
         tournament.setRounds(tournamentDto.getRounds());
         if (tournamentDto.getMovement() != null) {
-            tournament.setMovement(movementModule.transformMovement(movementModule.getById(tournamentDto.getMovement().getId())));
+            tournament.setMovement(movementModule.transformMovement(movementModule.getById(new DataHash().decode(tournamentDto.getMovement().getHashedId()))));
         }
         if (tournamentDto.getPreviousRound() != null) {
-            tournament.setPreviousRound(roundModule.transformRound(tournamentDto.getPreviousRound()));
+            tournament.setPreviousRound(roundModule.getById(tournamentDto.getPreviousRound().getHashedId()));
         }
         return tournament;
     }

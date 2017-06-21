@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class TournamentDto {
 
-    private int id;
     private String hashedId;
     private String title;
     private String description;
@@ -72,14 +71,6 @@ public class TournamentDto {
             }
         }
         return null;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getHashedId() {
@@ -221,7 +212,6 @@ public class TournamentDto {
     @Override
     public String toString() {
         return "TournamentDto{" +
-                "id=" + id +
                 ", hashedId='" + hashedId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

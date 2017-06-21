@@ -2,8 +2,6 @@ package main.dto;
 
 public class RoundDto {
 
-    private int id;
-
     private String hashedId;
 
     private int roundNumber;
@@ -11,14 +9,6 @@ public class RoundDto {
     private RoundStatus status;
 
     private int tournamentId;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getHashedId() {
         return hashedId;
@@ -55,7 +45,6 @@ public class RoundDto {
     @Override
     public String toString() {
         return "RoundDto{" +
-                "id=" + id +
                 ", hashedId='" + hashedId + '\'' +
                 ", roundNumber=" + roundNumber +
                 ", status=" + status +

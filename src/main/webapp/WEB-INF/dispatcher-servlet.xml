@@ -103,6 +103,7 @@
     </bean>
     <bean id="roundResultModule" class="main.modules.RoundResultModuleImpl">
         <property name="tournamentModule" ref="tournamentModule"/>
+        <property name="roundResultDAO" ref="roundResultDAO"/>
     </bean>
 
     <bean id="tournamentDAO" class="main.dao.TournamentDAOImpl"/>

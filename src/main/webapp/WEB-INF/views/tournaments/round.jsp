@@ -8,7 +8,6 @@
                 code="label.tournament.movements.round"/> ${round.roundNumber} </div>
     </div>
 </div>
-
 <c:choose>
     <c:when test="${round.status.equals('COMPLETED')}">
         <div class="container">
@@ -22,20 +21,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="result" items="roundResults">
-                        <tr>
-                            <td>${result.position}</td>
-                            <td>${result.pair.playerOne.surname, result.pair.playerTwo.surname}</td>
-                            <c:choose>
-                                <c:when test="${mode.equals('IMPS')}">
-                                    <td>${result.impResult}</td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td>${result.maxResult}</td>
-                                </c:otherwise>
-                            </c:choose>
-                        </tr>
-                    </c:forEach>
+                    <c:forEach var="res" items="${roundResults}">
+                    <tr>
+                        <td>${res.position}</td>
+                        <td>${res.pair.playerOne.surname} ${res.pair.playerTwo.surname}</td>
+                        <c:choose>
+                            <c:when test="${mode.equals('IMPS')}">
+                                <td>${res.impResult}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>${res.maxResult}</td>
+                            </c:otherwise>
+                        </c:choose>
+                        </c:forEach>
+                    </tr>
                     </tbody>
                 </table>
             </div>

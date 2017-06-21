@@ -4,7 +4,7 @@ import main.model.movements.Tables;
 
 public class MovementDto {
 
-    int id;
+    String hashedId;
 
     private int pairs;
 
@@ -14,12 +14,12 @@ public class MovementDto {
 
     private int rounds;
 
-    public int getId() {
-        return id;
+    public String getHashedId() {
+        return hashedId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setHashedId(String hashedId) {
+        this.hashedId = hashedId;
     }
 
     public int getPairs() {
@@ -57,7 +57,6 @@ public class MovementDto {
     @Override
     public String toString() {
         return "MovementDto{" +
-                "id=" + id +
                 ", pairs=" + pairs +
                 ", movementTables=" + movementTables +
                 ", boards=" + boards +

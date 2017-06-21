@@ -5,6 +5,7 @@ import main.dto.RoundResultDto;
 import main.entities.RoundResult;
 import main.utils.DataHash;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,8 +23,13 @@ public class RoundResultModuleImpl implements RoundResultModule {
         roundResult.setTournament(tournamentModule.transformTournament(dto.getTournament()));
         roundResult.setPair(dto.getPair());
         roundResult.setRoundNumber(dto.getRoundNumber());
-        roundResult.setImpResult(dto.getImpResult());
-        roundResult.setMaxResult(dto.getMaxResult());
+
+        if(dto.getImpResult() != null) {
+            roundResult.setImpResult(dto.getImpResult().doubleValue());
+        }
+        if(dto.getMaxResult() != null) {
+            roundResult.setMaxResult(dto.getMaxResult().doubleValue());
+        }
 
         return roundResult;
     }
@@ -35,8 +41,13 @@ public class RoundResultModuleImpl implements RoundResultModule {
         dto.setTournament(tournamentModule.transformTournament(roundResult.getTournament()));
         dto.setPair(roundResult.getPair());
         dto.setRoundNumber(roundResult.getRoundNumber());
-        dto.setImpResult(roundResult.getImpResult());
-        dto.setMaxResult(roundResult.getMaxResult());
+
+        if(roundResult.getImpResult() != null) {
+            dto.setImpResult(new BigDecimal(roundResult.getImpResult()).setScale(2, BigDecimal.ROUND_CEILING));
+        }
+        if(roundResult.getMaxResult() != null) {
+            dto.setMaxResult(new BigDecimal(roundResult.getMaxResult()).setScale(2, BigDecimal.ROUND_CEILING));
+        }
 
         return dto;
     }

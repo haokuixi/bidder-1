@@ -44,7 +44,6 @@ public class DealResultModuleImpl implements DealResultModule {
     public DealResultDto transformDealResult(DealResult dealResult) {
         DealResultDto dealResultDto = new DealResultDto();
         dealResultDto.setDeal(dealResult.getDealId());
-        dealResultDto.setId(dealResult.getId());
         dealResultDto.setHashedId(new DataHash().encode(dealResult.getId()));
         dealResultDto.setPairNS(dealResult.getPairNS());
         dealResultDto.setPairEW(dealResult.getPairEW());
@@ -63,7 +62,7 @@ public class DealResultModuleImpl implements DealResultModule {
     public DealResult transformDealResult(DealResultDto dealResultDto) {
         DealResult dealResult = new DealResult();
         dealResult.setDealId(dealResultDto.getDeal());
-        dealResult.setId(dealResultDto.getId());
+        dealResult.setId(new DataHash().decode(dealResultDto.getHashedId()));
         dealResult.setPairNS(dealResultDto.getPairNS());
         dealResult.setPairEW(dealResultDto.getPairEW());
         dealResult.setDeclarerPosition(dealResultDto.getDeclarerPosition());

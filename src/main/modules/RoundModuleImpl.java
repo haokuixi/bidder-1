@@ -69,7 +69,7 @@ public class RoundModuleImpl implements RoundModule {
     @Override
     public Round transformRound(RoundDto roundDto) {
         Round round = new Round();
-        round.setId(roundDto.getId());
+        round.setId(new DataHash().decode(roundDto.getHashedId()));
         round.setRoundNumber(roundDto.getRoundNumber());
         round.setTournament(tournamentModule.transformTournament(tournamentModule.getById(roundDto.getTournamentId())));
         round.setStatus(roundDto.getStatus().getName());
@@ -80,7 +80,7 @@ public class RoundModuleImpl implements RoundModule {
     @Override
     public RoundDto transformRound(Round round) {
         RoundDto roundDto = new RoundDto();
-        roundDto.setId(round.getId());
+        roundDto.setHashedId(new DataHash().encode(round.getId()));
         roundDto.setRoundNumber(round.getRoundNumber());
         roundDto.setTournamentId(round.getTournament().getId());
         roundDto.setStatus(RoundStatus.valueOf(round.getStatus()));

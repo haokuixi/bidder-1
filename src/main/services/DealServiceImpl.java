@@ -74,7 +74,7 @@ public class DealServiceImpl implements DealService {
             e.printStackTrace();
         }
 
-        String hashedTourId = new DataHash().encode(dealModule.getDealById(hashedDealId).getTournamentId());
+        String hashedTourId = dealModule.getDealById(hashedDealId).getTournamentHashedId();
 
         Pair pair = pairModule.getByPlayerAndTour(user.getLogin(), hashedTourId);
         if (pair.getCurrentPosition().equals(NS)) {

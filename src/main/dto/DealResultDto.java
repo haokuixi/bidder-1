@@ -6,7 +6,6 @@ import main.entities.User;
 
 public class DealResultDto {
 
-    private int id;
     private String hashedId;
     private Deal deal;
     private Pair pairNS;
@@ -20,14 +19,6 @@ public class DealResultDto {
     private int roundNumber;
     private double maxResult;
     private double impResult;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getHashedId() {
         return hashedId;
@@ -136,7 +127,6 @@ public class DealResultDto {
     @Override
     public String toString() {
         return "DealResultDto{" +
-                "id=" + id +
                 ", hashedId='" + hashedId + '\'' +
                 ", deal=" + deal +
                 ", pairNS=" + pairNS +
