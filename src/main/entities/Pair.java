@@ -23,7 +23,7 @@ import javax.persistence.Table;
         @NamedQuery(name = "getByTourTableAndPosition", query = "FROM Pair where tournament.id=:tour and currentTable=:table and currentPosition=:position")
 }
 )
-public class Pair {
+public class Pair implements Comparable {
 
     @Id
     @Column(name = "pair_id")
@@ -133,5 +133,17 @@ public class Pair {
                 ", impResult=" + impResult +
                 ", tourNumber=" + tourNumber +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Pair other = (Pair) o;
+        if (this.maxResult != null) {
+            return this.maxResult.compareTo(other.getMaxResult());
+        }
+        if (this.impResult != null) {
+            return this.impResult.compareTo(other.getImpResult());
+        }
+        return 0;
     }
 }

@@ -183,6 +183,8 @@ public class TournamentController {
         tour.setJudge((User) request.getSession().getAttribute("loggedUser"));
         tournamentService.addTournament(tour);
         model.addObject("tourlist", tournamentService.listTournament(1));
+        model.addObject("pages", (int) Math.ceil((double) tournamentService.countTours() / TOURS_PER_PAGE));
+        model.addObject("page", 1);
         model.setViewName(TOURNAMENT_LIST);
         return model;
     }

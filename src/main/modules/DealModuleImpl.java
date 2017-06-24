@@ -64,7 +64,9 @@ public class DealModuleImpl implements DealModule {
     public Deal transformDeal(DealDto dealDto) throws JsonProcessingException {
         dealsUtils = new DealsUtils();
         Deal deal = new Deal();
-        deal.setId(new DataHash().decode(dealDto.getHashedId()));
+        if(dealDto.getHashedId() != null && !dealDto.getHashedId().isEmpty()) {
+            deal.setId(new DataHash().decode(dealDto.getHashedId()));
+        }
         deal.setTournament(tournamentModule.transformTournament(tournamentModule.getById(new DataHash().decode(dealDto.getTournamentHashedId()))));
         deal.setCards(dealsUtils.dealToJson(dealDto.getDealModel()));
         deal.setDealNumber(dealDto.getTourDealNumber());

@@ -15,9 +15,11 @@ import main.model.movements.Tables;
 import main.utils.DataHash;
 import main.utils.DateTimeUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +119,7 @@ public class TournamentModuleImpl implements TournamentModule {
             t.setTournamentMode(tournament.getTournamentMode().getName());
         }
 
-        if(tournament.getCurrentRound() != null) {
+        if (tournament.getCurrentRound() != null) {
             t.setCurrentRound(roundModule.transformRound(tournament.getCurrentRound()));
         }
 
@@ -128,12 +130,42 @@ public class TournamentModuleImpl implements TournamentModule {
     public TournamentDto getById(int id) {
         TournamentDto tournamentDto = transformTournament(tournamentDAO.getById(id));
         tournamentDto.setPairs(pairDAO.listByTourId(id));
-        return tournamentDto;
+        return sortByResults(tournamentDto);
     }
 
     @Override
     public TournamentDto getByHashedId(String hashedId) {
-        return getById(new DataHash().decode(hashedId));
+        return sortByResults(getById(new DataHash().decode(hashedId)));
+    }
+
+    private TournamentDto sortByResults(TournamentDto tour) {
+        List<Pair> pairs = tour.getPairs();
+
+        for (Pair p : pairs) {
+            p.setMaxResult(roundResult(p.getMaxResult()));
+            p.setImpResult(roundResult(p.getImpResult()));
+        }
+
+        if (!pairs.isEmpty()) {
+            Comparator<Object> com = Collections.reverseOrder();
+            if (pairs.get(0).getMaxResult() != null) {
+                Collections.sort(pairs, Comparator.comparingDouble(Pair::getMaxResult));
+                Collections.sort(pairs, com);
+            } else {
+                Collections.sort(pairs, Comparator.comparingDouble(Pair::getMaxResult));
+                Collections.sort(pairs, com);
+            }
+        }
+
+        return tour;
+    }
+
+    private Double roundResult(Double r) {
+        if (r == null) {
+            return null;
+        }
+        BigDecimal bd = new BigDecimal(r);
+        return bd.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
     }
 
     @Override
@@ -247,7 +279,9 @@ public class TournamentModuleImpl implements TournamentModule {
     public Tournament transformTournament(TournamentDto tournamentDto) {
         dateTimeUtils = new DateTimeUtils();
         Tournament tournament = new Tournament();
-        tournament.setId(new DataHash().decode(tournamentDto.getHashedId()));
+        if (tournamentDto.getHashedId() != null && !tournamentDto.getHashedId().isEmpty()) {
+            tournament.setId(new DataHash().decode(tournamentDto.getHashedId()));
+        }
         tournament.setTitle(tournamentDto.getTitle());
         tournament.setJudge(tournamentDto.getJudge());
 
@@ -258,7 +292,7 @@ public class TournamentModuleImpl implements TournamentModule {
         tournament.setTournamentMode(tournamentDto.getTournamentMode().getName());
         tournament.setStatus(tournamentDto.getStatus().getName());
         tournament.setDescription(tournamentDto.getDescription());
-        if(tournamentDto.getCurrentRound() != null){
+        if (tournamentDto.getCurrentRound() != null) {
             tournament.setCurrentRound(roundModule.getById(tournamentDto.getCurrentRound().getHashedId()));
         }
         tournament.setRounds(tournamentDto.getRounds());
