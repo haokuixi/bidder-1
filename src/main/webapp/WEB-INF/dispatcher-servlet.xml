@@ -131,10 +131,7 @@
 
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <!-- This makes /META-INF/persistence.xml is no longer necessary -->
         <property name="packagesToScan" value="main.entities"/>
-        <!-- JpaVendorAdapter implementation for Hibernate EntityManager.
-             Exposes Hibernate's persistence provider and EntityManager extension interface -->
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
@@ -154,7 +151,7 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <context:component-scan base-package="main.controller"/>
+    <context:component-scan base-package="main.controllers"/>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 

@@ -1,6 +1,5 @@
-package main.controller;
+package main.controllers;
 
-import main.dto.RoundStatus;
 import main.dto.TournamentDto;
 import main.entities.Pair;
 import main.entities.Round;

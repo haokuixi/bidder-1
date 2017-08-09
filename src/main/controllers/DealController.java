@@ -1,4 +1,4 @@
-package main.controller;
+package main.controllers;
 
 import main.dto.DealDto;
 import main.dto.DealResultDto;

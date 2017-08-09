@@ -1,4 +1,4 @@
-package main.controller;
+package main.controllers;
 
 import main.dto.XmlContentDto;
 import main.exceptions.XmlValidationException;
