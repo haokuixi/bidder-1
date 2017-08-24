@@ -62,7 +62,9 @@ public class DealResultModuleImpl implements DealResultModule {
     public DealResult transformDealResult(DealResultDto dealResultDto) {
         DealResult dealResult = new DealResult();
         dealResult.setDealId(dealResultDto.getDeal());
-        dealResult.setId(new DataHash().decode(dealResultDto.getHashedId()));
+        if(dealResultDto.getHashedId() != null) {
+            dealResult.setId(new DataHash().decode(dealResultDto.getHashedId()));
+        }
         dealResult.setPairNS(dealResultDto.getPairNS());
         dealResult.setPairEW(dealResultDto.getPairEW());
         dealResult.setDeclarerPosition(dealResultDto.getDeclarerPosition());

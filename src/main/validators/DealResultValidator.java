@@ -10,9 +10,11 @@ import java.util.List;
 public class DealResultValidator implements Validator {
 
     private static List<String> COLORS;
+    private static List<String> HONORS;
 
     static {
         COLORS = Arrays.asList("C", "D", "H", "S");
+        HONORS = Arrays.asList("T", "J", "Q", "K", "A");
     }
 
     @Override
@@ -30,7 +32,7 @@ public class DealResultValidator implements Validator {
             char first = lead.toCharArray()[0];
             char second = lead.toCharArray()[1];
 
-            if ((first - '0' < 2 || first > 9) && first != 'T') {
+            if ((first - '0' < 2 || first - '0' > 9) && !HONORS.contains(new String(new char[]{first}))) {
                 errors.rejectValue("lead", "validation.dealresult.lead.wrong");
             }
 

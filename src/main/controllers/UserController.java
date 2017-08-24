@@ -78,6 +78,7 @@ public class UserController {
         model.addObject("users", userService.listUsers(FIRST_PAGE));
         model.addObject("pages", (int) Math.ceil((double) userService.countUsers() / USER_PER_PAGE));
         model.addObject("page", FIRST_PAGE);
+        model.addObject("success", true);
         model.setViewName(USER_LIST);
         return model;
     }

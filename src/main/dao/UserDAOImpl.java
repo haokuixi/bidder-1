@@ -70,7 +70,8 @@ public class UserDAOImpl implements UserDAO {
     public User getUserByLogin(String login) {
         Query query = em.createNamedQuery(GET_BY_LOGIN);
         query.setParameter(1, login);
-        return (User) query.getSingleResult();
+        List resultList = query.getResultList();
+        return resultList.isEmpty() ? null : (User) resultList.get(0);
     }
 
     @Override

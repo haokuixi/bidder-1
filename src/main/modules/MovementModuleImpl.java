@@ -116,7 +116,10 @@ public class MovementModuleImpl implements MovementModule {
     @Override
     public Movement transformMovement(MovementDto m) {
         Movement movement = new Movement();
-        movement.setId(new DataHash().decode(m.getHashedId()));
+
+        if(m.getHashedId() != null) {
+            movement.setId(new DataHash().decode(m.getHashedId()));
+        }
         movement.setPairs(m.getPairs());
 
         JAXBContext context = null;

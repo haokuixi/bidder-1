@@ -34,7 +34,7 @@ public class JudgeToolsController {
     }
 
     @RequestMapping(value = "import", method = RequestMethod.POST)
-    public ModelAndView importFile(@ModelAttribute("file") XmlContentDto file, HttpServletRequest request) {
+    public ModelAndView importFile(@ModelAttribute("file") XmlContentDto file) {
         ModelAndView model = new ModelAndView();
         model.setViewName(JUDGE_PAGE);
         try {

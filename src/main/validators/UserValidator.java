@@ -2,13 +2,10 @@ package main.validators;
 
 import main.dao.UserDAO;
 import main.dto.UserDto;
-import main.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import javax.persistence.NoResultException;
 
 public class UserValidator implements Validator {
 
@@ -25,18 +22,13 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        User userByLogin = null;
+        String login = ((UserDto) o).getLogin();
 
-        try {
-            String login = ((UserDto) o).getLogin();
-            userByLogin = userDAO.getUserByLogin(login);
-        } catch (NoResultException nre) {
-            validateUser((UserDto) o, errors);
-        }
-
-        if (userByLogin != null) {
+        if (userDAO.getUserByLogin(login) != null) {
             errors.rejectValue("login", "validation.user.login.nonunique");
         }
+
+        validateUser((UserDto) o, errors);
     }
 
     private void validateUser(UserDto user, Errors errors) {
@@ -45,14 +37,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("login", "validation.user.login.length");
         }
 
-
         // pzbs_id
-        String shortName = user.getWzbs().getShortName();
-
-        Integer pzbsId = user.getPzbsId();
-
-        if ((WZBS_NZ.equals(shortName) && (pzbsId != null || !pzbsId.equals(0))) ||
-                (WZBS_NZ.equals(shortName) && (pzbsId != null || !pzbsId.equals(0)))) {
+        if(!validatePzbs(user.getWzbs().getShortName(), user.getPzbsId())) {
             errors.rejectValue("pzbsId", "validation.user.pzbsid.null");
         }
 
@@ -74,5 +60,21 @@ public class UserValidator implements Validator {
         if (lastName.isEmpty()) {
             errors.rejectValue("lastName", "validation.user.lastname.null");
         }
+    }
+
+    private boolean validatePzbs(String shortName, Integer pzbsId) {
+        if (WZBS_NZ.equals(shortName)) {
+            if (pzbsId == null) {
+                return true;
+            } else if (!pzbsId.equals(0)) {
+                return false;
+            }
+        } else {
+            if (pzbsId == null || pzbsId.equals(0)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

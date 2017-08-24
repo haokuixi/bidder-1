@@ -15,7 +15,7 @@ public class JudgeModuleImpl implements JudgeModule {
     public void validateXml(String xmlContent) throws XmlValidationException {
         StringReader reader = new StringReader(xmlContent);
         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-        Schema schema = null;
+        Schema schema;
         try {
             schema = factory.newSchema(getClass().getClassLoader().getResource("movement.xsd"));
             Validator val = schema.newValidator();

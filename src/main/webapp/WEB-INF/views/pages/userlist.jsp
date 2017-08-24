@@ -18,6 +18,22 @@
     }
 </style>
 
+<c:choose>
+    <c:when test="${success==true}">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <br><br>
+                    <h2 style="color:#0fad00"><spring:message code="label.register.success"/></h2>
+                    <img src="http://osmhotels.com//assets/check-true.jpg">
+                    <br><br>
+                </div>
+
+            </div>
+        </div>
+    </c:when>
+</c:choose>
+
 <div class="well">
     <h2 align="center" class="list"><spring:message code="label.userlist"/></h2>
     <table class="table">

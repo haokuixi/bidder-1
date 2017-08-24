@@ -65,6 +65,7 @@ public class DealController {
             model.addObject("success", true);
         } catch (LeadValidationException e) {
             model.addObject("validationError", e.getMessage());
+            model.addObject("dealId", dealId);
             model.setViewName(ENTER_RESULT);
             return model;
         }

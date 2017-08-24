@@ -9,6 +9,7 @@
     }
 
     label.error {
+        font-size: large;
         color: #ff0000;
     }
 </style>

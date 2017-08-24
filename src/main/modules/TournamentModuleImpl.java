@@ -130,12 +130,22 @@ public class TournamentModuleImpl implements TournamentModule {
     public TournamentDto getById(int id) {
         TournamentDto tournamentDto = transformTournament(tournamentDAO.getById(id));
         tournamentDto.setPairs(pairDAO.listByTourId(id));
-        return sortByResults(tournamentDto);
+        if(TournamentStatus.COMPLETED.equals(tournamentDto.getStatus())) {
+            return sortByResults(tournamentDto);
+        } else {
+            return tournamentDto;
+        }
     }
 
     @Override
     public TournamentDto getByHashedId(String hashedId) {
-        return sortByResults(getById(new DataHash().decode(hashedId)));
+        TournamentDto tournamentDto = getById(new DataHash().decode(hashedId));
+
+        if(TournamentStatus.COMPLETED.equals(tournamentDto.getStatus())) {
+            return sortByResults(tournamentDto);
+        } else {
+            return tournamentDto;
+        }
     }
 
     private TournamentDto sortByResults(TournamentDto tour) {
